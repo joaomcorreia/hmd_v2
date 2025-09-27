@@ -1,0 +1,100 @@
+{% load static %}
+<!doctype html>
+<meta charset="utf-8">
+<title>AI Preview</title>
+<style>
+    body {
+        font-family: system-ui, Segoe UI, Roboto, Arial;
+        padding: 16px
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 14px
+    }
+
+    th,
+    td {
+        border: 1px solid #e5e7eb;
+        padding: 8px;
+        vertical-align: top
+    }
+
+    th {
+        background: #f8fafc;
+        text-align: left
+    }
+
+    .badge {
+        display: inline-block;
+        padding: 2px 8px;
+        border-radius: 999px;
+        font-size: 12px;
+        color: #fff;
+        background: #64748b
+    }
+
+    .badge.ok {
+        background: #16a34a
+    }
+
+    a.btn {
+        display: inline-block;
+        padding: 6px 10px;
+        border: 1px solid #3b82f6;
+        color: #3b82f6;
+        border-radius: 8px;
+        text-decoration: none
+    }
+
+    pre {
+        white-space: pre-wrap;
+        margin: 0
+    }
+</style>
+
+<h1>AI Drafts</h1>
+<table>
+    <tr>
+        <th>Profile</th>
+        <th>Service</th>
+        <th>Location</th>
+        <th>Lang</th>
+        <th>Kind</th>
+        <th>Content</th>
+        <th>Status</th>
+        <th>Action</th>
+    </tr>
+
+    {% for i in items %}
+    <tr>
+        <td>{{ i.profile }}</td>
+        <td>{{ i.service }}</td>
+        <td>{{ i.location|default:"—" }}</td>
+        <td>{{ i.language }}</td>
+        <td>{{ i.get_kind_display }}</td>
+        <td>
+            <pre>{{ i.content }}</pre>
+        </td>
+        <td>
+            {% if i.is_published %}
+            <span class="badge ok">Published</span>
+            {% else %}
+            <span class="badge">Draft</span>
+            {% endif %}
+        </td>
+        <td>
+            {% if not i.is_published %}
+            <a class="btn" href="{% url 'ai_publish' i.pk %}">Publish</a>
+            {% else %}
+            —
+            {% endif %}
+        </td>
+    </tr>
+    {% empty %}
+    <tr>
+        <td colspan="8">No items.</td>
+    </tr>
+    {% endfor %}
+</table>

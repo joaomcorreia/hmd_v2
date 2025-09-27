@@ -20,6 +20,116 @@ class Slide(models.Model):
 
 
 # --- Portfolio (single, canonical definition) ---
+
+
+# --- Homepage about block ---
+class HomeAboutPanel(models.Model):
+    title_emphasis = models.CharField(max_length=60, default='Toegewijd')
+    title_rest = models.CharField(max_length=160, default='aan kwaliteit en vakmanschap.')
+    lead_text = models.TextField(blank=True, default='HMD Klusbedrijf is opgericht door Juma Al Huseyin en staat voor betrouwbaarheid, kwaliteit en eerlijke service. Met oog voor detail voert hij elke klus uit alsof het zijn eigen huis is.')
+    body_text = models.TextField(blank=True, default='Of het nu gaat om kleine reparaties, schilderwerk, timmerklussen of een volledige badkamerrenovatie - HMD Klusbedrijf levert professioneel werk binnen een straal van 50 km rond Dinteloord.')
+    cta_label = models.CharField(max_length=80, default='Lees Meer')
+    cta_url = models.CharField(max_length=255, blank=True, default='')
+
+    class Meta:
+        verbose_name = 'Homepage about panel'
+        verbose_name_plural = 'Homepage about panel'
+
+    def __str__(self):
+        return f"About panel: {self.title_emphasis} {self.title_rest}"
+
+
+
+
+
+class HomeValueBlock(models.Model):
+    image = models.ImageField(upload_to='home-value/', blank=True)
+    image_alt = models.CharField(max_length=160, blank=True, default='Werk in uitvoering')
+    title_emphasis = models.CharField(max_length=80, default='Wij leveren')
+    title_rest = models.CharField(max_length=160, default='vakwerk waar u op kunt vertrouwen')
+    body = models.TextField(blank=True, default='HMD Klusbedrijf voert elke klus met zorg en vakmanschap uit. Of het nu gaat om een kleine reparatie of een complete renovatie, wij staan klaar voor particulieren in de regio Dinteloord en omgeving.')
+    link_1_label = models.CharField(max_length=120, blank=True, default='Klus en Reparatiewerk')
+    link_1_url = models.CharField(max_length=200, blank=True, default='/diensten/kluswerk/')
+    link_2_label = models.CharField(max_length=120, blank=True, default='Timmerwerk & interieur')
+    link_2_url = models.CharField(max_length=200, blank=True, default='/diensten/timmerwerk/')
+    link_3_label = models.CharField(max_length=120, blank=True, default='Badkamerrenovatie & buitenwerk')
+    link_3_url = models.CharField(max_length=200, blank=True, default='/diensten/badkamer-renovatie/')
+
+    class Meta:
+        verbose_name = 'Homepage value block'
+        verbose_name_plural = 'Homepage value block'
+
+    def __str__(self):
+        return f"Value block: {self.title_emphasis} {self.title_rest}"
+
+class HomeCarouselItem(models.Model):
+    image = models.ImageField(upload_to='home-carousel/')
+    alt_text = models.CharField(max_length=160, blank=True)
+    order = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        ordering = ['order', 'id']
+
+    def __str__(self):
+        return self.alt_text or f'Carousel item {self.pk}'
+
+
+
+class AboutHero(models.Model):
+    title = models.CharField(max_length=160, default='Wij bouwen aan kwaliteit en sterkere gemeenschappen.')
+    background_image = models.ImageField(upload_to='about-hero/', blank=True)
+
+    class Meta:
+        verbose_name = 'About hero'
+        verbose_name_plural = 'About hero'
+
+    def __str__(self):
+        return 'About hero'
+
+
+class AboutCarouselItem(models.Model):
+    image = models.ImageField(upload_to='about-carousel/')
+    alt_text = models.CharField(max_length=160, blank=True)
+    order = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        ordering = ['order', 'id']
+        verbose_name = 'About carousel item'
+
+    def __str__(self):
+        return self.alt_text or f'About slide {self.pk}'
+
+
+class AboutCompanyBlock(models.Model):
+    years_number = models.CharField(max_length=10, default='25')
+    years_label = models.CharField(max_length=60, default='Jaar Ervaring')
+    heading = models.CharField(max_length=160, default='Leefkwaliteit verbeteren met een persoonlijke en vakkundige aanpak.')
+    body = models.TextField(blank=True, default='Bij HMD Klusbedrijf draait alles om vakmanschap, betrouwbaarheid en oog voor detail. Al 25 jaar levert oprichter Juma Al Huseyin kwalitatief werk in en rond Dinteloord - van schilderwerk tot volledige renovaties.')
+    cta_label = models.CharField(max_length=120, blank=True, default='Neem contact op')
+    cta_url = models.CharField(max_length=200, blank=True, default='/contact/')
+
+    class Meta:
+        verbose_name = 'About company block'
+
+    def __str__(self):
+        return self.heading
+
+
+class AboutProcessStep(models.Model):
+    order = models.PositiveIntegerField(default=1)
+    step_title = models.CharField(max_length=60, default='Stap 1')
+    heading = models.CharField(max_length=160)
+    description = models.TextField()
+    image = models.ImageField(upload_to='about-process/', blank=True)
+
+    class Meta:
+        ordering = ['order']
+        verbose_name = 'About process step'
+        verbose_name_plural = 'About process steps'
+
+    def __str__(self):
+        return f"{self.step_title} - {self.heading}"
+
 class PortfolioItem(models.Model):
     # choices used by admin forms
     CAT_CHOICES = [
@@ -70,6 +180,18 @@ class SiteSettings(models.Model):
     contact_email = models.EmailField(default="justcodeworks@gmail.com")
     whatsapp = models.CharField(max_length=32, blank=True, default="+31687111289")
     phone_display = models.CharField(max_length=32, blank=True, default="06 87111289")
+
+    @property
+    def whatsapp_digits(self) -> str:
+        raw = self.whatsapp or ""
+        digits = ''.join(ch for ch in raw if ch.isdigit())
+        if digits.startswith('00'):
+            digits = digits[2:]
+        return digits or '31687111289'
+
+    @property
+    def whatsapp_url(self) -> str:
+        return f"https://wa.me/{self.whatsapp_digits}"
 
     class Meta:
         verbose_name = "Site settings"

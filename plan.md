@@ -1,3 +1,5 @@
-- [x] Add custom admin view routes to serve page previews (starting with home); ensure we can register more easily later.
-- [x] Build template/common assets (iframe + overlay JS/CSS toggled by ?preview=1) for editable zones.
-- [x] Hook hero slider items with preview data attributes and provide admin navigation entries.
+Plan:
+1. Fix Over-Ons carousel preview flicker (done)
+2. Extend diensten inline editing (up next)
+3. Admin assistant (premium) (later)
+

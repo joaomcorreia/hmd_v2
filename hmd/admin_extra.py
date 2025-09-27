@@ -5,6 +5,7 @@ from django.http import Http404
 
 TOOLS = {
     "home-preview": "Homepage Preview",
+    "over-ons-preview": "Over Ons Preview",
     "overview": "Overview",
     "domain-name": "Domain Name",
     "hosting": "Hosting",

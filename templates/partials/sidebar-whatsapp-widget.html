@@ -1,9 +1,15 @@
-{% with wa_number="31687111289" tel_e164="+31687111289" display_phone="+31 6 87111289" %}
-<div class="widget bg-white p-a20 bdr-1 bdr-solid bdr-gray wa-widget">
+{% with wa_number=SITE_SETTINGS_WA_DIGITS tel_e164=SITE_SETTINGS_WHATSAPP_E164 display_phone=SITE_SETTINGS_PHONE_DISPLAY %}
+<div class="widget bg-white p-a20 bdr-1 bdr-solid bdr-gray wa-widget{% if request.GET.preview and SITE_SETTINGS %} admin-preview-target{% endif %}"{% if request.GET.preview and SITE_SETTINGS %} data-admin-url="{% url 'admin:core_sitesettings_change' SITE_SETTINGS.pk %}?next={{ request.GET.admin_return|default:'/admin/tools/home-preview/'|urlencode }}"{% endif %}>
+  {% if request.GET.preview and SITE_SETTINGS %}
+  <button type="button" class="admin-preview-hit" data-preview-app="core" data-preview-model="sitesettings" data-preview-id="{{ SITE_SETTINGS.pk }}">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zm14.71-9.04a.996.996 0 0 0 0-1.41l-2.54-2.54a.996.996 0 1 0-1.41 1.41l2.54 2.54c.39.39 1.02.39 1.41 0z"></path></svg>
+    Bewerk WhatsApp widget
+  </button>
+  {% endif %}
   <h4 class="widget-title m-b15"><i class="fa fa-whatsapp"></i> WhatsApp</h4>
   <p class="m-b15">Stel uw vraag direct via WhatsApp. We reageren vlot.</p>
 
-  <a id="wa-link" class="btn btn-success btn-block" href="https://wa.me/{{ wa_number }}" data-wa-number="{{ wa_number }}"
+  <a id="wa-link" class="btn btn-success btn-block" href="{{ SITE_SETTINGS_WA_URL }}" data-wa-number="{{ wa_number }}"
     target="_blank" rel="noopener" aria-label="Chat op WhatsApp met HMD Klusbedrijf">
     <i class="fa fa-whatsapp"></i> Chat op WhatsApp
   </a>
@@ -17,9 +23,10 @@
   (function () {
     var link = document.getElementById('wa-link');
     if (!link) return;
-    var base = 'https://wa.me/' + (link.dataset.waNumber || '{{ wa_number }}');
+    var base = '{{ SITE_SETTINGS_WA_URL }}';
     var msg = 'Hoi, ik heb een vraag over: ' + document.title + ' - ' + window.location.href;
     link.href = base + '?text=' + encodeURIComponent(msg);
   })();
 </script>
 {% endwith %}
+

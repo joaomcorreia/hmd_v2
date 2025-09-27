@@ -7,14 +7,23 @@
 <!-- CONTENT START -->
 
 <!-- INNER PAGE BANNER -->
-<div class="mt-bnr-inr overlay-wraper bg-parallax bg-middle-center" data-stellar-background-ratio="0.5"
-    style="background-image:url('{% static 'img/background/banner-default.jpg' %}')">
+{% with banner=hero %}
+<div class="mt-bnr-inr overlay-wraper bg-parallax bg-middle-center{% if request.GET.preview and banner %} admin-preview-target{% endif %}" data-stellar-background-ratio="0.5" style="background-image:url('{% if banner and banner.background_image %}{{ banner.background_image.url }}{% else %}{% static 'img/background/banner-default.jpg' %}{% endif %}')" data-preview-background="{% if banner and banner.background_image %}{{ banner.background_image.url }}{% else %}{% static 'img/background/banner-default.jpg' %}{% endif %}"{% if request.GET.preview and banner %} data-preview-app="core" data-preview-model="abouthero" data-preview-id="{{ banner.pk }}" data-preview-scope="abouthero" data-admin-url="{% url 'admin:core_abouthero_change' banner.pk %}?next={{ request.GET.admin_return|default:'/admin/tools/home-preview/'|urlencode }}"{% endif %}>
     <div class="overlay-main bg-black opacity-07"></div>
     <div class="container">
         <div class="mt-bnr-inr-entry">
             <div class="banner-title-outer">
                 <div class="banner-title-name">
+                    {% if request.GET.preview and banner %}
+                    <button type="button" class="admin-preview-hit" data-preview-app="core" data-preview-model="abouthero" data-preview-id="{{ banner.pk }}">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zm14.71-9.04a.996.996 0 0 0 0-1.41l-2.54-2.54a.996.996 0 1 0-1.41 1.41l2.54 2.54c.39.39 1.02.39 1.41 0z"></path></svg> Bewerk banner
+                    </button>
+                    {% endif %}
+                    {% if banner %}
+                    <h2 class="m-b0" data-preview-target="title" data-preview-scope="abouthero" data-preview-default="Wij bouwen aan kwaliteit en sterkere gemeenschappen.">{{ banner.title|default:'Wij bouwen aan kwaliteit en sterkere gemeenschappen.' }}</h2>
+                    {% else %}
                     <h2 class="m-b0">Wij bouwen aan kwaliteit en sterkere gemeenschappen.</h2>
+                    {% endif %}
                 </div>
             </div>
 
@@ -29,6 +38,7 @@
         </div>
     </div>
 </div>
+{% endwith %}
 <!-- INNER PAGE BANNER END -->
 
 <!-- ABOUT COMPANY SECTION START -->
@@ -50,35 +60,78 @@
             <div class="row">
                 <div class="col-lg-5 col-md-12">
                     <div class="m-about ">
-                        <div class="owl-carousel about-us-carousel">
-                            <!-- COLUMNS 1 -->
-                            <div class="item">
-                                <div class="ow-img">
-                                    <a href="#/"><img src="{% static 'img/portrait/pic4.jpg' %}" alt=""></a>
+                        {% with preview_mode=request.GET.preview %}
+                        <div class="{% if preview_mode %}about-us-carousel preview-static{% else %}owl-carousel about-us-carousel{% endif %}">
+                            {% if about_carousel %}
+                                {% for item in about_carousel %}
+                                <div class="item{% if preview_mode %} admin-preview-target{% endif %}"{% if preview_mode %} data-preview-app="core" data-preview-model="aboutcarouselitem" data-preview-id="{{ item.pk }}" data-preview-scope="aboutcarousel-{{ item.pk }}" data-admin-url="{% url 'admin:core_aboutcarouselitem_change' item.pk %}?next={{ request.GET.admin_return|default:'/admin/tools/home-preview/'|urlencode }}"{% endif %}>
+                                    {% if preview_mode %}
+                                    <button type="button" class="admin-preview-hit" data-preview-app="core" data-preview-model="aboutcarouselitem" data-preview-id="{{ item.pk }}">
+                                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zm14.71-9.04a.996.996 0 0 0 0-1.41l-2.54-2.54a.996.996 0 1 0-1.41 1.41l2.54 2.54c.39.39 1.02.39 1.41 0z"></path></svg> Bewerk foto
+                                    </button>
+                                    {% endif %}
+                                    <div class="ow-img">
+                                        {% if preview_mode %}
+                                        <img src="{{ item.image.url }}" alt="{{ item.alt_text }}" data-preview-target="image" data-preview-scope="aboutcarousel-{{ item.pk }}" data-preview-attr="src" data-preview-alt-target="alt_text" data-preview-default="{{ item.image.url }}">
+                                        {% else %}
+                                        <a href="#/">
+                                            <img src="{{ item.image.url }}" alt="{{ item.alt_text }}" data-preview-target="image" data-preview-scope="aboutcarousel-{{ item.pk }}" data-preview-attr="src" data-preview-alt-target="alt_text" data-preview-default="{{ item.image.url }}">
+                                        </a>
+                                        {% endif %}
+                                    </div>
                                 </div>
-                            </div>
-                            <!-- COLUMNS 2 -->
-                            <div class="item">
-                                <div class="ow-img">
-                                    <a href="#/"><img src="{% static 'img/portrait/pic5.jpg' %}" alt=""></a>
+                                {% endfor %}
+                            {% else %}
+                                {% if preview_mode %}
+                                <div class="item">
+                                    <div class="ow-img">
+                                        <img src="{% static 'img/portrait/pic4.jpg' %}" alt="">
+                                    </div>
                                 </div>
-                            </div>
-                            <!-- COLUMNS 3 -->
-                            <div class="item">
-                                <div class="owl-img">
-                                    <a href="#/"><img src="{% static 'img/portrait/pic6.jpg' %}" alt=""></a>
+                                <div class="item">
+                                    <div class="ow-img">
+                                        <img src="{% static 'img/portrait/pic5.jpg' %}" alt="">
+                                    </div>
                                 </div>
-                            </div>
-                            <!-- COLUMNS 4 -->
-                            <div class="item">
-                                <div class="ow-img">
-                                    <a href="#/"><img src="{% static 'img/portrait/pic7.jpg' %}" alt=""></a>
+                                <div class="item">
+                                    <div class="ow-img">
+                                        <img src="{% static 'img/portrait/pic6.jpg' %}" alt="">
+                                    </div>
                                 </div>
-                            </div>
+                                <div class="item">
+                                    <div class="ow-img">
+                                        <img src="{% static 'img/portrait/pic7.jpg' %}" alt="">
+                                    </div>
+                                </div>
+                                {% else %}
+                                <!-- COLUMNS 1 -->
+                                <div class="item">
+                                    <div class="ow-img">
+                                        <a href="#/"><img src="{% static 'img/portrait/pic4.jpg' %}" alt=""></a>
+                                    </div>
+                                </div>
+                                <!-- COLUMNS 2 -->
+                                <div class="item">
+                                    <div class="ow-img">
+                                        <a href="#/"><img src="{% static 'img/portrait/pic5.jpg' %}" alt=""></a>
+                                    </div>
+                                </div>
+                                <!-- COLUMNS 3 -->
+                                <div class="item">
+                                    <div class="ow-img">
+                                        <a href="#/"><img src="{% static 'img/portrait/pic6.jpg' %}" alt=""></a>
+                                    </div>
+                                </div>
+                                <!-- COLUMNS 4 -->
+                                <div class="item">
+                                    <div class="ow-img">
+                                        <a href="#/"><img src="{% static 'img/portrait/pic7.jpg' %}" alt=""></a>
+                                    </div>
+                                </div>
+                                {% endif %}
+                            {% endif %}
                         </div>
-                    </div>
-                </div>
-
+                        {% endwith %}
                 <div class="col-lg-7 col-md-12">
                     <div class="m-about-containt text-black">
                         <div class="m-about-years bg-moving"

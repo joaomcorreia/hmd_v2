@@ -4,9 +4,12 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
 from core import views as core
+from . import admin_preview
 from hmd.admin_extra import admin_tool
 
 urlpatterns = [
+    path("admin/preview/<str:app_label>/<str:model_name>/<int:pk>/", admin.site.admin_view(admin_preview.preview_edit), name="admin-preview-edit"),
+
     path("admin/tools/<slug:slug>/", admin.site.admin_view(admin_tool), name="admin-tool"),
     path("admin/", admin.site.urls),
 
@@ -36,6 +39,7 @@ urlpatterns = [
         template_name="registration/password_reset_complete.html"
     ), name="password_reset_complete"),
     path("accounts/", include("django.contrib.auth.urls")),
+    path("ai/", include("ai_engine.urls")),
 ]
 
 if settings.DEBUG:

@@ -5,8 +5,9 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.forms import PasswordResetForm
 from django.template.response import TemplateResponse
+from django.http import HttpResponseRedirect
 from django.db import models
-from .models import Slide, PortfolioItem, SiteSettings, ContactSubmission
+from .models import Slide, HomeAboutPanel, HomeValueBlock, HomeCarouselItem, AboutHero, AboutCarouselItem, AboutCompanyBlock, AboutProcessStep, PortfolioItem, SiteSettings, ContactSubmission
 
 # Admin branding
 admin.site.site_header = "HMD Klusbedrijf — Admin"
@@ -69,9 +70,60 @@ class UserAdmin(BaseUserAdmin):
 
     send_password_setup.short_description = "Stuur wachtwoord-aanmaaklink"
 
+class PreviewReturnMixin:
+    change_form_template = "admin/preview_change_form.html"
+
+    def changeform_view(self, request, object_id=None, form_url='', extra_context=None):
+        ctx = extra_context or {}
+        preview_next = request.GET.get('next') or request.POST.get('_preview_next')
+        if preview_next:
+            ctx = {**ctx, 'preview_next': preview_next}
+        return super().changeform_view(request, object_id, form_url, extra_context=ctx)
+
+    def response_change(self, request, obj):
+        preview_next = request.POST.get('_preview_next')
+        if preview_next and '_save' in request.POST:
+            return HttpResponseRedirect(preview_next)
+        return super().response_change(request, obj)
+
 # -------- Content models --------
+
+
+
+
+@admin.register(AboutHero)
+class AboutHeroAdmin(PreviewReturnMixin, admin.ModelAdmin):
+    list_display = ("title",)
+
+@admin.register(AboutCarouselItem)
+class AboutCarouselItemAdmin(PreviewReturnMixin, admin.ModelAdmin):
+    list_display = ("alt_text", "order")
+    list_editable = ("order",)
+
+@admin.register(AboutCompanyBlock)
+class AboutCompanyBlockAdmin(PreviewReturnMixin, admin.ModelAdmin):
+    list_display = ("heading",)
+
+@admin.register(AboutProcessStep)
+class AboutProcessStepAdmin(PreviewReturnMixin, admin.ModelAdmin):
+    list_display = ("step_title", "order", "heading")
+    list_editable = ("order",)
+
+@admin.register(HomeValueBlock)
+class HomeValueBlockAdmin(PreviewReturnMixin, admin.ModelAdmin):
+    list_display = ("title_emphasis",)
+
+@admin.register(HomeCarouselItem)
+class HomeCarouselItemAdmin(PreviewReturnMixin, admin.ModelAdmin):
+    list_display = ("alt_text", "order")
+    list_editable = ("order",)
+
+@admin.register(HomeAboutPanel)
+class HomeAboutPanelAdmin(PreviewReturnMixin, admin.ModelAdmin):
+    list_display = ("title_emphasis",)
+
 @admin.register(Slide)
-class SlideAdmin(admin.ModelAdmin):
+class SlideAdmin(PreviewReturnMixin, admin.ModelAdmin):
     list_display = ("title", "is_active", "order")
     list_editable = ("is_active", "order")
     search_fields = ("title", "subtitle")
@@ -84,7 +136,7 @@ class PortfolioItemAdmin(admin.ModelAdmin):
     list_editable = ("is_active",)
 
 @admin.register(SiteSettings)
-class SiteSettingsAdmin(admin.ModelAdmin):
+class SiteSettingsAdmin(PreviewReturnMixin, admin.ModelAdmin):
     list_display = ("contact_email",)
 
 @admin.register(ContactSubmission)

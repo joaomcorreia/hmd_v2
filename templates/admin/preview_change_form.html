@@ -1,0 +1,29 @@
+﻿{% extends "admin/change_form.html" %}
+
+{% block form_top %}
+  {% if preview_next %}
+  <input type="hidden" name="_preview_next" value="{{ preview_next }}">
+  {% endif %}
+  {{ block.super }}
+{% endblock %}
+
+{% block submit_buttons_top %}
+  {{ block.super }}
+  {% if preview_next %}
+  <a class="button" href="{{ preview_next }}">Terug naar preview</a>
+  {% endif %}
+{% endblock %}
+
+{% block submit_buttons_bottom %}
+  {{ block.super }}
+  {% if preview_next %}
+  <a class="button" href="{{ preview_next }}">Terug naar preview</a>
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+  {% if preview_next %}
+  <div class="messagelist"><div class="info">Je kwam hier via de preview. Gebruik de knop "Terug naar preview" om verder te gaan.</div></div>
+  {% endif %}
+  {{ block.super }}
+{% endblock %}

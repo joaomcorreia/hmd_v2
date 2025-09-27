@@ -10,7 +10,13 @@
                 </a>
             </div>
 
-            <div class="header-info">
+            <div class="header-info{% if request.GET.preview and SITE_SETTINGS %} admin-preview-target{% endif %}"{% if request.GET.preview and SITE_SETTINGS %} data-admin-url="{% url 'admin:core_sitesettings_change' SITE_SETTINGS.pk %}?next={{ request.GET.admin_return|default:'/admin/tools/home-preview/'|urlencode }}"{% endif %}>
+                {% if request.GET.preview and SITE_SETTINGS %}
+                <button type="button" class="admin-preview-hit" data-preview-app="core" data-preview-model="sitesettings" data-preview-id="{{ SITE_SETTINGS.pk }}">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zm14.71-9.04a.996.996 0 0 0 0-1.41l-2.54-2.54a.996.996 0 1 0-1.41 1.41l2.54 2.54c.39.39 1.02.39 1.41 0z"></path></svg>
+                    Bewerk contactgegevens
+                </button>
+                {% endif %}
                 <ul>
                     <li>
                         <div class="icon-sm">
@@ -26,14 +32,14 @@
                             <span class="icon-cell site-text-primary"><i class="fa fa-phone"></i></span>
                         </div>
                         <div class="icon-content">
-                            <a href="https://wa.me/31687111289" target="_blank"
+                            <a href="{{ SITE_SETTINGS_WA_URL }}" target="_blank"
                                 rel="noopener"><strong>WhatsApp</strong></a>
-                            <span>0 6 87111289</span>
+                            <span>{{ SITE_SETTINGS_PHONE_DISPLAY }}</span>
                         </div>
                     </li>
                     <li class="btn-col-last">
                         <a id="open-afspraak" class="site-button-secondry btn-effect"
-                            href="https://wa.me/31687111289?text={{ 'Ik wil een offerte. Pagina: '|urlencode }}{{ request.build_absolute_uri|urlencode }}"
+                            href="{{ SITE_SETTINGS_WA_URL }}?text={{ 'Ik wil een offerte. Pagina: '|urlencode }}{{ request.build_absolute_uri|urlencode }}"
                             target="_blank" rel="noopener nofollow">
                             Offerte Aanvragen
                         </a>
@@ -79,15 +85,15 @@
                                     <div class="icon-xs m-b20 scale-in-center"><i class="fa fa-phone"></i></div>
                                     <div class="icon-content">
                                         <h5 class="m-t0 font-weight-500">WhatsApp</h5>
-                                        <p><a href="https://wa.me/31687111289" target="_blank"
-                                                rel="noopener"><strong>+31 6 87111289</strong></a></p>
+                                        <p><a href="{{ SITE_SETTINGS_WA_URL }}" target="_blank"
+                                                rel="noopener"><strong>{{ SITE_SETTINGS_PHONE_DISPLAY }}</strong></a></p>
                                     </div>
                                 </div>
                                 <div class="mt-icon-box-wraper center p-b30">
                                     <div class="icon-xs m-b20 scale-in-center"><i class="fa fa-envelope"></i></div>
                                     <div class="icon-content">
                                         <h5 class="m-t0 font-weight-500">E-mailadres</h5>
-                                        <p>info@hmdklusbedrijf.nl</p>
+                                        <p>{{ SITE_SETTINGS_EMAIL }}</p>
                                     </div>
                                 </div>
                                 <div class="mt-icon-box-wraper center p-b30">
@@ -105,7 +111,7 @@
                                             class="fa fa-facebook"></a></li>
                                     <li><a href="https://www.instagram.com/hmdklusbv" target="_blank" rel="noopener"
                                             class="fa fa-instagram"></a></li>
-                                    <li><a href="https://wa.me/31687111289" target="_blank" rel="noopener"
+                                    <li><a href="{{ SITE_SETTINGS_WA_URL }}" target="_blank" rel="noopener"
                                             class="fa fa-whatsapp"></a></li>
                                 </ul>
                             </div>
@@ -275,7 +281,7 @@
                                 class="fa fa-facebook"></a></li>
                         <li><a href="https://www.instagram.com/hmdklusbv" target="_blank" rel="noopener"
                                 class="fa fa-instagram"></a></li>
-                        <li><a href="https://wa.me/31687111289" target="_blank" rel="noopener"
+                        <li><a href="{{ SITE_SETTINGS_WA_URL }}" target="_blank" rel="noopener"
                                 class="fa fa-whatsapp"></a></li>
                     </ul>
                 </div>

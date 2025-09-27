@@ -1,0 +1,177 @@
+{% load static %}
+{% with primary=extra.primary_fields %}
+{% if opts.model_name == "slide" %}
+<div class="preview-slide-wrapper">
+  <div class="preview-slide-header">
+    <span>Je bewerkt slide {{ extra.current_index }}{% if extra.total %} / {{ extra.total }}{% endif %}</span>
+    {% if extra.slides %}
+    <div class="preview-slide-list">
+      {% for slide in extra.slides %}
+      <button type="button" class="preview-slide-link{% if slide.active %} is-active{% endif %}" data-preview-app="{{ opts.app_label }}" data-preview-model="{{ opts.model_name }}" data-preview-id="{{ slide.id }}">Slide {{ slide.index }}</button>
+      {% endfor %}
+    </div>
+    {% endif %}
+  </div>
+  <div class="preview-slide-live" data-preview-background="{% if obj.image %}{{ obj.image.url }}{% else %}{% static 'img/slider/placeholder.jpg' %}{% endif %}">
+    <div class="preview-slide-hero">
+      <div class="preview-slide-title" data-preview-target="title" data-preview-default="Titel">{{ form.title.value|default:"Titel" }}</div>
+      <div class="preview-slide-subtitle" data-preview-target="subtitle" data-preview-default="Subtitel">{{ form.subtitle.value|default:"Subtitel" }}</div>
+      <div class="preview-slide-ctas">
+        <span class="preview-slide-cta" data-preview-target="cta1_label" data-preview-default="CTA 1" data-preview-hide-when-empty="true">{{ form.cta1_label.value }}</span>
+        <span class="preview-slide-cta" data-preview-target="cta2_label" data-preview-default="CTA 2" data-preview-hide-when-empty="true">{{ form.cta2_label.value }}</span>
+      </div>
+    </div>
+    <div class="preview-slide-meta">
+      <span><strong>Status:</strong> <span data-preview-target="is_active" data-preview-default="Niet actief">{% if form.is_active.value %}Actief{% else %}Niet actief{% endif %}</span></span>
+      <span><strong>Volgorde:</strong> <span data-preview-target="order" data-preview-default="0">{{ form.order.value|default:"0" }}</span></span>
+      <span><strong>CTA 1 URL:</strong> <code data-preview-target="cta1_url" data-preview-default="https://">{{ form.cta1_url.value|default:"https://" }}</code></span>
+      <span><strong>CTA 2 URL:</strong> <code data-preview-target="cta2_url" data-preview-default="https://">{{ form.cta2_url.value|default:"https://" }}</code></span>
+    </div>
+  </div>
+{% elif opts.model_name == "homeaboutpanel" %}
+<div class="preview-about-wrapper" data-preview-scope="homeaboutpanel">
+  <div class="preview-about-live">
+    <h3 class="preview-about-title">
+      <span class="preview-about-highlight" data-preview-target="title_emphasis" data-preview-scope="homeaboutpanel" data-preview-default="Toegewijd">{{ form.title_emphasis.value|default:"Toegewijd" }}</span>
+      <span data-preview-target="title_rest" data-preview-scope="homeaboutpanel" data-preview-default="aan kwaliteit en vakmanschap.">{{ form.title_rest.value|default:"aan kwaliteit en vakmanschap." }}</span>
+    </h3>
+    <p class="preview-about-lead" data-preview-target="lead_text" data-preview-scope="homeaboutpanel" data-preview-default="HMD Klusbedrijf is opgericht door Juma Al Huseyin en staat voor betrouwbaarheid, kwaliteit en eerlijke service. Met oog voor detail voert hij elke klus uit alsof het zijn eigen huis is.">{{ form.lead_text.value|default:"HMD Klusbedrijf is opgericht door Juma Al Huseyin en staat voor betrouwbaarheid, kwaliteit en eerlijke service. Met oog voor detail voert hij elke klus uit alsof het zijn eigen huis is." }}</p>
+    <p class="preview-about-body" data-preview-target="body_text" data-preview-scope="homeaboutpanel" data-preview-default="Of het nu gaat om kleine reparaties, schilderwerk, timmerklussen of een volledige badkamerrenovatie - HMD Klusbedrijf levert professioneel werk binnen een straal van 50 km rond Dinteloord.">{{ form.body_text.value|default:"Of het nu gaat om kleine reparaties, schilderwerk, timmerklussen of een volledige badkamerrenovatie - HMD Klusbedrijf levert professioneel werk binnen een straal van 50 km rond Dinteloord." }}</p>
+    <a class="preview-about-cta" href="{{ form.cta_url.value|default:'#' }}" data-preview-target="cta_url" data-preview-scope="homeaboutpanel" data-preview-attr="href" data-preview-default="#">
+      <span data-preview-target="cta_label" data-preview-scope="homeaboutpanel" data-preview-default="Lees Meer">{{ form.cta_label.value|default:"Lees Meer" }}</span>
+    </a>
+  </div>
+</div>
+{% elif opts.model_name == "homecarouselitem" %}
+<div class="preview-carousel-wrapper" data-preview-scope="carousel-{{ obj.pk }}">
+  <div class="preview-carousel-live">
+    <div class="preview-carousel-frame">
+      {% if obj.image %}
+      <img src="{{ obj.image.url }}" alt="{{ obj.alt_text }}" data-preview-target="image" data-preview-scope="carousel-{{ obj.pk }}" data-preview-attr="src" data-preview-alt-target="alt_text" data-preview-default="{{ obj.image.url }}">
+      {% else %}
+      <div class="preview-carousel-placeholder">Kies een afbeelding</div>
+      {% endif %}
+    </div>
+    <div class="preview-carousel-meta">
+      <span><strong>Alt tekst:</strong> <span data-preview-target="alt_text_display" data-preview-scope="carousel-{{ obj.pk }}">{{ obj.alt_text|default:"(geen)" }}</span></span>
+      <span><strong>Volgorde:</strong> <span data-preview-target="order_display" data-preview-scope="carousel-{{ obj.pk }}">{{ obj.order }}</span></span>
+    </div>
+  </div>
+</div>
+{% elif opts.model_name == "homevalueblock" %}
+<div class="preview-value-wrapper" data-preview-scope="homevalue">
+  <div class="preview-value-image">
+    {% if obj.image %}
+    <img src="{{ obj.image.url }}" alt="{{ obj.image_alt }}" data-preview-target="image" data-preview-scope="homevalue" data-preview-attr="src" data-preview-alt-target="image_alt" data-preview-default="{{ obj.image.url }}">
+    {% else %}
+    <img src="{% static 'img/gallery/pic9.jpg' %}" alt="{{ obj.image_alt|default:'Werk in uitvoering' }}" data-preview-target="image" data-preview-scope="homevalue" data-preview-attr="src" data-preview-alt-target="image_alt" data-preview-default="{% static 'img/gallery/pic9.jpg' %}">
+    {% endif %}
+  </div>
+  <div class="preview-value-content">
+    <h3 class="preview-value-title">
+      <span class="preview-value-highlight" data-preview-target="title_emphasis" data-preview-scope="homevalue" data-preview-default="Wij leveren">{{ form.title_emphasis.value|default:"Wij leveren" }}</span>
+      <span data-preview-target="title_rest" data-preview-scope="homevalue" data-preview-default="vakwerk waar u op kunt vertrouwen">{{ form.title_rest.value|default:"vakwerk waar u op kunt vertrouwen" }}</span>
+    </h3>
+    <p data-preview-target="body" data-preview-scope="homevalue" data-preview-default="HMD Klusbedrijf voert elke klus met zorg en vakmanschap uit. Of het nu gaat om een kleine reparatie of een complete renovatie, wij staan klaar voor particulieren in de regio Dinteloord en omgeving.">{{ form.body.value|default:"HMD Klusbedrijf voert elke klus met zorg en vakmanschap uit. Of het nu gaat om een kleine reparatie of een complete renovatie, wij staan klaar voor particulieren in de regio Dinteloord en omgeving." }}</p>
+    <ul class="preview-value-links">
+      <li><a href="{{ form.link_1_url.value|default:'/diensten/kluswerk/' }}" data-preview-target="link_1_url" data-preview-scope="homevalue" data-preview-attr="href" data-preview-default="/diensten/kluswerk/"><span data-preview-target="link_1_label" data-preview-scope="homevalue" data-preview-default="Klus en Reparatiewerk">{{ form.link_1_label.value|default:"Klus en Reparatiewerk" }}</span></a></li>
+      <li><a href="{{ form.link_2_url.value|default:'/diensten/timmerwerk/' }}" data-preview-target="link_2_url" data-preview-scope="homevalue" data-preview-attr="href" data-preview-default="/diensten/timmerwerk/"><span data-preview-target="link_2_label" data-preview-scope="homevalue" data-preview-default="Timmerwerk &amp; interieur">{{ form.link_2_label.value|default:"Timmerwerk & interieur" }}</span></a></li>
+      <li><a href="{{ form.link_3_url.value|default:'/diensten/badkamer-renovatie/' }}" data-preview-target="link_3_url" data-preview-scope="homevalue" data-preview-attr="href" data-preview-default="/diensten/badkamer-renovatie/"><span data-preview-target="link_3_label" data-preview-scope="homevalue" data-preview-default="Badkamerrenovatie &amp; buitenwerk">{{ form.link_3_label.value|default:"Badkamerrenovatie & buitenwerk" }}</span></a></li>
+    </ul>
+  </div>
+</div>
+{% elif opts.model_name == "abouthero" %}
+<div class="preview-about-hero-wrapper" data-preview-scope="abouthero">
+  <div class="preview-about-hero" data-preview-background="{% if obj.background_image %}{{ obj.background_image.url }}{% else %}{% static 'img/background/banner-default.jpg' %}{% endif %}">
+    <div class="preview-about-hero-content">
+      <h2 data-preview-target="title" data-preview-scope="abouthero" data-preview-default="Wij bouwen aan kwaliteit en sterkere gemeenschappen.">{{ form.title.value|default:"Wij bouwen aan kwaliteit en sterkere gemeenschappen." }}</h2>
+    </div>
+  </div>
+</div>
+{% elif opts.model_name == "aboutcarouselitem" %}
+<div class="preview-carousel-wrapper preview-about-carousel" data-preview-scope="aboutcarousel-{{ obj.pk }}">
+  <div class="preview-carousel-live">
+    <div class="preview-carousel-frame">
+      {% if obj.image %}
+      <img src="{{ obj.image.url }}" alt="{{ obj.alt_text }}" data-preview-target="image" data-preview-scope="aboutcarousel-{{ obj.pk }}" data-preview-attr="src" data-preview-alt-target="alt_text" data-preview-default="{{ obj.image.url }}">
+      {% else %}
+      <div class="preview-carousel-placeholder">Kies een afbeelding</div>
+      {% endif %}
+    </div>
+    <div class="preview-carousel-meta">
+      <span><strong>Alt tekst:</strong> <span data-preview-target="alt_text_display" data-preview-scope="aboutcarousel-{{ obj.pk }}">{{ obj.alt_text|default:"(geen)" }}</span></span>
+      <span><strong>Volgorde:</strong> <span data-preview-target="order_display" data-preview-scope="aboutcarousel-{{ obj.pk }}">{{ obj.order }}</span></span>
+    </div>
+  </div>
+</div>
+{% elif opts.model_name == "aboutcompanyblock" %}
+<div class="preview-about-company-wrapper" data-preview-scope="aboutcompany">
+  <div class="preview-about-company-card">
+    <div class="preview-about-company-stats">
+      <span class="preview-about-company-number" data-preview-target="years_number" data-preview-scope="aboutcompany" data-preview-default="25">{{ form.years_number.value|default:"25" }}</span>
+      <span class="preview-about-company-label" data-preview-target="years_label" data-preview-scope="aboutcompany" data-preview-default="Jaar Ervaring">{{ form.years_label.value|default:"Jaar Ervaring" }}</span>
+    </div>
+    <h3 class="preview-about-company-heading" data-preview-target="heading" data-preview-scope="aboutcompany" data-preview-default="Leefkwaliteit verbeteren met een persoonlijke en vakkundige aanpak.">{{ form.heading.value|default:"Leefkwaliteit verbeteren met een persoonlijke en vakkundige aanpak." }}</h3>
+    <p class="preview-about-company-body" data-preview-target="body" data-preview-scope="aboutcompany" data-preview-default="Bij HMD Klusbedrijf draait alles om vakmanschap, betrouwbaarheid en oog voor detail. Al 25 jaar levert oprichter Juma Al Huseyin kwalitatief werk in en rond Dinteloord - van schilderwerk tot volledige renovaties.">{{ form.body.value|default:"Bij HMD Klusbedrijf draait alles om vakmanschap, betrouwbaarheid en oog voor detail. Al 25 jaar levert oprichter Juma Al Huseyin kwalitatief werk in en rond Dinteloord - van schilderwerk tot volledige renovaties." }}</p>
+    <a class="preview-about-company-cta" href="{{ form.cta_url.value|default:'/contact/' }}" data-preview-target="cta_url" data-preview-scope="aboutcompany" data-preview-attr="href" data-preview-default="/contact/">
+      <span data-preview-target="cta_label" data-preview-scope="aboutcompany" data-preview-default="Neem contact op">{{ form.cta_label.value|default:"Neem contact op" }}</span>
+    </a>
+  </div>
+</div>
+{% elif opts.model_name == "aboutprocessstep" %}
+<div class="preview-about-process-wrapper" data-preview-scope="aboutprocess-{{ obj.pk }}">
+  <div class="preview-about-process-card">
+    <div class="preview-about-process-media">
+      {% if obj.image %}
+      <img src="{{ obj.image.url }}" alt="{{ obj.heading }}" data-preview-target="image" data-preview-scope="aboutprocess-{{ obj.pk }}" data-preview-attr="src" data-preview-default="{{ obj.image.url }}">
+      {% else %}
+      <img src="{% static 'img/portrait/1.png' %}" alt="{{ obj.heading }}" data-preview-target="image" data-preview-scope="aboutprocess-{{ obj.pk }}" data-preview-attr="src" data-preview-default="{% static 'img/portrait/1.png' %}">
+      {% endif %}
+    </div>
+    <div class="preview-about-process-content">
+      <h4 class="preview-about-process-step" data-preview-target="step_title" data-preview-scope="aboutprocess-{{ obj.pk }}" data-preview-default="{{ obj.step_title }}">{{ obj.step_title }}</h4>
+      <h4 class="preview-about-process-heading" data-preview-target="heading" data-preview-scope="aboutprocess-{{ obj.pk }}" data-preview-default="{{ obj.heading }}">{{ obj.heading }}</h4>
+      <p class="preview-about-process-text" data-preview-target="description" data-preview-scope="aboutprocess-{{ obj.pk }}" data-preview-default="{{ obj.description }}">{{ obj.description }}</p>
+    </div>
+  </div>
+</div>
+{% endif %}
+  <form method="post" action="{{ endpoint }}" data-preview-endpoint="{{ endpoint }}" class="preview-edit-form" novalidate{% if opts.model_name == "homecarouselitem" %} data-preview-model="homecarouselitem" data-preview-scope="carousel-{{ obj.pk }}"{% elif opts.model_name == "homevalueblock" %} data-preview-model="homevalueblock" data-preview-scope="homevalue"{% elif opts.model_name == "abouthero" %} data-preview-model="abouthero" data-preview-scope="abouthero"{% elif opts.model_name == "aboutcarouselitem" %} data-preview-model="aboutcarouselitem" data-preview-scope="aboutcarousel-{{ obj.pk }}"{% elif opts.model_name == "aboutcompanyblock" %} data-preview-model="aboutcompanyblock" data-preview-scope="aboutcompany"{% elif opts.model_name == "aboutprocessstep" %} data-preview-model="aboutprocessstep" data-preview-scope="aboutprocess-{{ obj.pk }}"{% endif %}>
+    {% csrf_token %}
+    {% if form.media %}{{ form.media }}{% endif %}
+    {% if form.non_field_errors %}
+    <div class="preview-form-errors">{{ form.non_field_errors }}</div>
+    {% endif %}
+    <div class="preview-form-fields">
+      {% for field in form %}
+      {% if primary and field.name in primary %}
+      <div class="preview-form-field{% if field.errors %} has-errors{% endif %}">
+        <label for="{{ field.id_for_label }}">{{ field.label }}{% if field.field.required %}<span class="required">*</span>{% endif %}</label>
+        {{ field }}
+        {% if field.help_text %}<p class="help">{{ field.help_text }}</p>{% endif %}
+        {% for error in field.errors %}<p class="errorlist">{{ error }}</p>{% endfor %}
+      </div>
+      {% endif %}
+      {% endfor %}
+      {% for field in form %}
+      {% if not primary or field.name not in primary %}
+      <div class="preview-form-field{% if field.errors %} has-errors{% endif %}">
+        <label for="{{ field.id_for_label }}">{{ field.label }}{% if field.field.required %}<span class="required">*</span>{% endif %}</label>
+        {{ field }}
+        {% if field.help_text %}<p class="help">{{ field.help_text }}</p>{% endif %}
+        {% for error in field.errors %}<p class="errorlist">{{ error }}</p>{% endfor %}
+      </div>
+      {% endif %}
+      {% endfor %}
+    </div>
+    <div class="preview-form-actions">
+      <button type="submit" class="button default">Opslaan</button>
+      <button type="button" class="button cancel" data-preview-modal-close>Annuleren</button>
+    </div>
+  </form>
+{% if opts.model_name == 'slide' or opts.model_name == 'homeaboutpanel' or opts.model_name == 'homecarouselitem' or opts.model_name == 'homevalueblock' or opts.model_name == 'abouthero' or opts.model_name == 'aboutcarouselitem' or opts.model_name == 'aboutcompanyblock' or opts.model_name == 'aboutprocessstep' %}
+</div>
+{% endif %}
+{% endwith %}
+
+

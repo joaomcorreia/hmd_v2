@@ -1,22 +1,24 @@
 {% load static %}
+{% static 'img/slider/placeholder.jpg' as HERO_PLACEHOLDER %}
+{% with preview_mode=request.GET.preview preview_return=request.GET.admin_return|default:'/admin/tools/home-preview/' %}
 <section class="hero-slider" aria-label="Hero slider">
-    <div class="hero-slides" data-autoplay="6000">
+    <div class="hero-slides" data-autoplay="{% if preview_mode %}0{% else %}6000{% endif %}">
         {% for s in slides %}
-        <article
-            class="hero-slide{% if request.GET.preview %} admin-preview-target{% endif %}{% if forloop.first %} is-active{% endif %}"
+        <article class="hero-slide{% if preview_mode %} admin-preview-target{% endif %}{% if forloop.first %} is-active{% endif %}"
             role="group" aria-roledescription="slide" aria-label="{{ forloop.counter }} van {{ slides|length }}">
-            <div class="hero-bg" style="background-image:url('{% if s.image %}{{ s.image.url }}{% else %}{% static 'img/slider/placeholder.jpg' %}{% endif %}');"></div>
-            <div class="hero-overlay"></div>
-            {% if request.GET.preview %}
-            <button type="button" class="admin-preview-hit" data-admin-url="{% url 'admin:core_slide_change' s.pk %}">
-                <svg viewBox="0 0 24 24" aria-hidden="true">
-                    <path
-                        d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zm14.71-9.04a.996.996 0 0 0 0-1.41l-2.54-2.54a.996.996 0 1 0-1.41 1.41l2.54 2.54c.39.39 1.02.39 1.41 0z">
-                    </path>
-                </svg>
-                Bewerk slide
-            </button>
+            {% if preview_mode %}
+            <div class="hero-preview-pill">
+                <button type="button" class="admin-preview-hit"
+                    data-admin-url="{% url 'admin:core_slide_change' s.pk %}?next={{ preview_return|urlencode }}"
+                    data-preview-app="core" data-preview-model="slide" data-preview-id="{{ s.pk }}">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zm14.71-9.04a.996.996 0 0 0 0-1.41l-2.54-2.54a.996.996 0 1 0-1.41 1.41l2.54 2.54c.39.39 1.02.39 1.41 0z"></path></svg>
+                    Bewerk slide
+                </button>
+            </div>
+            <img class="hero-preview-bg" src="{% if s.image %}{{ s.image.url }}{% else %}{{ HERO_PLACEHOLDER }}{% endif %}" alt="Voorbeeld van slide {{ forloop.counter }}" loading="lazy">
             {% endif %}
+            <div class="hero-bg" style="background-image:url('{% if s.image %}{{ s.image.url }}{% else %}{{ HERO_PLACEHOLDER }}{% endif %}');"></div>
+            <div class="hero-overlay"></div>
             <div class="hero-content">
                 <h1 class="hero-title">{{ s.title }}</h1>
                 {% if s.subtitle %}<p class="hero-subtitle">{{ s.subtitle }}</p>{% endif %}
@@ -43,3 +45,4 @@
     <button class="hero-nav prev" aria-label="Vorige slide" title="Vorige">&#10094;</button>
     <button class="hero-nav next" aria-label="Volgende slide" title="Volgende">&#10095;</button>
 </section>
+{% endwith %}

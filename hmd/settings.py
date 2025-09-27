@@ -17,7 +17,7 @@ ADMIN_TEMPLATES_DIR = WORKSPACE_DIR / "admin_templates"  # optional external adm
 
 SECRET_KEY = 'django-insecure-g4%+x4o1=ojtwde@^_h81jp$2-71-oi5wp$4=+r+g!^7_2m@@w'
 DEBUG = True
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'testserver']
 
 INSTALLED_APPS = [
     "analytics.apps.AnalyticsConfig",
@@ -29,6 +29,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "pages",
     "core",
+    "ai_engine"
 ]
 
 MIDDLEWARE = [

@@ -1,86 +1,101 @@
 {% extends "admin/base_site.html" %}
+{% load static %}
+
+{% block extrastyle %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'css/admin_main_styles.css' %}">
+{% endblock %}
+
 {% block content %}
-<h1>Social Networks</h1>
 
-<div class="module">
-    <h2><a href="#fb" onclick="toggle('fb');return false;">Facebook</a></h2>
-    <div id="fb" style="display:block">
-        <table class="adminlist">
-            <tr>
-                <th>Pagina</th>
-                <td>…</td>
-            </tr>
-            <tr>
-                <th>URL</th>
-                <td>…</td>
-            </tr>
-            <tr>
-                <th>Status</th>
-                <td>Actief</td>
-            </tr>
-            <tr>
-                <th>Opmerking</th>
-                <td>…</td>
-            </tr>
-        </table>
+{% block sidebar %}
+{% include "admin/sidebar.html" %}
+{% endblock %}
+
+<section class="pricing">
+    <h2>Website Pakketten</h2>
+    <div class="pricing-grid">
+
+        <!-- Django Website -->
+
+        <div class="card-your-plan">
+            <h3>Your website</h3>
+            <p class="price">vanaf €-,--</p>
+            <ul>
+                <li>Volledig maatwerk</li>
+                <li>Admin dashboard & AI assistent</li>
+                <li>Multi-language & multi-tenant</li>
+                <li>Inbegrepen supportplan</li>
+            </ul>
+        </div>
+        <div class="your-plan"> </div>
+        <!-- PHP / Static Website -->
+        <div class="card">
+            <h3>PHP / Statisch</h3>
+            <p class="price">vanaf €</p>
+            <ul>
+                <li>Snel & lichtgewicht</li>
+                <li>Responsive design</li>
+                <li>Goede optie voor kleine bedrijven</li>
+                <li>Basis SEO inbegrepen</li>
+            </ul>
+            <a href="#" class="btn">Start nu</a>
+        </div>
+
+        <!-- WordPress Website -->
+        <div class="card">
+            <h3>WordPress</h3>
+            <p class="price">vanaf €</p>
+            <ul>
+                <li>Bekend CMS</li>
+                <li>Themes & plugins</li>
+                <li>Makkelijk zelf te beheren</li>
+                <li>Snelle oplevering</li>
+            </ul>
+            <a href="#" class="btn">Start nu</a>
+        </div>
+
+        <!-- Online Store -->
+        <div class="card">
+            <h3>Online Store</h3>
+            <p class="price">vanaf €</p>
+            <ul>
+                <li>WooCommerce of Django Shop</li>
+                <li>Betaalgateway integratie</li>
+                <li>Voorraadbeheer</li>
+                <li>Optie dropshipping API</li>
+            </ul>
+            <a href="#" class="btn">Start nu</a>
+        </div>
+
+        <!-- Blog -->
+        <div class="card">
+            <h3>Blog</h3>
+            <p class="price">vanaf €</p>
+            <ul>
+                <li>SEO geoptimaliseerd</li>
+                <li>Artikelen & categorieën</li>
+                <li>Social media integratie</li>
+                <li>Statistieken & analyse</li>
+            </ul>
+            <a href="#" class="btn">Start Nu</a>
+        </div>
+
+        <!-- One-Page Website -->
+        <div class="card">
+            <h3>One-Page Website</h3>
+            <p class="price">vanaf €</p>
+            <ul>
+                <li>Snelle oplevering (1 dag)</li>
+                <li>Modern design</li>
+                <li>Inclusief Facebook & Instagram setup</li>
+                <li>Contactformulier / WhatsApp koppeling</li>
+            </ul>
+            <a href="#" class="btn">Start Nu</a>
+        </div>
+
     </div>
-</div>
+</section>
 
-<div class="module">
-    <h2><a href="#ig" onclick="toggle('ig');return false;">Instagram</a></h2>
-    <div id="ig" style="display:none">
-        <table class="adminlist">
-            <tr>
-                <th>Handle</th>
-                <td>…</td>
-            </tr>
-            <tr>
-                <th>URL</th>
-                <td>…</td>
-            </tr>
-            <tr>
-                <th>Status</th>
-                <td>Actief</td>
-            </tr>
-            <tr>
-                <th>Opmerking</th>
-                <td>…</td>
-            </tr>
-        </table>
-    </div>
-</div>
 
-<div class="module">
-    <h2><a href="#google" onclick="toggle('google');return false;">Google</a></h2>
-    <div id="google" style="display:none">
-        <table class="adminlist">
-            <tr>
-                <th>Business</th>
-                <td>…</td>
-            </tr>
-            <tr>
-                <th>URL</th>
-                <td>…</td>
-            </tr>
-            <tr>
-                <th>Status</th>
-                <td>Actief</td>
-            </tr>
-            <tr>
-                <th>Opmerking</th>
-                <td>…</td>
-            </tr>
-        </table>
-    </div>
-</div>
-
-<script>
-    function toggle(id) {
-        ['fb', 'ig', 'google'].forEach(function (x) {
-            var el = document.getElementById(x);
-            if (!el) return;
-            el.style.display = (x === id && el.style.display !== 'block') ? 'block' : 'none';
-        });
-    }
-</script>
 {% endblock %}

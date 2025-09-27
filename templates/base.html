@@ -21,7 +21,7 @@
     {% endif %}
 </head>
 
-<body{% if request.GET.preview %} class="preview-mode"{% endif %}>
+<body{% if request.GET.preview %} class="preview-mode" data-preview-admin-return="{{ request.GET.admin_return|default:'\/admin\/tools\/home-preview\/' }}"{% endif %}>
 
     <div class="page-wraper">
         {% include "partials/header.html" %}

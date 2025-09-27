@@ -143,44 +143,54 @@
                             <!-- Left: Carousel -->
                             <div class="col-xl-8 col-lg-12 col-md-12">
                                 <div class="owl-carousel about-home about-home-v2 owl-dots-bottom-left">
-                                    <div class="item">
-                                        <div class="mt-img-effect zoom-slow"><img
-                                                src="{% static 'img/gallery/pic8.jpg' %}" alt=""></div>
-                                    </div>
-                                    <div class="item">
-                                        <div class="mt-img-effect zoom-slow"><img
-                                                src="{% static 'img/gallery/pic6.jpg' %}" alt=""></div>
-                                    </div>
-                                    <div class="item">
-                                        <div class="mt-img-effect zoom-slow"><img
-                                                src="{% static 'img/gallery/pic9.jpg' %}" alt=""></div>
-                                    </div>
-                                    <div class="item">
-                                        <div class="mt-img-effect zoom-slow"><img
-                                                src="{% static 'img/gallery/pic2.jpg' %}" alt=""></div>
-                                    </div>
-                                    <div class="item">
-                                        <div class="mt-img-effect zoom-slow"><img
-                                                src="{% static 'img/gallery/pic3.jpg' %}" alt=""></div>
-                                    </div>
+                                    {% if carousel_items %}
+                                        {% for item in carousel_items %}
+                                        <div class="item{% if request.GET.preview %} admin-preview-target{% endif %}"{% if request.GET.preview and item %} data-preview-app="core" data-preview-model="homecarouselitem" data-preview-id="{{ item.pk }}" data-preview-scope="carousel-{{ item.pk }}"{% endif %}>
+                                            {% if request.GET.preview %}
+                                            <button type="button" class="admin-preview-hit" data-preview-app="core" data-preview-model="homecarouselitem" data-preview-id="{{ item.pk }}">
+                                                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zm14.71-9.04a.996.996 0 0 0 0-1.41l-2.54-2.54a.996.996 0 1 0-1.41 1.41l2.54 2.54c.39.39 1.02.39 1.41 0z"></path></svg> Bewerk slide
+                                            </button>
+                                            {% endif %}
+                                            <div class="mt-img-effect zoom-slow">
+                                                {% if item.image %}
+                                                <img src="{{ item.image.url }}" alt="{{ item.alt_text }}" data-preview-target="image" data-preview-scope="carousel-{{ item.pk }}" data-preview-attr="src" data-preview-alt-target="alt_text" data-preview-alt-default="{{ item.alt_text }}" data-preview-default="{{ item.image.url }}">
+                                                {% else %}
+                                                <img src="{% static 'img/gallery/pic8.jpg' %}" alt="{{ item.alt_text }}" data-preview-target="image" data-preview-scope="carousel-{{ item.pk }}" data-preview-attr="src" data-preview-alt-target="alt_text" data-preview-alt-default="{{ item.alt_text }}" data-preview-default="{% static 'img/gallery/pic8.jpg' %}">
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                        {% endfor %}
+                                    {% else %}
+                                        <div class="item"><div class="mt-img-effect zoom-slow"><img src="{% static 'img/gallery/pic8.jpg' %}" alt=""></div></div>
+                                        <div class="item"><div class="mt-img-effect zoom-slow"><img src="{% static 'img/gallery/pic6.jpg' %}" alt=""></div></div>
+                                        <div class="item"><div class="mt-img-effect zoom-slow"><img src="{% static 'img/gallery/pic9.jpg' %}" alt=""></div></div>
+                                    {% endif %}
                                 </div>
                             </div>
 
                             <!-- Right: Text -->
                             <div class="col-xl-4 col-lg-12 col-md-12">
-                                <div class="about-home-right about-right-v2 site-bg-primary text-white p-a30">
-                                    <h3 class="m-t0"><span class="font-weight-100">Toegewijd</span> aan kwaliteit en
-                                        vakmanschap.</h3>
-                                    <p><strong>HMD Klusbedrijf is opgericht door Juma Al Huseyin en staat voor
-                                            betrouwbaarheid, kwaliteit en eerlijke service. Met oog voor detail voert
-                                            hij elke klus uit alsof het zijn eigen huis is.</strong></p>
-                                    <p>Of het nu gaat om kleine reparaties, schilderwerk, timmerklussen of een volledige
-                                        badkamerrenovatie — HMD Klusbedrijf levert professioneel werk binnen een straal
-                                        van 50 km rond Dinteloord.</p>
-                                    <div class="text-left">
-                                        <a href="{% url 'index' %}over-ons" class="site-button-secondry btn-effect">Lees
-                                            Meer</a>
-                                    </div>
+                                {% with panel=about_panel default_cta=about_url %}
+        <div class="about-home-right about-right-v2 site-bg-primary text-white p-a30{% if request.GET.preview and panel %} admin-preview-target{% endif %}"{% if request.GET.preview and panel %} data-preview-app="core" data-preview-model="homeaboutpanel" data-preview-id="{{ panel.pk }}" data-admin-url="{% url 'admin:core_homeaboutpanel_change' panel.pk %}?next={{ request.GET.admin_return|default:'/admin/tools/home-preview/'|urlencode }}"{% endif %}>
+            {% if request.GET.preview and panel %}
+            <button type="button" class="admin-preview-hit" data-preview-app="core" data-preview-model="homeaboutpanel" data-preview-id="{{ panel.pk }}">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zm14.71-9.04a.996.996 0 0 0 0-1.41l-2.54-2.54a.996.996 0 1 0-1.41 1.41l2.54 2.54c.39.39 1.02.39 1.41 0z"></path></svg>
+                Bewerk block
+            </button>
+            {% endif %}
+            <h3 class="m-t0">
+                <span class="font-weight-100" data-preview-target="title_emphasis" data-preview-scope="homeaboutpanel" data-preview-default="Toegewijd">{{ panel.title_emphasis|default:'Toegewijd' }}</span>
+                <span data-preview-target="title_rest" data-preview-scope="homeaboutpanel" data-preview-default="aan kwaliteit en vakmanschap.">{{ panel.title_rest|default:'aan kwaliteit en vakmanschap.' }}</span>
+            </h3>
+            <p><strong data-preview-target="lead_text" data-preview-scope="homeaboutpanel" data-preview-default="HMD Klusbedrijf is opgericht door Juma Al Huseyin en staat voor betrouwbaarheid, kwaliteit en eerlijke service. Met oog voor detail voert hij elke klus uit alsof het zijn eigen huis is.">{{ panel.lead_text|default:'HMD Klusbedrijf is opgericht door Juma Al Huseyin en staat voor betrouwbaarheid, kwaliteit en eerlijke service. Met oog voor detail voert hij elke klus uit alsof het zijn eigen huis is.' }}</strong></p>
+            <p data-preview-target="body_text" data-preview-scope="homeaboutpanel" data-preview-default="Of het nu gaat om kleine reparaties, schilderwerk, timmerklussen of een volledige badkamerrenovatie - HMD Klusbedrijf levert professioneel werk binnen een straal van 50 km rond Dinteloord.">{{ panel.body_text|default:'Of het nu gaat om kleine reparaties, schilderwerk, timmerklussen of een volledige badkamerrenovatie - HMD Klusbedrijf levert professioneel werk binnen een straal van 50 km rond Dinteloord.' }}</p>
+            <div class="text-left">
+                <a href="{{ panel.cta_url|default:about_url }}" class="site-button-secondry btn-effect"{% if request.GET.preview %} data-preview-target="cta_url" data-preview-scope="homeaboutpanel" data-preview-default="{{ about_url }}" data-preview-attr="href"{% endif %}>
+                    <span data-preview-target="cta_label" data-preview-scope="homeaboutpanel" data-preview-default="Lees Meer">{{ panel.cta_label|default:'Lees Meer' }}</span>
+                </a>
+            </div>
+        </div>
+        {% endwith %}
                                 </div>
                             </div>
                         </div><!-- /.row -->
@@ -197,25 +207,32 @@
                 <div class="section-content">
                     <div class="row align-items-center">
                         <div class="empty50"></div>
-                        <div class="col-md-6">
-                            <img src="{% static 'img/gallery/pic9.jpg' %}" alt="Werk in uitvoering" class="img-fluid" />
+                        {% with block=value_block %}
+                        <div class="col-md-6{% if request.GET.preview and block %} admin-preview-target{% endif %}"{% if request.GET.preview and block %} data-preview-app="core" data-preview-model="homevalueblock" data-preview-id="{{ block.pk }}" data-admin-url="{% url 'admin:core_homevalueblock_change' block.pk %}?next={{ request.GET.admin_return|default:'/admin/tools/home-preview/'|urlencode }}"{% endif %}>
+                            {% if request.GET.preview and block %}
+                            <button type="button" class="admin-preview-hit" data-preview-app="core" data-preview-model="homevalueblock" data-preview-id="{{ block.pk }}">
+                                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zm14.71-9.04a.996.996 0 0 0 0-1.41l-2.54-2.54a.996.996 0 1 0-1.41 1.41l2.54 2.54c.39.39 1.02.39 1.41 0z"></path></svg> Bewerk blok
+                            </button>
+                            {% endif %}
+                            {% if block and block.image %}
+                            <img src="{{ block.image.url }}" alt="{{ block.image_alt }}" class="img-fluid" data-preview-target="image" data-preview-scope="homevalue" data-preview-attr="src" data-preview-alt-target="image_alt" data-preview-default="{{ block.image.url }}">
+                            {% else %}
+                            <img src="{% static 'img/gallery/pic9.jpg' %}" alt="Werk in uitvoering" class="img-fluid" data-preview-target="image" data-preview-scope="homevalue" data-preview-attr="src" data-preview-alt-target="image_alt" data-preview-default="{% static 'img/gallery/pic9.jpg' %}">
+                            {% endif %}
                         </div>
                         <div class="col-md-6">
                             <div class="video-part-2">
-                                <h3><span class="font-weight-100">Wij leveren</span> vakwerk waar u op kunt vertrouwen
+                                <h3><span class="font-weight-100" data-preview-target="title_emphasis" data-preview-scope="homevalue" data-preview-default="Wij leveren">{{ block.title_emphasis|default:'Wij leveren' }}</span> <span data-preview-target="title_rest" data-preview-scope="homevalue" data-preview-default="vakwerk waar u op kunt vertrouwen">{{ block.title_rest|default:'vakwerk waar u op kunt vertrouwen' }}</span>
                                 </h3>
-                                <p>HMD Klusbedrijf voert elke klus met zorg en vakmanschap uit. Of het nu gaat om een
-                                    kleine reparatie of een complete renovatie, wij staan klaar voor particulieren in de
-                                    regio Dinteloord en omgeving.</p>
+                                <p data-preview-target="body" data-preview-scope="homevalue" data-preview-default="HMD Klusbedrijf voert elke klus met zorg en vakmanschap uit. Of het nu gaat om een kleine reparatie of een complete renovatie, wij staan klaar voor particulieren in de regio Dinteloord en omgeving.">{{ block.body|default:'HMD Klusbedrijf voert elke klus met zorg en vakmanschap uit. Of het nu gaat om een kleine reparatie of een complete renovatie, wij staan klaar voor particulieren in de regio Dinteloord en omgeving.' }}</p>
                                 <ul class="list-angle-right anchor-line">
-                                    <li><a href="{% url 'diensten' %}kluswerk">Klus en Reparatiewerk</a></li>
-                                    <li><a href="{% url 'diensten' %}timmerwerk">Timmerwerk &amp; Interieur</a></li>
-                                    <li><a href="{% url 'diensten' %}badkamer-renovatie">Badkamerrenovatie &amp;
-                                            Buitenwerk</a>
-                                    </li>
+                                    <li><a href="{{ block.link_1_url|default:'/diensten/kluswerk/' }}" data-preview-target="link_1_url" data-preview-scope="homevalue" data-preview-attr="href" data-preview-default="/diensten/kluswerk/"><span data-preview-target="link_1_label" data-preview-scope="homevalue" data-preview-default="Klus en Reparatiewerk">{{ block.link_1_label|default:'Klus en Reparatiewerk' }}</span></a></li>
+                                    <li><a href="{{ block.link_2_url|default:'/diensten/timmerwerk/' }}" data-preview-target="link_2_url" data-preview-scope="homevalue" data-preview-attr="href" data-preview-default="/diensten/timmerwerk/"><span data-preview-target="link_2_label" data-preview-scope="homevalue" data-preview-default="Timmerwerk &amp; Interieur">{{ block.link_2_label|default:'Timmerwerk & Interieur' }}</span></a></li>
+                                    <li><a href="{{ block.link_3_url|default:'/diensten/badkamer-renovatie/' }}" data-preview-target="link_3_url" data-preview-scope="homevalue" data-preview-attr="href" data-preview-default="/diensten/badkamer-renovatie/"><span data-preview-target="link_3_label" data-preview-scope="homevalue" data-preview-default="Badkamerrenovatie &amp; Buitenwerk">{{ block.link_3_label|default:'Badkamerrenovatie & Buitenwerk' }}</span></a></li>
                                 </ul>
                             </div>
                         </div>
+                        {% endwith %}
                         <div class="empty50"></div>
                     </div>
                     <div class="author-info author-info-v2 p-t20"></div>
@@ -406,12 +423,16 @@
             <div class="overlay-main bg-black opacity-07"></div>
             <div class="container">
                 <div class="section-content">
-                    <div class="call-us-section text-center text-white">
+                    <div class="call-us-section text-center text-white{% if request.GET.preview and SITE_SETTINGS %} admin-preview-target{% endif %}"{% if request.GET.preview and SITE_SETTINGS %} data-admin-url="{% url 'admin:core_sitesettings_change' SITE_SETTINGS.pk %}?next={{ request.GET.admin_return|default:'/admin/tools/home-preview/'|urlencode }}"{% endif %}>
+                        {% if request.GET.preview and SITE_SETTINGS %}
+                        <button type="button" class="admin-preview-hit" data-preview-app="core" data-preview-model="sitesettings" data-preview-id="{{ SITE_SETTINGS.pk }}">
+                            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zm14.71-9.04a.996.996 0 0 0 0-1.41l-2.54-2.54a.996.996 0 1 0-1.41 1.41l2.54 2.54c.39.39 1.02.39 1.41 0z"></path></svg> Bewerk contactgegevens
+                        </button>
+                        {% endif %}
                         <h4 class="m-b15">Laten we samenwerken</h4>
                         <h2 class="call-us-number m-b15 m-b0">
-                            <a href="https://wa.me/31687111289" target="_blank" class="site-button btn-effect"
-                                rel="noopener">
-                                06-8 711 1289
+                            <a href="{{ SITE_SETTINGS_WA_URL }}" target="_blank" class="site-button btn-effect" rel="noopener">
+                                {{ SITE_SETTINGS_PHONE_DISPLAY }}
                             </a>
                         </h2>
                         <h4 class="call-us-address m-t0 m-b20">Witte de Withstraat 28, 4671 AP Dinteloord</h4>

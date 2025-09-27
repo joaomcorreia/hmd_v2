@@ -5,9 +5,22 @@ from django.core.mail import send_mail
 from django.http import Http404
 from django.shortcuts import render, redirect
 from django.templatetags.static import static
+from django.urls import reverse
 
 from .forms import ContactForm
-from .models import Slide, PortfolioItem, SiteSettings, ContactSubmission
+from .models import (
+    Slide,
+    HomeAboutPanel,
+    HomeValueBlock,
+    HomeCarouselItem,
+    AboutHero,
+    AboutCarouselItem,
+    AboutCompanyBlock,
+    AboutProcessStep,
+    PortfolioItem,
+    SiteSettings,
+    ContactSubmission,
+)
 
 
 # -------- helpers --------
@@ -22,6 +35,10 @@ def _contact_to_email() -> str:
 # -------- pages --------
 def index(request):
     slides = Slide.objects.filter(is_active=True)
+    carousel_items = HomeCarouselItem.objects.all()
+    value_block = HomeValueBlock.objects.first()
+    about_panel = HomeAboutPanel.objects.first()
+    about_url = reverse("over-ons")
     meta = {
         "title": "Home | HMD Klusbedrijf",
         "description": "Betrouwbaar klusbedrijf voor renovatie, onderhoud en reparaties in Dinteloord en omgeving.",
@@ -30,10 +47,21 @@ def index(request):
         "image_abs": _abs_static(request, "img/og-default.jpg"),
         "robots": "index,follow",
     }
-    return render(request, "index.html", {"slides": slides, "meta": meta})
+    return render(request, "index.html", {
+        "slides": slides,
+        "carousel_items": carousel_items,
+        "value_block": value_block,
+        "about_panel": about_panel,
+        "about_url": about_url,
+        "meta": meta,
+    })
 
 
 def over_ons(request):
+    hero = AboutHero.objects.first()
+    about_carousel = AboutCarouselItem.objects.all()
+    company_block = AboutCompanyBlock.objects.first()
+    process_steps = AboutProcessStep.objects.all()
     meta = {
         "title": "Over Ons | HMD Klusbedrijf",
         "description": "Ontdek HMD Klusbedrijf: 25 jaar vakmanschap in schilderwerk, vloeren, keukens en stukwerk. Betrouwbare service in Dinteloord en omgeving.",
@@ -42,7 +70,13 @@ def over_ons(request):
         "image_abs": _abs_static(request, "img/og-default.jpg"),
         "robots": "index,follow",
     }
-    return render(request, "over-ons.html", {"meta": meta})
+    return render(request, "over-ons.html", {
+        "meta": meta,
+        "hero": hero,
+        "about_carousel": about_carousel,
+        "company_block": company_block,
+        "process_steps": process_steps,
+    })
 
 
 def diensten(request):

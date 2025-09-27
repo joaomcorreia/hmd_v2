@@ -1,0 +1,236 @@
+{% extends "admin/base_site.html" %}
+{% load static %}
+
+{% block extrastyle %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'css/admin_main_styles.css' %}">
+{% endblock %}
+
+{% block content %}
+
+
+{% block sidebar %}
+{% include "admin/sidebar.html" %}
+{% endblock %}
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        background: #f5f7fa;
+    }
+
+    .navbar {
+        display: flex;
+        gap: 20px;
+        background: #222;
+        color: #fff;
+        padding: 1em;
+    }
+
+    .navbar button {
+        background: none;
+        border: none;
+        color: #fff;
+        font-size: 1em;
+        cursor: pointer;
+        padding: 0.5em 1em;
+        border-radius: 5px;
+    }
+
+    .navbar button.active {
+        background: #f0ad4e;
+        color: #222;
+    }
+
+    .container {
+        max-width: 900px;
+        margin: 2em auto;
+        display: flex;
+        gap: 3em;
+    }
+
+    .inputs {
+        flex: 1;
+        background: #fff;
+        padding: 2em;
+        border-radius: 10px;
+        box-shadow: 0 1px 6px #ddd;
+    }
+
+    .inputs h2 {
+        margin-top: 0;
+    }
+
+    .inputs label {
+        display: block;
+        margin-top: 1em;
+        font-size: 0.9em;
+        color: #444;
+    }
+
+    .inputs input {
+        width: 100%;
+        padding: 0.5em;
+        margin-top: 0.3em;
+        border: 1px solid #bbb;
+        border-radius: 5px;
+    }
+
+    .preview-area {
+        flex: 1.2;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .business-card {
+        width: 370px;
+        height: 210px;
+        background: linear-gradient(135deg, #fff 80%, #f0ad4e 100%);
+        border-radius: 15px;
+        box-shadow: 0 4px 20px #bbb8;
+        padding: 2em 1.5em;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        font-family: 'Segoe UI', Arial, sans-serif;
+    }
+
+    .card-logo {
+        width: 50px;
+        height: 50px;
+        background: #f0ad4e;
+        border-radius: 50%;
+        margin-bottom: 1em;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2em;
+        color: #fff;
+    }
+
+    .card-name {
+        font-size: 1.3em;
+        font-weight: 600;
+        color: #2c2c2c;
+    }
+
+    .card-title {
+        font-size: 1em;
+        color: #888;
+    }
+
+    .card-contact {
+        margin-top: 1.3em;
+        font-size: 1em;
+        color: #4c4c4c;
+    }
+
+    .hidden {
+        display: none;
+    }
+</style>
+</head>
+
+<body>
+    <div class="navbar">
+        <button id="tab-businesscard" class="active">Business Card</button>
+        <button id="tab-website">Website</button>
+        <button id="tab-trifold">Trifold</button>
+    </div>
+
+    <!-- BUSINESS CARD SECTION -->
+    <div id="businesscard-section" class="container">
+        <form class="inputs" autocomplete="off" onsubmit="return false;">
+            <h2>Business Card Info</h2>
+            <label>Name
+                <input type="text" id="input-name" placeholder="Jane Doe" value="Jane Doe" />
+            </label>
+            <label>Title/Function
+                <input type="text" id="input-title" placeholder="Web Developer" value="Web Developer" />
+            </label>
+            <label>Phone
+                <input type="text" id="input-phone" placeholder="+31 6 1234 5678" value="+31 6 1234 5678" />
+            </label>
+            <label>Email
+                <input type="text" id="input-email" placeholder="jane@email.com" value="jane@email.com" />
+            </label>
+            <label>Company Name
+                <input type="text" id="input-company" placeholder="Just Code Works" value="Just Code Works" />
+            </label>
+        </form>
+        <div class="preview-area">
+            <div class="business-card">
+                <div class="card-logo" id="card-logo">JC</div>
+                <div class="card-name" id="card-name">Jane Doe</div>
+                <div class="card-title" id="card-title">Web Developer</div>
+                <div class="card-contact" id="card-company">Just Code Works</div>
+                <div class="card-contact" id="card-phone">+31 6 1234 5678</div>
+                <div class="card-contact" id="card-email">jane@email.com</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- WEBSITE & TRIFOLD PLACEHOLDERS (hidden for now) -->
+    <div id="website-section" class="container hidden">
+        <div class="inputs">
+            <h2>Website Preview Coming Soon!</h2>
+        </div>
+        <div class="preview-area">
+            <div
+                style="width: 350px; height: 200px; background: #eee; border-radius: 15px; box-shadow: 0 2px 8px #ccc; display: flex; align-items: center; justify-content: center; color: #888; font-size: 1.2em;">
+                Website preview will be here.
+            </div>
+        </div>
+    </div>
+    <div id="trifold-section" class="container hidden">
+        <div class="inputs">
+            <h2>Trifold Preview Coming Soon!</h2>
+        </div>
+        <div class="preview-area">
+            <div
+                style="width: 370px; height: 210px; background: #eee; border-radius: 15px; box-shadow: 0 2px 8px #ccc; display: flex; align-items: center; justify-content: center; color: #888; font-size: 1.2em;">
+                Trifold preview will be here.
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Tab switching
+        const tabs = [
+            { btn: 'tab-businesscard', section: 'businesscard-section' },
+            { btn: 'tab-website', section: 'website-section' },
+            { btn: 'tab-trifold', section: 'trifold-section' }
+        ];
+        tabs.forEach(({ btn, section }) => {
+            document.getElementById(btn).onclick = () => {
+                tabs.forEach(({ btn: b, section: s }) => {
+                    document.getElementById(b).classList.toggle('active', b === btn);
+                    document.getElementById(s).classList.toggle('hidden', s !== section);
+                });
+            };
+        });
+
+        // Business Card live update
+        function updateCard() {
+            document.getElementById('card-name').textContent = document.getElementById('input-name').value;
+            document.getElementById('card-title').textContent = document.getElementById('input-title').value;
+            document.getElementById('card-phone').textContent = document.getElementById('input-phone').value;
+            document.getElementById('card-email').textContent = document.getElementById('input-email').value;
+            document.getElementById('card-company').textContent = document.getElementById('input-company').value;
+
+            // Logo = company initials
+            const company = document.getElementById('input-company').value || '';
+            const initials = company.split(' ')
+                .filter(w => w.length > 0)
+                .map(w => w[0].toUpperCase())
+                .slice(0, 2)
+                .join('');
+            document.getElementById('card-logo').textContent = initials || 'JC';
+        }
+        ['input-name', 'input-title', 'input-phone', 'input-email', 'input-company']
+            .forEach(id => document.getElementById(id).addEventListener('input', updateCard));
+        // Initial
+        updateCard();
+    </script>

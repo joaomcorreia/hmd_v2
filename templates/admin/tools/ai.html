@@ -1,0 +1,332 @@
+{% extends "admin/base_site.html" %}
+{% load static %}
+
+{% block extrastyle %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'css/admin_main_styles.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="admin-sidebar">
+    <div class="module">
+        <h2>SUSBSCRIPTIONS</h2>
+        <ul class="actionlist">
+            <li><a href="{% url 'admin-tool' 'overview' %}">Overview</a></li>
+            <li><a href="{% url 'admin-tool' 'domain-name' %}">Domain Name</a></li>
+            <li><a href="{% url 'admin-tool' 'hosting' %}">Hosting</a></li>
+            <li><a href="{% url 'admin-tool' 'website' %}">Website</a></li>
+            <li><a href="{% url 'admin-tool' 'seo' %}">SEO</a></li>
+            <li><a href="{% url 'admin-tool' 'social-networks' %}">Social Networks</a></li>
+        </ul>
+        <h2>GOOGLE</h2>
+        <ul class="actionlist">
+            <li><a href="{% url 'admin-tool' 'all_settings' %}">Overview</a></li>
+        </ul>
+        <h2>FACEBOOK</h2>
+        <ul class="actionlist">
+            <li><a href="{% url 'admin-tool' 'all_settings' %}">Overview</a></li>
+        </ul>
+        <h2>USERS</h2>
+        <ul class="actionlist">
+            <li><a href="{% url 'admin-tool' 'all_settings' %}">Overview</a></li>
+        </ul>
+        <h2>SETTINGS</h2>
+        <ul class="actionlist">
+            <li><a href="{% url 'admin-tool' 'all_settings' %}">Overview</a></li>
+        </ul>
+    </div>
+</div>
+<!-- AI Features Pricing Table | JCW Admin -->
+<!-- AI Plans with Legend | JCW Admin -->
+<style>
+    .pricing-wrap {
+        font-family: system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
+        color: #111;
+        line-height: 1.45
+    }
+
+    .legend {
+        background: #f8fafc;
+        border: 1px solid #e5e7eb;
+        border-radius: 10px;
+        padding: 14px 16px;
+        margin: 0 0 14px
+    }
+
+    .legend h3 {
+        font-size: 16px;
+        margin: 0 0 8px
+    }
+
+    .legend ul {
+        margin: 0;
+        padding-left: 18px
+    }
+
+    .legend li {
+        margin: 6px 0
+    }
+
+    .legend .note {
+        font-size: 12px;
+        color: #6b7280;
+        margin-top: 8px
+    }
+
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 14px
+    }
+
+    .table caption {
+        text-align: left;
+        font-weight: 600;
+        margin: 0 0 8px
+    }
+
+    .table th,
+    .table td {
+        border: 1px solid #e5e7eb;
+        padding: 10px 12px;
+        vertical-align: top
+    }
+
+    .table thead th {
+        background: #f1f5f9;
+        font-weight: 700;
+        text-align: left
+    }
+
+    .plan-col {
+        min-width: 190px
+    }
+
+    .feature-col {
+        width: 28%
+    }
+
+    .price {
+        font-size: 18px;
+        font-weight: 800
+    }
+
+    .muted {
+        color: #6b7280
+    }
+
+    .badge {
+        display: inline-block;
+        font-size: 12px;
+        padding: 2px 8px;
+        border-radius: 999px;
+        background: #eef2ff;
+        color: #3730a3;
+        margin-left: 6px
+    }
+
+    @media (max-width: 900px) {
+        .table {
+            font-size: 13px
+        }
+
+        .feature-col {
+            width: auto
+        }
+    }
+</style>
+
+<div class="pricing-wrap">
+
+    <!-- LEGEND / EXPLANATION -->
+    <div class="legend">
+        <h3>How pricing works and why it’s monthly</h3>
+        <ul>
+            <li><strong>One-time setup</strong>: initial SEO structure (titles, meta, JSON-LD, sitemap). Done once.</li>
+            <li><strong>Ongoing improvements</strong>: search rewards freshness. We rotate and expand content so you
+                don’t slide down.</li>
+            <li><strong>AI automation</strong>: per plan we auto-refresh metadata, FAQs, and JSON-LD on a schedule.</li>
+            <li><strong>Review mode</strong>: choose auto-publish or “draft for approval” inside the admin.</li>
+            <li><strong>What you’re paying monthly</strong>: scheduled AI updates, location/service expansion, logs, and
+                crawl pings.</li>
+        </ul>
+        <div class="note">Result: SEO is not “set once.” It stays alive and competitive with automated updates.</div>
+    </div>
+
+    <!-- TABLE -->
+    <table class="table">
+        <caption>AI Features — Plans, Limits, and Automation</caption>
+        <thead>
+            <tr>
+                <th class="feature-col">Feature</th>
+
+                <!-- UPDATED PLAN NAMES -->
+                <th class="plan-col">Starter — “AI Assist Lite” <div class="muted price">€0/mo</div>
+                </th>
+                <th class="plan-col">Local — “Radius Automation” <div class="muted price">€39/mo</div>
+                </th>
+                <th class="plan-col">Pro — “Locations + Services” <div class="muted price">€129/mo</div>
+                </th>
+                <th class="plan-col">Enterprise — “Custom + SLA” <div class="muted price">€249+/mo</div>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Intended user</td>
+                <td>Any website, starter</td>
+                <td>Local business in 1 area</td>
+                <td>Multi-city or multi-service business</td>
+                <td>Agencies, franchises</td>
+            </tr>
+            <tr>
+                <td>AI assistant in site</td>
+                <td>Basic Q&amp;A</td>
+                <td>Trained on your pages</td>
+                <td>Trained + service/location intents</td>
+                <td>Custom knowledge + embeddings</td>
+            </tr>
+            <tr>
+                <td>Edit JSON-LD (SEO)</td>
+                <td>View only</td>
+                <td>Edit core fields + business hours</td>
+                <td>Full editor incl. services, areas served, FAQs, breadcrumbs</td>
+                <td>Custom schemas and validators</td>
+            </tr>
+            <tr>
+                <td>Locations targeting</td>
+                <td>Fixed to business city</td>
+                <td>Choose radius (5–50 km) with auto-city picks</td>
+                <td>Choose exact cities/ZIPs; mix radius + manual list</td>
+                <td>Unlimited, bulk import</td>
+            </tr>
+            <tr>
+                <td>Max locations</td>
+                <td>1</td>
+                <td>Up to 15</td>
+                <td>Up to 60 <span class="muted">(add-ons available)</span></td>
+                <td>Unlimited</td>
+            </tr>
+            <tr>
+                <td>Services targeting</td>
+                <td>Fixed list, read-only</td>
+                <td>Toggle predefined services</td>
+                <td>Add/remove services, custom slugs, per-service SEO</td>
+                <td>Unlimited + templates</td>
+            </tr>
+            <tr>
+                <td>Per-service pages</td>
+                <td>Auto basic</td>
+                <td>Auto + editable H1/title/desc</td>
+                <td>Full control + per-service JSON-LD and FAQs</td>
+                <td>Bulk ops + rules</td>
+            </tr>
+            <tr>
+                <td>Content generation</td>
+                <td>3 prompts/day</td>
+                <td>100 prompts/month</td>
+                <td>500 prompts/month + bulk generator</td>
+                <td>Custom limits + fine-tuned models</td>
+            </tr>
+            <tr>
+                <td>Multilingual</td>
+                <td>1 language</td>
+                <td>2 languages</td>
+                <td>5 languages</td>
+                <td>Unlimited + glossary</td>
+            </tr>
+            <tr>
+                <td>Image generation</td>
+                <td>No</td>
+                <td>10 images/month</td>
+                <td>50 images/month + edits</td>
+                <td>High-res + brand presets</td>
+            </tr>
+            <tr>
+                <td>Keyword assistant</td>
+                <td>Suggestions only</td>
+                <td>Local keywords by radius</td>
+                <td>City+service long-tails, negative list, export</td>
+                <td>API access + bulk</td>
+            </tr>
+            <tr>
+                <td>Location selector UI</td>
+                <td>Disabled</td>
+                <td>Map slider + radius chips</td>
+                <td>Map picker + city search + saved sets</td>
+                <td>Team presets + locks</td>
+            </tr>
+            <tr>
+                <td><strong>Automation cadence</strong></td>
+                <td>—</td>
+                <td><strong>Weekly</strong> meta &amp; snippets</td>
+                <td><strong>Weekly</strong> meta + <strong>monthly</strong> pages/FAQs/JSON-LD</td>
+                <td>Custom schedules</td>
+            </tr>
+            <tr>
+                <td>Publish mode</td>
+                <td>Manual only</td>
+                <td>Auto-publish or approval queue</td>
+                <td>Auto-publish or approval per section</td>
+                <td>Workflow with roles</td>
+            </tr>
+            <tr>
+                <td>A/B testing</td>
+                <td>—</td>
+                <td>Titles/descriptions</td>
+                <td>Titles, H1, CTAs, hero copy</td>
+                <td>Multi-variant + stats API</td>
+            </tr>
+            <tr>
+                <td>Audit &amp; logs</td>
+                <td>Basic usage count</td>
+                <td>Prompt history + diffs</td>
+                <td>Full audit trail + rollbacks</td>
+                <td>Export + retention policy</td>
+            </tr>
+            <tr>
+                <td>Integrations</td>
+                <td>—</td>
+                <td>Google Business Profile sync</td>
+                <td>GBP + sitemap auto-pings + webhook out</td>
+                <td>Custom integrations + SSO</td>
+            </tr>
+            <tr>
+                <td>Rate limits</td>
+                <td>10 req/day</td>
+                <td>500 req/month</td>
+                <td>2,500 req/month <span class="muted">(burst safe)</span></td>
+                <td>Custom</td>
+            </tr>
+            <tr>
+                <td>Review assistant</td>
+                <td>—</td>
+                <td>Reply templates</td>
+                <td>Tone-aware replies + auto-translate</td>
+                <td>Bulk moderation + rules</td>
+            </tr>
+            <tr>
+                <td>Support</td>
+                <td>Community docs</td>
+                <td>Email support</td>
+                <td>Priority email + chat</td>
+                <td>SLA</td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td>Notes</td>
+                <td colspan="4">
+                    Add-ons: +50 locations pack, +500 prompts, extra languages, image packs <span class="badge">coming
+                        soon</span>.
+                    Prices are placeholders pending market validation.
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+
+
+
+{% endblock %}

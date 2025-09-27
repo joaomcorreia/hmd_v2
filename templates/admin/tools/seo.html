@@ -4,12 +4,205 @@
 {% block extrastyle %}
 {{ block.super }}
 <link rel="stylesheet" href="{% static 'css/admin_main_styles.css' %}">
+<!-- SEO Pricing | 3 monthly plans + 1 one-off -->
+<style>
+    :root {
+        --primary: #38b6ff;
+        /* change later */
+        --primary-600: #0ea5e9;
+        --text: #111827;
+        --muted: #6b7280;
+        --border: #e5e7eb;
+        --bg: #ffffff;
+        --row: #f8fafc;
+    }
+
+    .seo-pricing {
+        font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+        color: var(--text)
+    }
+
+    .seo-pricing .legend {
+        background: var(--row);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 14px 16px;
+        margin: 0 0 16px
+    }
+
+    .seo-pricing .legend h3 {
+        font-size: 16px;
+        margin: 0 0 6px
+    }
+
+    .seo-pricing .legend p {
+        margin: 6px 0;
+        color: var(--muted);
+        font-size: 13px
+    }
+
+    .pricing-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 18px
+    }
+
+    @media (max-width:1100px) {
+        .pricing-grid {
+            grid-template-columns: repeat(2, 1fr)
+        }
+    }
+
+    @media (max-width:640px) {
+        .pricing-grid {
+            grid-template-columns: 1fr
+        }
+    }
+
+    .plan {
+        background: var(--bg);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column
+    }
+
+    .plan header {
+        padding: 18px 18px 10px;
+        text-align: center;
+        background: #fff
+    }
+
+    .plan .title {
+        font-size: 22px;
+        font-weight: 700;
+        color: #3b82f6
+    }
+
+    .plan .subtitle {
+        font-size: 13px;
+        color: var(--muted);
+        margin-top: 4px
+    }
+
+    .plan .price {
+        font-size: 28px;
+        font-weight: 800;
+        margin: 10px 0 4px
+    }
+
+    .plan .period {
+        font-size: 12px;
+        color: var(--muted)
+    }
+
+    .plan .ribbon {
+        position: relative
+    }
+
+    .plan .ribbon span {
+        position: absolute;
+        left: 50%;
+        top: -10px;
+        transform: translateX(-50%);
+        background: #ef4444;
+        color: #fff;
+        font-weight: 700;
+        font-size: 12px;
+        padding: 4px 10px;
+        border-radius: 999px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, .08)
+    }
+
+    .plan .features {
+        border-top: 1px solid var(--border);
+        padding: 10px;
+        background: #fff
+    }
+
+    .plan .row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-top: 1px solid var(--border);
+        padding: 12px 10px;
+        background: #fff
+    }
+
+    .plan .row:nth-child(odd) {
+        background: var(--row)
+    }
+
+    .plan .row span {
+        font-size: 13px
+    }
+
+    .plan .row .dash {
+        color: #cbd5e1
+    }
+
+    .plan .cta {
+        padding: 16px;
+        background: #fff;
+        border-top: 1px solid var(--border)
+    }
+
+    .plan .btn {
+        display: block;
+        width: 100%;
+        text-align: center;
+        padding: 12px 14px;
+        border-radius: 10px;
+        background: var(--primary);
+        color: #fff;
+        font-weight: 800;
+        text-decoration: none
+    }
+
+    .plan .btn:hover {
+        background: var(--primary-600)
+    }
+
+    .plan.active {
+        border-width: 2px;
+        border-color: #93c5fd;
+        box-shadow: 0 10px 22px rgba(59, 130, 246, .15)
+    }
+
+    .plan.active header {
+        background: #f0f7ff
+    }
+
+    .plan.active .title {
+        color: #2563eb
+    }
+
+    .plan.oneoff .period {
+        display: none
+    }
+
+    .plan.oneoff .subtitle {
+        color: #111
+    }
+
+    .small {
+        font-size: 12px;
+        color: var(--muted);
+        margin-top: 8px;
+        text-align: center
+    }
+</style>
 {% endblock %}
 
 {% block content %}
 
 <div class="admin-sidebar">
     <div class="module">
+        <h2>EDIT WEBSITE</h2>
+        <ul class="actionlist">
+            <li><a href="{% url 'admin-tool' 'home-preview' %}">Edit Website</a></li>
+        </ul>
         <h2>SUSBSCRIPTIONS</h2>
         <ul class="actionlist">
             <li><a href="{% url 'admin-tool' 'overview' %}">Overview</a></li>
@@ -37,102 +230,97 @@
         </ul>
     </div>
 </div>
-<table class="seo-plans" aria-label="SEO plan vergelijking">
-    <thead>
-        <tr>
-            <th>Feature</th>
-            <th>Starter (Local)</th>
-            <th class="active-col">Growth (Regional) <span class="pill">Active</span></th>
-            <th>Pro (EU-wide)</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>Target area</td>
-            <td>1 city/municipality</td>
-            <td>Multi-city binnen ±50 km</td>
-            <td>27-EU dekking (land + grote steden)</td>
-        </tr>
-        <tr>
-            <td>Services covered</td>
-            <td>tot 8 servicepagina’s</td>
-            <td>tot 20 servicepagina’s</td>
-            <td>30+ services (gefaseerd)</td>
-        </tr>
-        <tr>
-            <td>Locations targeted</td>
-            <td>1–3 lokale gebieden</td>
-            <td>10–25 steden/dorpen in 50 km</td>
-            <td>Landpagina’s per EU-land + 10–20 steden/maand</td>
-        </tr>
-        <tr>
-            <td>Languages</td>
-            <td>1</td>
-            <td>1 (optie +1)</td>
-            <td>5–10 talen met <code>hreflang</code></td>
-        </tr>
-        <tr>
-            <td>On-page content</td>
-            <td>Titels, meta’s, H1–H3, 300–500 woorden/service</td>
-            <td>Titels, meta’s, H1–H3, 500–800 woorden/service + unieke stadsintro’s</td>
-            <td>800–1200 woorden/service + land/stad landingscontent</td>
-        </tr>
-        <tr>
-            <td>Structured data (JSON-LD)</td>
-            <td><code>LocalBusiness</code>, <code>Service</code>, <code>BreadcrumbList</code></td>
-            <td>LocalBusiness + Service per pagina + <code>areaServed</code></td>
-            <td>Organization + multi-locale LocalBusiness, Service per locale, <code>Offer</code>, hreflang-alternates
-            </td>
-        </tr>
-        <tr>
-            <td>Technical SEO</td>
-            <td>Sitemap, robots, canonical, image alt, basis CWV</td>
-            <td>Starter + schema-validatie, intern-linkplan, 404/redirect audit</td>
-            <td>Growth + multi-locale sitemaps, subfolder/subdomain strategie, crawl-budget tuning</td>
-        </tr>
-        <tr>
-            <td>Local SEO</td>
-            <td>GBP setup/optimalisatie (1 listing)</td>
-            <td>GBP optimalisatie + posts & Q&amp;A; NL-citations</td>
-            <td>GBP voor verifieerbare locaties; pan-EU citations indien mogelijk</td>
-        </tr>
-        <tr>
-            <td>Content per maand</td>
-            <td>1 blog/artikel</td>
-            <td>2–3 blogs + 2–4 locatiepagina’s</td>
-            <td>4–8 blogs + 10–20 stadspagina’s (gefaseerd)</td>
-        </tr>
-        <tr>
-            <td>Link acquisition</td>
-            <td>5–10 lokale citations</td>
-            <td>15–30 citations + outreach lokale directories</td>
-            <td>Authority outreach EU-verticals; digital PR (targets afgesproken)</td>
-        </tr>
-        <tr>
-            <td>Keyword tracking</td>
-            <td>tot 50 termen</td>
-            <td>tot 200 termen</td>
-            <td>tot 1.000 termen (per land/taal segment)</td>
-        </tr>
-        <tr>
-            <td>Reporting</td>
-            <td>Maandelijkse samenvatting</td>
-            <td>Maandrapport + acties</td>
-            <td>Wekelijkse KPI-snapshot + maandelijkse deep-dive</td>
-        </tr>
-        <tr>
-            <td>Setup window</td>
-            <td>2 weken</td>
-            <td>3–5 weken</td>
-            <td>6–12 weken gefaseerd (land-waves)</td>
-        </tr>
-        <tr>
-            <td>Maintenance</td>
-            <td>Per kwartaal bijsturen</td>
-            <td>Maandelijks bijsturen</td>
-            <td>Doorlopend optimaliseren</td>
-        </tr>
-    </tbody>
-</table>
+<div class="seo-pricing">
+
+    <!-- Legend -->
+    <div class="legend">
+        <h3>Why monthly plans exist</h3>
+        <p><strong>One-time setup</strong> covers the base SEO. <strong>Monthly plans</strong> keep rankings alive with
+            scheduled AI updates, new content,
+            per-service/location tweaks, and crawl pings. Choose one-off if you only want the initial fix.</p>
+    </div>
+
+    <!-- Pricing cards -->
+    <div class="pricing-grid">
+
+        <!-- Basic -->
+        <section class="plan">
+            <header>
+                <div class="title">Basic</div>
+                <div class="subtitle">Starter on-page SEO</div>
+                <div class="price">€39</div>
+                <div class="period">per month</div>
+            </header>
+            <div class="features">
+                <div class="row"><span>Titles & meta for core pages</span></div>
+                <div class="row"><span>Core JSON-LD (Org/Local)</span></div>
+                <div class="row"><span>Optimize up to 5 pages</span></div>
+                <div class="row"><span>XML sitemap + crawl ping</span></div>
+                <div class="row"><span>AI updates</span><span class="dash">—</span></div>
+                <div class="row"><span>Reports</span><span class="dash">—</span></div>
+            </div>
+            <div class="cta"><a href="#" class="btn">Choose Basic</a></div>
+        </section>
+
+        <!-- Growth (Active) -->
+        <section class="plan active">
+            <header class="ribbon">
+                <div class="title">Growth</div>
+                <div class="subtitle">Local services + radius</div>
+                <div class="price">€89</div>
+                <div class="period">per month</div>
+                <span>Your plan</span>
+            </header>
+            <div class="features">
+                <div class="row"><span>Everything in Basic</span></div>
+                <div class="row"><span>Up to 20 service pages</span></div>
+                <div class="row"><span>Locations: radius ≤ 50 km</span></div>
+                <div class="row"><span>Per-service JSON-LD</span></div>
+                <div class="row"><span>AI meta refresh</span><span>weekly</span></div>
+                <div class="row"><span>Monthly report</span><span>included</span></div>
+            </div>
+            <div class="cta"><a href="#" class="btn">Choose Growth</a></div>
+        </section>
+
+        <!-- Pro EU -->
+        <section class="plan">
+            <header>
+                <div class="title">Pro EU</div>
+                <div class="subtitle">Multi-city & multilingual</div>
+                <div class="price">€199</div>
+                <div class="period">per month</div>
+            </header>
+            <div class="features">
+                <div class="row"><span>Everything in Growth</span></div>
+                <div class="row"><span>60+ locations or custom list</span></div>
+                <div class="row"><span>5 languages supported</span></div>
+                <div class="row"><span>AI pages/FAQs/JSON-LD</span><span>monthly</span></div>
+                <div class="row"><span>A/B test titles & H1</span></div>
+                <div class="row"><span>GBP sync + sitemap auto-pings</span></div>
+            </div>
+            <div class="cta"><a href="#" class="btn">Choose Pro EU</a></div>
+        </section>
+
+        <!-- One-Off Jumpstart -->
+        <section class="plan oneoff">
+            <header>
+                <div class="title">One-Off Jumpstart</div>
+                <div class="subtitle">Audit + fix + 5 pages</div>
+                <div class="price">€349</div>
+            </header>
+            <div class="features">
+                <div class="row"><span>Technical audit + fixes</span></div>
+                <div class="row"><span>Titles, metas, H1, canonicals</span></div>
+                <div class="row"><span>Core JSON-LD (Org/Local)</span></div>
+                <div class="row"><span>Optimize up to 5 pages</span></div>
+                <div class="row"><span>XML sitemap submit + ping</span></div>
+                <div class="row"><span>Warranty</span><span>14-day tweaks</span></div>
+            </div>
+            <div class="cta"><a href="#" class="btn">Book One-Off</a></div>
+            <div class="small">No ongoing AI updates or reports.</div>
+        </section>
+
+    </div>
+</div>
 
 {% endblock %}

@@ -1,0 +1,8 @@
+db.sqlite3
+media/home-carousel/
+__pycache__/
+preview_output.html
+media/home-value/
+media/about-hero/
+media/about-carousel/
+media/about-process/
