@@ -6,6 +6,7 @@ from django.http import Http404
 from django.shortcuts import render, redirect
 from django.templatetags.static import static
 from django.urls import reverse
+from django.contrib.admin.views.decorators import staff_member_required
 
 from .forms import ContactForm
 from .models import (
@@ -110,6 +111,9 @@ def portfolio(request):
         "meta": meta,
     })
 
+@staff_member_required
+def cards_and_brochures_view(request):
+    return render(request, "admin/cards_and_brochures.html")
 
 def contact(request):
     if request.method == "POST":
