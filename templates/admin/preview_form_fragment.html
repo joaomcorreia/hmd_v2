@@ -118,7 +118,23 @@
     </a>
   </div>
 </div>
-{% elif opts.model_name == "aboutprocessstep" %}
+{% elif opts.model_name == "aboutbenefit" %}
+<div class="preview-about-benefit-wrapper" data-preview-scope="aboutbenefit-{{ obj.pk }}">
+  <div class="preview-about-benefit-card">
+    <div class="preview-about-benefit-media">
+      {% if obj.image %}
+      <img src="{{ obj.image.url }}" alt="{{ obj.image_alt }}" data-preview-target="image" data-preview-scope="aboutbenefit-{{ obj.pk }}" data-preview-attr="src" data-preview-alt-target="image_alt" data-preview-default="{{ obj.image.url }}">
+      {% else %}
+      <div class="preview-about-benefit-placeholder">Upload een afbeelding</div>
+      {% endif %}
+    </div>
+    <div class="preview-about-benefit-body">
+      <h4 class="preview-about-benefit-title" data-preview-target="title" data-preview-scope="aboutbenefit-{{ obj.pk }}" data-preview-default="{{ obj.title }}">{{ obj.title }}</h4>
+      <h5 class="preview-about-benefit-subtitle" data-preview-target="subtitle" data-preview-scope="aboutbenefit-{{ obj.pk }}" data-preview-default="{{ obj.subtitle }}">{{ obj.subtitle }}</h5>
+      <p class="preview-about-benefit-text" data-preview-target="description" data-preview-scope="aboutbenefit-{{ obj.pk }}" data-preview-default="{{ obj.description }}">{{ obj.description }}</p>
+    </div>
+  </div>
+</div>{% elif opts.model_name == "aboutprocessstep" %}
 <div class="preview-about-process-wrapper" data-preview-scope="aboutprocess-{{ obj.pk }}">
   <div class="preview-about-process-card">
     <div class="preview-about-process-media">
@@ -173,5 +189,6 @@
 </div>
 {% endif %}
 {% endwith %}
+
 
 

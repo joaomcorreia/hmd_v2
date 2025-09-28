@@ -1,0 +1,5 @@
+Upcoming tasks:
+- Over-ons admin slider preview still shows only one image; frontend carousel works, backend preview must mirror same design/rotation.
+- Seed AboutBenefit records (and other about-page content blocks) so edit buttons appear with real data.
+- Extend inline editing pattern to the remaining diensten pages per plan.
+- Clean up snapshot_files.txt or add it to .gitignore to keep git status tidy.

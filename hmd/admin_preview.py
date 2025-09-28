@@ -48,6 +48,10 @@ def _extra_context(model, instance):
         extra = {
             "primary_fields": ["years_number", "years_label", "heading", "body", "cta_label", "cta_url"],
         }
+    elif model._meta.model_name == "aboutbenefit":
+        extra = {
+            "primary_fields": ["order", "title", "subtitle", "description", "image", "image_alt"],
+        }
     elif model._meta.model_name == "aboutprocessstep":
         extra = {
             "primary_fields": ["order", "step_title", "heading", "description", "image"],
@@ -106,3 +110,7 @@ def preview_edit(request, app_label, model_name, pk):
 
     html = render_fragment(form)
     return JsonResponse({"html": html})
+
+
+
+

@@ -499,6 +499,107 @@
     wire('cta_url', 'href');
   }
 
+  function bindAboutBenefitPreview(form) {
+    if (form.dataset.previewModel !== 'aboutbenefit') {
+      return;
+    }
+    var scope = form.dataset.previewScope || '';
+    if (!scope) {
+      return;
+    }
+    var wrapper = document.querySelector('.preview-about-benefit-wrapper[data-preview-scope="' + scope + '"]');
+    var targets = collectPreviewTargets(scope, wrapper);
+    if (!Object.keys(targets).length) {
+      return;
+    }
+
+    function apply(key, raw, attr) {
+      var nodes = targets[key] || [];
+      var value = '';
+      if (typeof raw === 'string') {
+        value = raw.trim();
+      } else if (raw != null) {
+        value = String(raw);
+      }
+      nodes.forEach(function (el) {
+        var fallback = el.dataset.previewDefault || '';
+        var attribute = attr || el.dataset.previewAttr;
+        var finalValue = value || fallback;
+        if (attribute) {
+          if (!finalValue) {
+            finalValue = fallback || '';
+          }
+          el.setAttribute(attribute, finalValue);
+        } else {
+          el.textContent = finalValue || fallback;
+        }
+      });
+    }
+
+    function wire(name, attr) {
+      var field = form.querySelector('[name="' + name + '"]');
+      if (!field) {
+        return;
+      }
+      var handler = function () {
+        apply(name, field.value || '', attr);
+      };
+      field.addEventListener('input', handler);
+      field.addEventListener('change', handler);
+      handler();
+    }
+
+    wire('title');
+    wire('subtitle');
+    wire('description');
+
+    var imageField = form.querySelector('[name="image"]');
+    var clearField = form.querySelector('input[name="image-clear"]');
+    function updateImageFromFile(file) {
+      var imageNodes = targets.image || [];
+      if (!imageNodes.length) {
+        return;
+      }
+      if (file) {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+          imageNodes.forEach(function (el) {
+            el.setAttribute('src', e.target.result);
+          });
+        };
+        reader.readAsDataURL(file);
+      } else {
+        var fallback = imageNodes[0].dataset.previewDefault || '';
+        imageNodes.forEach(function (el) {
+          if (fallback) {
+            el.setAttribute('src', fallback);
+          }
+        });
+      }
+    }
+    if (imageField) {
+      imageField.addEventListener('change', function () {
+        updateImageFromFile(imageField.files && imageField.files[0]);
+      });
+    }
+    if (clearField) {
+      clearField.addEventListener('change', function () {
+        if (clearField.checked) {
+          updateImageFromFile(null);
+        }
+      });
+    }
+
+    var altField = form.querySelector('[name="image_alt"]');
+    if (altField) {
+      var altHandler = function () {
+        apply('image_alt', altField.value || '', 'alt');
+      };
+      altField.addEventListener('input', altHandler);
+      altField.addEventListener('change', altHandler);
+      altHandler();
+    }
+  }
   function bindAboutProcessPreview(form) {
     if (form.dataset.previewModel !== 'aboutprocessstep') {
       return;
@@ -725,6 +826,7 @@
           bindValuePreview(form);
           bindAboutHeroPreview(form);
           bindAboutCompanyPreview(form);
+          bindAboutBenefitPreview(form);
           bindAboutProcessPreview(form);
           var firstInput = form.querySelector('input, textarea, select');
           if (firstInput) {
@@ -797,3 +899,5 @@
   attachPreviewTriggers(document);
   bindPreviewNavigation();
 })();
+
+

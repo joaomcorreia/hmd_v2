@@ -13,7 +13,11 @@ WORKSPACE_DIR = Path(os.environ.get("HMD_WORKSPACE_DIR", BASE_DIR.parent))
 # External admin assets and templates
 DEFAULT_ADMIN_ASSETS = BASE_DIR.parent / "admin_assets"
 ADMIN_ASSETS_DIR = Path(os.environ.get("ADMIN_ASSETS_DIR") or DEFAULT_ADMIN_ASSETS)
-ADMIN_TEMPLATES_DIR = WORKSPACE_DIR / "admin_templates"  # optional external admin templates
+ADMIN_ASSETS_DIR.mkdir(parents=True, exist_ok=True)
+ADMIN_TEMPLATES_DIR = WORKSPACE_DIR / "admin_templates"
+TEMPLATE_DIRS = [BASE_DIR / "templates"]
+if ADMIN_TEMPLATES_DIR.exists():
+    TEMPLATE_DIRS.append(ADMIN_TEMPLATES_DIR)
 
 SECRET_KEY = 'django-insecure-g4%+x4o1=ojtwde@^_h81jp$2-71-oi5wp$4=+r+g!^7_2m@@w'
 DEBUG = True
@@ -29,7 +33,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "pages",
     "core",
-    "ai_engine"
+    "ai_engine",
 ]
 
 MIDDLEWARE = [
@@ -47,10 +51,7 @@ ROOT_URLCONF = "hmd.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [
-            BASE_DIR / "templates",
-            ADMIN_TEMPLATES_DIR,   # ← external admin templates
-        ],
+        "DIRS": TEMPLATE_DIRS,
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -91,10 +92,9 @@ USE_TZ = True
 
 STATIC_URL = "/static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
-STATICFILES_DIRS = [
-    BASE_DIR / "static",
-    ADMIN_ASSETS_DIR,  # ← external admin static (keep "admin/..." structure inside)
-]
+STATICFILES_DIRS = [BASE_DIR / "static"]
+if ADMIN_ASSETS_DIR.exists():
+    STATICFILES_DIRS.append(ADMIN_ASSETS_DIR)
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"

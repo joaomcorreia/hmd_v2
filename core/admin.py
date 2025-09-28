@@ -7,7 +7,7 @@ from django.contrib.auth.forms import PasswordResetForm
 from django.template.response import TemplateResponse
 from django.http import HttpResponseRedirect
 from django.db import models
-from .models import Slide, HomeAboutPanel, HomeValueBlock, HomeCarouselItem, AboutHero, AboutCarouselItem, AboutCompanyBlock, AboutProcessStep, PortfolioItem, SiteSettings, ContactSubmission
+from .models import Slide, HomeAboutPanel, HomeValueBlock, HomeCarouselItem, AboutHero, AboutCarouselItem, AboutCompanyBlock, AboutProcessStep, AboutBenefit, PortfolioItem, SiteSettings, ContactSubmission
 
 # Admin branding
 admin.site.site_header = "HMD Klusbedrijf — Admin"
@@ -103,6 +103,11 @@ class AboutCarouselItemAdmin(PreviewReturnMixin, admin.ModelAdmin):
 @admin.register(AboutCompanyBlock)
 class AboutCompanyBlockAdmin(PreviewReturnMixin, admin.ModelAdmin):
     list_display = ("heading",)
+
+@admin.register(AboutBenefit)
+class AboutBenefitAdmin(PreviewReturnMixin, admin.ModelAdmin):
+    list_display = ("title", "order")
+    list_editable = ("order",)
 
 @admin.register(AboutProcessStep)
 class AboutProcessStepAdmin(PreviewReturnMixin, admin.ModelAdmin):
@@ -225,3 +230,5 @@ class SEOAdmin(StaticPageAdmin):
 @admin.register(SocialNetworks)
 class SocialNetworksAdmin(StaticPageAdmin):
     change_list_template = "admin/tools/social-networks.html"
+
+

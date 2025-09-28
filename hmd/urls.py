@@ -6,7 +6,6 @@ from django.contrib.auth import views as auth_views
 from core import views as core
 from . import admin_preview
 from hmd.admin_extra import admin_tool
-from .views import cards_and_brochures_view
 
 urlpatterns = [
     path("admin/preview/<str:app_label>/<str:model_name>/<int:pk>/", admin.site.admin_view(admin_preview.preview_edit), name="admin-preview-edit"),
@@ -41,8 +40,6 @@ urlpatterns = [
     ), name="password_reset_complete"),
     path("accounts/", include("django.contrib.auth.urls")),
     path("ai/", include("ai_engine.urls")),
-    path("admin/cards_and_brochures/", cards_and_brochures_view, name="cards-and-brochures"),
-    path("", include("core.urls")), 
 ]
 
 if settings.DEBUG:

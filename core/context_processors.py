@@ -10,6 +10,7 @@ def site_constants(request):
     return {
         "DIENSTEN": DIENSTEN,
         "SITE_SETTINGS": settings_obj,
+        "SITE_SETTINGS_COMPANY": settings_obj.company_name if settings_obj and settings_obj.company_name else "HMD Klusbedrijf",
         "SITE_SETTINGS_WA_URL": settings_obj.whatsapp_url if settings_obj else "https://wa.me/31687111289",
         "SITE_SETTINGS_WA_DIGITS": settings_obj.whatsapp_digits if settings_obj else "31687111289",
         "SITE_SETTINGS_PHONE_DISPLAY": settings_obj.phone_display if settings_obj and settings_obj.phone_display else "06 87111289",

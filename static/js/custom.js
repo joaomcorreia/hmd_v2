@@ -435,6 +435,9 @@ All JavaScript fuctions Start
 	//________Fade slider for home function by = owl.carousel.js________//	
 
 	function aboutus_carousel() {
+		if (jQuery('body').hasClass('preview-mode')) {
+			return;
+		}
 		jQuery('.about-us-carousel').owlCarousel({
 			loop: true,
 			autoplay: true,

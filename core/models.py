@@ -115,6 +115,22 @@ class AboutCompanyBlock(models.Model):
         return self.heading
 
 
+class AboutBenefit(models.Model):
+    order = models.PositiveIntegerField(default=1)
+    title = models.CharField(max_length=120)
+    subtitle = models.CharField(max_length=160, blank=True)
+    description = models.TextField(blank=True)
+    image = models.ImageField(upload_to='about-benefits/', blank=True)
+    image_alt = models.CharField(max_length=160, blank=True)
+
+    class Meta:
+        ordering = ['order', 'id']
+        verbose_name = 'About benefit'
+        verbose_name_plural = 'About benefits'
+
+    def __str__(self):
+        return self.title or f'Benefit {self.pk}'
+
 class AboutProcessStep(models.Model):
     order = models.PositiveIntegerField(default=1)
     step_title = models.CharField(max_length=60, default='Stap 1')
@@ -177,6 +193,7 @@ class PortfolioItem(models.Model):
 
 # --- Core / site ---
 class SiteSettings(models.Model):
+    company_name = models.CharField(max_length=120, blank=True, default="HMD Klusbedrijf")
     contact_email = models.EmailField(default="justcodeworks@gmail.com")
     whatsapp = models.CharField(max_length=32, blank=True, default="+31687111289")
     phone_display = models.CharField(max_length=32, blank=True, default="06 87111289")
@@ -268,3 +285,4 @@ class FacebookCampaign(models.Model):
     spend = models.FloatField(default=0.0)
     impressions = models.IntegerField(default=0)
     clicks = models.IntegerField(default=0)
+

@@ -1,34 +1,37 @@
+{% with tool_slug=tool_slug|default:request.resolver_match.kwargs.slug|default:'' %}
 <div class="admin-sidebar">
     <div class="module">
         <h2>EDIT WEBSITE</h2>
         <ul class="actionlist">
-            <li><a href="{% url 'admin-tool' 'home-preview' %}">Edit Website</a></li>
+            <li{% if tool_slug == 'home-preview' %} class="active"{% endif %}><a href="{% url 'admin-tool' 'home-preview' %}">Edit Website</a></li>
+            <li{% if tool_slug == 'over-ons-preview' %} class="active"{% endif %}><a href="{% url 'admin-tool' 'over-ons-preview' %}">Over Ons Preview</a></li>
         </ul>
         <h2>SUSBSCRIPTIONS</h2>
         <ul class="actionlist">
-            <li><a href="{% url 'admin-tool' 'overview' %}">Overview</a></li>
-            <li><a href="{% url 'admin-tool' 'domain-name' %}">Domain Name</a></li>
-            <li><a href="{% url 'admin-tool' 'hosting' %}">Hosting</a></li>
-            <li><a href="{% url 'admin-tool' 'website' %}">Website</a></li>
-            <li><a href="{% url 'admin-tool' 'seo' %}">SEO</a></li>
-            <li><a href="{% url 'admin-tool' 'social-networks' %}">Social Networks</a></li>
-        </ul>
-
-        <h2>USERS</h2>
-        <ul class="actionlist">
-            <li><a href="{% url 'admin-tool' 'all_settings' %}">Overview</a></li>
+            <li{% if tool_slug == 'overview' %} class="active"{% endif %}><a href="{% url 'admin-tool' 'overview' %}">Overview</a></li>
+            <li{% if tool_slug == 'domain-name' %} class="active"{% endif %}><a href="{% url 'admin-tool' 'domain-name' %}">Domain Name</a></li>
+            <li{% if tool_slug == 'hosting' %} class="active"{% endif %}><a href="{% url 'admin-tool' 'hosting' %}">Hosting</a></li>
+            <li{% if tool_slug == 'website' %} class="active"{% endif %}><a href="{% url 'admin-tool' 'website' %}">Website</a></li>
+            <li{% if tool_slug == 'seo' %} class="active"{% endif %}><a href="{% url 'admin-tool' 'seo' %}">SEO</a></li>
+            <li{% if tool_slug == 'social-networks' %} class="active"{% endif %}><a href="{% url 'admin-tool' 'social-networks' %}">Social Networks</a></li>
         </ul>
 
         <h2>CARDS AND BROCHURES</h2>
         <ul class="actionlist">
-            <li><a href="{% url 'cards-and-brochures' %}">Cards and Brochures</a></li>
+            <li{% if tool_slug == 'cards-and-brochures' %} class="active"{% endif %}><a href="{% url 'admin-tool' 'cards-and-brochures' %}">Cards &amp; Brochures</a></li>
+        </ul>
+
+        <h2>USERS</h2>
+        <ul class="actionlist">
+            <li{% if tool_slug == 'all_settings' %} class="active"{% endif %}><a href="{% url 'admin-tool' 'all_settings' %}">Overview</a></li>
         </ul>
 
         <h2>SETTINGS</h2>
         <ul class="actionlist">
-            <li><a href="{% url 'admin-tool' 'all_settings' %}">Overview</a></li>
+            <li{% if tool_slug == 'all_settings' %} class="active"{% endif %}><a href="{% url 'admin-tool' 'all_settings' %}">Overview</a></li>
         </ul>
 
     </div>
-
 </div>
+{% endwith %}
+

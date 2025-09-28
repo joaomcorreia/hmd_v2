@@ -4,7 +4,7 @@
 
 {% block branding %}
 <!-- BRANDING OVERRIDE ACTIVE -->
-<h1 id="site-name"><a href="{% url 'admin:index' %}">HMD Klusbedrijf — Admin</a></h1>
+<h1 id="site-name"><a href="{% url 'admin:index' %}">{{ SITE_SETTINGS_COMPANY|default:"HMD Klusbedrijf" }} &mdash; Admin</a></h1>
 <style>
     #header #site-name {
         display: block !important;
@@ -14,3 +14,7 @@
 {% endblock %}
 
 {% block nav-global %}{% endblock %}
+
+
+
+

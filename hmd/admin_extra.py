@@ -14,6 +14,7 @@ TOOLS = {
     "seo": "SEO",
     "social-networks": "Social Networks",
     "all_settings": "All Settings",
+    "cards-and-brochures": "Cards & Brochures",
 }
 
 def admin_tool(request, slug: str):
@@ -22,6 +23,7 @@ def admin_tool(request, slug: str):
 
     ctx = admin.site.each_context(request)
     ctx["title"] = TOOLS[slug]
+    ctx["tool_slug"] = slug
 
     # enable the full admin sidebar on tool pages
     ctx["available_apps"] = admin.site.get_app_list(request)

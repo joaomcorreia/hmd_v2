@@ -61,77 +61,72 @@
                 <div class="col-lg-5 col-md-12">
                     <div class="m-about ">
                         {% with preview_mode=request.GET.preview %}
-                        <div class="{% if preview_mode %}about-us-carousel preview-static{% else %}owl-carousel about-us-carousel{% endif %}">
+                        {% if preview_mode %}
+                            {% with preview_item=about_carousel|first %}
+                            <div class="about-preview-card">
+                                {% if preview_item %}
+                                <button type="button" class="admin-preview-hit" data-preview-app="core" data-preview-model="aboutcarouselitem" data-preview-id="{{ preview_item.pk }}" data-admin-url="{% url 'admin:core_aboutcarouselitem_change' preview_item.pk %}?next={{ request.GET.admin_return|default:'/admin/tools/home-preview/'|urlencode }}">
+                                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zm14.71-9.04a.996.996 0 0 0 0-1.41l-2.54-2.54a.996.996 0 1 0-1.41 1.41l2.54 2.54c.39.39 1.02.39 1.41 0z"></path></svg> Bewerk foto
+                                </button>
+                                <div class="about-preview-card-media">
+                                    <img src="{{ preview_item.image.url }}" alt="{{ preview_item.alt_text }}" data-preview-target="image" data-preview-scope="aboutcarousel-{{ preview_item.pk }}" data-preview-attr="src" data-preview-alt-target="alt_text" data-preview-default="{{ preview_item.image.url }}">
+                                </div>
+                                {% else %}
+                                <div class="about-preview-card-media">
+                                    <img src="{% static 'img/portrait/pic4.jpg' %}" alt="">
+                                </div>
+                                {% endif %}
+                            </div>
+                            {% if about_carousel|length > 1 %}
+                            <div class="about-preview-thumbs">
+                                {% for item in about_carousel %}
+                                <button type="button" class="about-preview-thumb admin-preview-hit" data-preview-app="core" data-preview-model="aboutcarouselitem" data-preview-id="{{ item.pk }}" data-preview-scope="aboutcarousel-{{ item.pk }}" data-admin-url="{% url 'admin:core_aboutcarouselitem_change' item.pk %}?next={{ request.GET.admin_return|default:'/admin/tools/home-preview/'|urlencode }}">
+                                    <img src="{{ item.image.url }}" alt="{{ item.alt_text }}">
+                                    <span>Foto {{ forloop.counter }}</span>
+                                </button>
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                            {% endwith %}
+                        {% else %}
+                        <div class="owl-carousel about-us-carousel">
                             {% if about_carousel %}
                                 {% for item in about_carousel %}
-                                <div class="item{% if preview_mode %} admin-preview-target{% endif %}"{% if preview_mode %} data-preview-app="core" data-preview-model="aboutcarouselitem" data-preview-id="{{ item.pk }}" data-preview-scope="aboutcarousel-{{ item.pk }}" data-admin-url="{% url 'admin:core_aboutcarouselitem_change' item.pk %}?next={{ request.GET.admin_return|default:'/admin/tools/home-preview/'|urlencode }}"{% endif %}>
-                                    {% if preview_mode %}
-                                    <button type="button" class="admin-preview-hit" data-preview-app="core" data-preview-model="aboutcarouselitem" data-preview-id="{{ item.pk }}">
-                                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zm14.71-9.04a.996.996 0 0 0 0-1.41l-2.54-2.54a.996.996 0 1 0-1.41 1.41l2.54 2.54c.39.39 1.02.39 1.41 0z"></path></svg> Bewerk foto
-                                    </button>
-                                    {% endif %}
+                                <div class="item">
                                     <div class="ow-img">
-                                        {% if preview_mode %}
-                                        <img src="{{ item.image.url }}" alt="{{ item.alt_text }}" data-preview-target="image" data-preview-scope="aboutcarousel-{{ item.pk }}" data-preview-attr="src" data-preview-alt-target="alt_text" data-preview-default="{{ item.image.url }}">
-                                        {% else %}
                                         <a href="#/">
-                                            <img src="{{ item.image.url }}" alt="{{ item.alt_text }}" data-preview-target="image" data-preview-scope="aboutcarousel-{{ item.pk }}" data-preview-attr="src" data-preview-alt-target="alt_text" data-preview-default="{{ item.image.url }}">
+                                            <img src="{{ item.image.url }}" alt="{{ item.alt_text }}">
                                         </a>
-                                        {% endif %}
                                     </div>
                                 </div>
                                 {% endfor %}
                             {% else %}
-                                {% if preview_mode %}
-                                <div class="item">
-                                    <div class="ow-img">
-                                        <img src="{% static 'img/portrait/pic4.jpg' %}" alt="">
-                                    </div>
-                                </div>
-                                <div class="item">
-                                    <div class="ow-img">
-                                        <img src="{% static 'img/portrait/pic5.jpg' %}" alt="">
-                                    </div>
-                                </div>
-                                <div class="item">
-                                    <div class="ow-img">
-                                        <img src="{% static 'img/portrait/pic6.jpg' %}" alt="">
-                                    </div>
-                                </div>
-                                <div class="item">
-                                    <div class="ow-img">
-                                        <img src="{% static 'img/portrait/pic7.jpg' %}" alt="">
-                                    </div>
-                                </div>
-                                {% else %}
-                                <!-- COLUMNS 1 -->
                                 <div class="item">
                                     <div class="ow-img">
                                         <a href="#/"><img src="{% static 'img/portrait/pic4.jpg' %}" alt=""></a>
                                     </div>
                                 </div>
-                                <!-- COLUMNS 2 -->
                                 <div class="item">
                                     <div class="ow-img">
                                         <a href="#/"><img src="{% static 'img/portrait/pic5.jpg' %}" alt=""></a>
                                     </div>
                                 </div>
-                                <!-- COLUMNS 3 -->
                                 <div class="item">
                                     <div class="ow-img">
                                         <a href="#/"><img src="{% static 'img/portrait/pic6.jpg' %}" alt=""></a>
                                     </div>
                                 </div>
-                                <!-- COLUMNS 4 -->
                                 <div class="item">
                                     <div class="ow-img">
                                         <a href="#/"><img src="{% static 'img/portrait/pic7.jpg' %}" alt=""></a>
                                     </div>
                                 </div>
-                                {% endif %}
                             {% endif %}
                         </div>
+                        {% endif %}
                         {% endwith %}
+                    </div>
+                </div>
                 <div class="col-lg-7 col-md-12">
                     <div class="m-about-containt text-black">
                         <div class="m-about-years bg-moving"
@@ -296,7 +291,31 @@
         <!-- BENEFITS START -->
         <div class="section-content">
             <div class="row d-flex justify-content-center">
-
+                {% if benefits %}
+                    {% for benefit in benefits %}
+                    <div class="col-lg-4 col-md-6 m-b30{% if request.GET.preview %} admin-preview-target{% endif %}"{% if request.GET.preview %} data-preview-app="core" data-preview-model="aboutbenefit" data-preview-id="{{ benefit.pk }}" data-preview-scope="aboutbenefit-{{ benefit.pk }}" data-admin-url="{% url 'admin:core_aboutbenefit_change' benefit.pk %}?next={{ request.GET.admin_return|default:'/admin/tools/home-preview/'|urlencode }}"{% endif %}>
+                        {% if request.GET.preview %}
+                        <button type="button" class="admin-preview-hit" data-preview-app="core" data-preview-model="aboutbenefit" data-preview-id="{{ benefit.pk }}">
+                            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zm14.71-9.04a.996.996 0 0 0 0-1.41l-2.54-2.54a.996.996 0 1 0-1.41 1.41l2.54 2.54c.39.39 1.02.39 1.41 0z"></path></svg> Bewerk voordeel
+                        </button>
+                        {% endif %}
+                        <div class="our-team-1 hover-animation-1">
+                            <div class="profile-image scale-in-center">
+                                {% if benefit.image %}
+                                <img src="{{ benefit.image.url }}" alt="{{ benefit.image_alt|default:benefit.title }}"{% if request.GET.preview %} data-preview-target="image" data-preview-scope="aboutbenefit-{{ benefit.pk }}" data-preview-attr="src" data-preview-alt-target="image_alt" data-preview-default="{{ benefit.image.url }}"{% endif %}>
+                                {% else %}
+                                <img src="{% static 'img/our-team4/pic1.png' %}" alt="{{ benefit.title|default:'Voordeel' }}">
+                                {% endif %}
+                            </div>
+                            <div class="figcaption">
+                                <h4{% if request.GET.preview %} data-preview-target="title" data-preview-scope="aboutbenefit-{{ benefit.pk }}" data-preview-default="{{ benefit.title }}"{% endif %}>{{ benefit.title }}</h4>
+                                {% if benefit.subtitle or request.GET.preview %}<h5{% if request.GET.preview %} data-preview-target="subtitle" data-preview-scope="aboutbenefit-{{ benefit.pk }}" data-preview-default="{{ benefit.subtitle }}"{% endif %}>{{ benefit.subtitle }}</h5>{% endif %}
+                                {% if benefit.description or request.GET.preview %}<p{% if request.GET.preview %} data-preview-target="description" data-preview-scope="aboutbenefit-{{ benefit.pk }}" data-preview-default="{{ benefit.description }}"{% endif %}>{{ benefit.description }}</p>{% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% else %}
                 <div class="col-lg-4 col-md-6 m-b30">
                     <div class="our-team-1 hover-animation-1">
                         <div class="profile-image scale-in-center">
@@ -309,7 +328,6 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="col-lg-4 col-md-6 m-b30">
                     <div class="our-team-1 hover-animation-1">
                         <div class="profile-image scale-in-center">
@@ -322,7 +340,6 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="col-lg-4 col-md-6 m-b30">
                     <div class="our-team-1 hover-animation-1">
                         <div class="profile-image scale-in-center">
@@ -335,7 +352,7 @@
                         </div>
                     </div>
                 </div>
-
+                {% endif %}
             </div>
         </div>
 
