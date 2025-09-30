@@ -115,3 +115,5 @@ X_FRAME_OPTIONS = 'SAMEORIGIN'
  
 # Where to redirect users after logout (safe default)
 LOGOUT_REDIRECT_URL = '/'
+# After login, redirect users to the admin dashboard by default
+LOGIN_REDIRECT_URL = '/admin/'
