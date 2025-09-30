@@ -86,7 +86,7 @@
                                 <button type="submit" class="btn-login"><i class="fa fa-sign-out"></i> Logout</button>
                             </form>
                             {% else %}
-                            <a href="{% url 'login' %}?next=/admin/" class="btn-login"><i class="fa fa-user"></i> Login</a>
+                            <a href="{% url 'admin:login' %}?next=/admin/" class="btn-login"><i class="fa fa-user"></i> Login</a>
                             {% endif %}
                         </div>
                         <div class="extra-cell">
