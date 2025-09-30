@@ -3,16 +3,17 @@
 
 {% block extrastyle %}
 {{ block.super }}
-<link rel="stylesheet" href="{% static 'css/admin_main_styles.css' %}">
 <style>
   .tool-preview-layout {
     display: flex;
     gap: 24px;
   }
+
   .tool-preview-layout .preview-panel {
     flex: 1;
     min-height: 70vh;
   }
+
   .tool-preview-layout iframe {
     width: 100%;
     border: 1px solid #d7d7d7;
@@ -20,12 +21,14 @@
     min-height: 80vh;
     background: #fff;
   }
+
   .tool-preview-layout .preview-help {
     font-size: 13px;
     line-height: 1.6;
     margin-bottom: 12px;
     color: #555;
   }
+
   .tool-preview-layout .preview-help strong {
     color: #1e4db7;
   }
@@ -35,47 +38,51 @@
 {% block content %}
 {% with tool_slug=request.resolver_match.kwargs.slug %}
 <div class="admin-sidebar">
-    <div class="module">
-        <h2>PAGES</h2>
-        <ul class="actionlist">
-            <li{% if tool_slug == 'home-preview' %} class="active"{% endif %}><a href="{% url 'admin-tool' 'home-preview' %}">Homepage Preview</a></li>
-            <li{% if tool_slug == 'over-ons-preview' %} class="active"{% endif %}><a href="{% url 'admin-tool' 'over-ons-preview' %}">Over Ons Preview</a></li>
-            <li><a href="{% url 'admin-tool' 'overview' %}">Overview</a></li>
-            <li><a href="{% url 'admin-tool' 'website' %}">Website</a></li>
-        </ul>
-        <h2>SUSBSCRIPTIONS</h2>
-        <ul class="actionlist">
-            <li><a href="{% url 'admin-tool' 'domain-name' %}">Domain Name</a></li>
-            <li><a href="{% url 'admin-tool' 'hosting' %}">Hosting</a></li>
-            <li><a href="{% url 'admin-tool' 'seo' %}">SEO</a></li>
-            <li><a href="{% url 'admin-tool' 'social-networks' %}">Social Networks</a></li>
-        </ul>
-        <h2>GOOGLE</h2>
-        <ul class="actionlist">
-            <li><a href="{% url 'admin-tool' 'google' %}">Overview</a></li>
-        </ul>
-        <h2>FACEBOOK</h2>
-        <ul class="actionlist">
-            <li><a href="{% url 'admin-tool' 'all_settings' %}">Overview</a></li>
-        </ul>
-        <h2>USERS</h2>
-        <ul class="actionlist">
-            <li><a href="{% url 'admin-tool' 'all_settings' %}">Overview</a></li>
-        </ul>
-        <h2>SETTINGS</h2>
-        <ul class="actionlist">
-            <li><a href="{% url 'admin-tool' 'all_settings' %}">Overview</a></li>
-        </ul>
-    </div>
+  <div class="module">
+    <h2>PAGES</h2>
+    <ul class="actionlist">
+  <li{% if tool_slug == 'home-preview' %} class="active" {% endif %}><a
+          href="{% url 'admin-tool' 'home-preview' %}">Homepage Preview</a></li>
+  <li{% if tool_slug == 'over-ons-preview' %} class="active" {% endif %}><a
+            href="{% url 'admin-tool' 'over-ons-preview' %}">Over Ons Preview</a></li>
+          <li><a href="{% url 'admin-tool' 'overview' %}">Overview</a></li>
+          <li><a href="{% url 'admin-tool' 'website' %}">Website</a></li>
+    </ul>
+    <h2>SUSBSCRIPTIONS</h2>
+    <ul class="actionlist">
+      <li><a href="{% url 'admin-tool' 'domain-name' %}">Domain Name</a></li>
+      <li><a href="{% url 'admin-tool' 'hosting' %}">Hosting</a></li>
+      <li><a href="{% url 'admin-tool' 'seo' %}">SEO</a></li>
+      <li><a href="{% url 'admin-tool' 'social-networks' %}">Social Networks</a></li>
+    </ul>
+    <h2>GOOGLE</h2>
+    <ul class="actionlist">
+      <li><a href="{% url 'admin-tool' 'google' %}">Overview</a></li>
+    </ul>
+    <h2>FACEBOOK</h2>
+    <ul class="actionlist">
+      <li><a href="{% url 'admin-tool' 'all_settings' %}">Overview</a></li>
+    </ul>
+    <h2>USERS</h2>
+    <ul class="actionlist">
+      <li><a href="{% url 'admin-tool' 'all_settings' %}">Overview</a></li>
+    </ul>
+    <h2>SETTINGS</h2>
+    <ul class="actionlist">
+      <li><a href="{% url 'admin-tool' 'all_settings' %}">Overview</a></li>
+    </ul>
+  </div>
 </div>
 
 <div class="tool-preview-layout">
-    <div class="preview-panel">
-        <div class="preview-help">
-            <strong>Tip:</strong> open de About-pagina in deze preview en klik op gemarkeerde onderdelen om ze direct te bewerken. Aanpassingen worden live bijgewerkt zonder de admin te verlaten.
-        </div>
-        <iframe src="{% url 'over-ons' %}?preview=1&admin_return={{ request.get_full_path|urlencode }}" title="Over Ons preview" loading="lazy"></iframe>
+  <div class="preview-panel">
+    <div class="preview-help">
+      <strong>Tip:</strong> open de About-pagina in deze preview en klik op gemarkeerde onderdelen om ze direct te
+      bewerken. Aanpassingen worden live bijgewerkt zonder de admin te verlaten.
     </div>
+    <iframe src="{% url 'over-ons' %}?preview=1&admin_return={{ request.get_full_path|urlencode }}"
+      title="Over Ons preview" loading="lazy"></iframe>
+  </div>
 </div>
 {% endwith %}
 {% endblock %}

@@ -1,6 +1,6 @@
-{# Use provided tool_slug or default to empty string. Keep logic simple so sidebar can be included from any admin
-template. #}
-{% with tool_slug=tool_slug|default:'' %}
+{# Compute tool_slug: prefer provided tool_slug, else try resolver_match.kwargs.slug, fallback to empty string #}
+{% with slug_value=request.resolver_match.kwargs.slug|default:'' %}
+{% with tool_slug=tool_slug|default:slug_value %}
 <aside class="admin-sidebar" role="navigation" aria-label="Admin tools sidebar">
     <div class="module">
         <h2>DASHBOARD</h2>
@@ -86,11 +86,12 @@ template. #}
 
         <h2>TOOLS</h2>
         <ul class="actionlist">
-            <li{% if tool_slug == 'qr-maker' %} class="active" {% endif %}><a href="{% url 'admin-tool' 'qr-maker' %}">QR
-                    Code Maker</a></li>
-                <li{% if tool_slug == 'image-resizer' %} class="active" {% endif %}><a
-                        href="{% url 'admin-tool' 'image-resizer' %}">Image Resizer</a></li>
+        <li{% if tool_slug == 'qr-maker' %} class="active" {% endif %}><a href="{% url 'admin-tool' 'qr-maker' %}">QR
+            Code Maker</a></li>
+        <li{% if tool_slug == 'image-resizer' %} class="active" {% endif %}><a
+            href="{% url 'admin-tool' 'image-resizer' %}">Image Resizer</a></li>
         </ul>
     </div>
 </aside>
+{% endwith %}
 {% endwith %}
