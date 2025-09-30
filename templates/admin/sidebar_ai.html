@@ -1,0 +1,13 @@
+{# Admin sidebar override for the AI tool. Keep logic minimal so this file can be safely included. #}
+{% with tool_slug=tool_slug|default:'' %}
+<aside class="admin-sidebar" role="navigation" aria-label="AI admin sidebar">
+    <div class="module">
+        <h2>AI TOOL (Custom Sidebar)</h2>
+        <ul class="actionlist">
+            <li{% if tool_slug == 'ai' %} class="active" {% endif %}><a href="{% url 'admin-tool' 'ai' %}">AI Dashboard</a></li>
+            <li><a href="#">AI Settings</a></li>
+            <li><a href="#">Usage</a></li>
+        </ul>
+    </div>
+</aside>
+{% endwith %}
