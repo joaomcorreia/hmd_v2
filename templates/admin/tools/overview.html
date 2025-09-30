@@ -42,85 +42,85 @@
             <li><a href="{% url 'admin-tool' 'all_settings' %}">Overview</a></li>
         </ul>
     </div>
+</div>
+<div class="wrap">
+    <h1>Subscriptions Overview</h1>
+    <div class="meta">Laatst bijgewerkt: <span id="updated"></span></div>
 
-    <div class="wrap">
-        <h1>Subscriptions Overview</h1>
-        <div class="meta">Laatst bijgewerkt: <span id="updated"></span></div>
-
-        <div class="legend">
-            <span>Status:</span>
-            <span class="pill ok">Actief</span>
-            <span class="pill warn">Binnenkort</span>
-            <span class="pill bad">Verlopen</span>
-        </div>
-
-        <div class="table-wrap">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Service</th>
-                        <th>Plan</th>
-                        <th>Start</th>
-                        <th>Vervalt op</th>
-                        <th>Status</th>
-                        <th class="right">Prijs / mnd</th>
-                        <th>Opmerking</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td class="service" data-label="Service">
-                            <a href="#">Website
-                        <td class="service" data-label="Service">MultiPage</td>
-                        <td data-label="Plan"><span class="badge">Basic</span></td>
-                        <td data-label="Start">28-07-2025</td>
-                        <td data-label="Vervalt op">28-07-2026</td>
-                        <td data-label="Status"><span class="pill ok">Actief</span></td>
-                        <td class="right" data-label="Prijs / mnd">€ 12,95</td>
-                        <td data-label="Opmerking" class="note">1 domein. 10 GB opslag.</td>
-                    </tr>
-                    <tr>
-                        <td class="service" data-label="Service">Domeinregistratie</td>
-                        <td data-label="Plan"><span class="badge">.nl</span></td>
-                        <td data-label="Start">28-07-2025</td>
-                        <td data-label="Vervalt op">28-07-2026</td>
-                        <td data-label="Status"><span class="pill ok">Actief</span></td>
-                        <td class="right" data-label="Prijs / mnd">€ 9,25</td>
-                        <td data-label="Opmerking" class="note"><a href="#">Verleng nu</a></td>
-                    </tr>
-                    <tr>
-                        <td class="service" data-label="Service">SEO</td>
-                        <td data-label="Plan"><span class="badge">Premium</span></td>
-                        <td data-label="Start">28-07-2025</td>
-                        <td data-label="Vervalt op">30-09-2025</td>
-                        <td data-label="Status"><span class="pill ok">Actief</span></td>
-                        <td class="right" data-label="Prijs / mnd">€ -,--</td>
-                        <td data-label="Opmerking" class="note"><a href="#">Verleng nu</a></td>
-                    </tr>
-                    <tr>
-                        <td class="service" data-label="Service">Social Networks</td>
-                        <td data-label="Plan"><span class="badge">Premium</span></td>
-                        <td data-label="Start">28-07-2025</td>
-                        <td data-label="Vervalt op">30-09-2025</td>
-                        <td data-label="Status"><span class="pill ok">Actief</span></td>
-                        <td class="right" data-label="Prijs / mnd">€ -,--</td>
-                        <td data-label="Opmerking" class="note"><a href="#">Verleng nu</a></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
-        <p class="note" style="margin-top:12px">
-            Vragen of verlengen? Mail of WhatsApp ons met uw klantnummer.
-        </p>
+    <div class="legend">
+        <span>Status:</span>
+        <span class="pill ok">Actief</span>
+        <span class="pill warn">Binnenkort</span>
+        <span class="pill bad">Verlopen</span>
     </div>
 
-    <script>
-        (function () {
-            var el = document.getElementById('updated');
-            if (!el) return;
-            var d = new Date();
-            el.textContent = d.toLocaleDateString('nl-NL', { day: '2-digit', month: '2-digit', year: 'numeric' });
-        })();
-    </script>
-    {% endblock %}
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>Service</th>
+                    <th>Plan</th>
+                    <th>Start</th>
+                    <th>Vervalt op</th>
+                    <th>Status</th>
+                    <th class="right">Prijs / mnd</th>
+                    <th>Opmerking</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="service" data-label="Service">
+                        <a href="#">Website
+                    <td class="service" data-label="Service">MultiPage</td>
+                    <td data-label="Plan"><span class="badge">Basic</span></td>
+                    <td data-label="Start">28-07-2025</td>
+                    <td data-label="Vervalt op">28-07-2026</td>
+                    <td data-label="Status"><span class="pill ok">Actief</span></td>
+                    <td class="right" data-label="Prijs / mnd">€ 12,95</td>
+                    <td data-label="Opmerking" class="note">1 domein. 10 GB opslag.</td>
+                </tr>
+                <tr>
+                    <td class="service" data-label="Service">Domeinregistratie</td>
+                    <td data-label="Plan"><span class="badge">.nl</span></td>
+                    <td data-label="Start">28-07-2025</td>
+                    <td data-label="Vervalt op">28-07-2026</td>
+                    <td data-label="Status"><span class="pill ok">Actief</span></td>
+                    <td class="right" data-label="Prijs / mnd">€ 9,25</td>
+                    <td data-label="Opmerking" class="note"><a href="#">Verleng nu</a></td>
+                </tr>
+                <tr>
+                    <td class="service" data-label="Service">SEO</td>
+                    <td data-label="Plan"><span class="badge">Premium</span></td>
+                    <td data-label="Start">28-07-2025</td>
+                    <td data-label="Vervalt op">30-09-2025</td>
+                    <td data-label="Status"><span class="pill ok">Actief</span></td>
+                    <td class="right" data-label="Prijs / mnd">€ -,--</td>
+                    <td data-label="Opmerking" class="note"><a href="#">Verleng nu</a></td>
+                </tr>
+                <tr>
+                    <td class="service" data-label="Service">Social Networks</td>
+                    <td data-label="Plan"><span class="badge">Premium</span></td>
+                    <td data-label="Start">28-07-2025</td>
+                    <td data-label="Vervalt op">30-09-2025</td>
+                    <td data-label="Status"><span class="pill ok">Actief</span></td>
+                    <td class="right" data-label="Prijs / mnd">€ -,--</td>
+                    <td data-label="Opmerking" class="note"><a href="#">Verleng nu</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <p class="note" style="margin-top:12px">
+        Vragen of verlengen? Mail of WhatsApp ons met uw klantnummer.
+    </p>
+</div>
+
+<script>
+    (function () {
+        var el = document.getElementById('updated');
+        if (!el) return;
+        var d = new Date();
+        el.textContent = d.toLocaleDateString('nl-NL', { day: '2-digit', month: '2-digit', year: 'numeric' });
+    })();
+</script>
+{% endblock %}

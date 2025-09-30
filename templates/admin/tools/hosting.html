@@ -4,6 +4,17 @@
 {% block extrastyle %}
 {{ block.super }}
 <link rel="stylesheet" href="{% static 'css/admin_main_styles.css' %}">
+<style>
+    .current_plan {
+        color: rgb(247, 247, 250);
+        padding: 5px;
+        border: 1px solid #ccc;
+        display: block;
+        margin-top: 10px;
+        text-align: center;
+        background-color: blue;
+    }
+</style>
 {% endblock %}
 
 {% block content %}
@@ -52,6 +63,7 @@
         <header class="plan-header">
             <h3 class="plan-title">Basic Hosting</h3>
             <div class="plan-sub">Self-managed • CyberPanel access</div>
+            <span class="current_plan">Your Current Plan</span>
         </header>
         <div class="price">€9,99 <small>/ maand</small></div>
         <table class="specs" role="table" aria-label="Basic specs">

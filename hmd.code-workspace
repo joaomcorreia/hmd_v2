@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../admin_assets"
+		}
+	],
+	"settings": {
+		"chatgpt.commentCodeLensEnabled": true
+	}
+}

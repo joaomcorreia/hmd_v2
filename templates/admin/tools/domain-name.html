@@ -5,13 +5,18 @@
 {{ block.super }}
 <link rel="stylesheet" href="{% static 'css/admin_main_styles.css' %}">
 {% endblock %}
-
+{% include sidebar.html %}
 {% block content %}
+
 <div class="admin-sidebar">
     <div class="module">
         <h2>EDIT WEBSITE</h2>
         <ul class="actionlist">
             <li><a href="{% url 'admin-tool' 'home-preview' %}">Edit Website</a></li>
+        </ul>
+        <h2>EDIT SIDEBAR WIDGETS</h2>
+        <ul class="actionlist">
+            <li><a href="{% url 'admin-tool' 'overview' %}">Overview</a></li>
         </ul>
         <h2>SUSBSCRIPTIONS</h2>
         <ul class="actionlist">
@@ -22,32 +27,74 @@
             <li><a href="{% url 'admin-tool' 'seo' %}">SEO</a></li>
             <li><a href="{% url 'admin-tool' 'social-networks' %}">Social Networks</a></li>
         </ul>
+
+        <h2>GOOGLE</h2>
+        <ul class="actionlist">
+            <li><a href="{% url 'admin-tool' 'overview' %}">Overview</a></li>
+        </ul>
+        <h2>FACEBOOK</h2>
+        <ul class="actionlist">
+            <li><a href="{% url 'admin-tool' 'overview' %}">Overview</a></li>
+        </ul>
+
+        <h2>SETTINGS</h2>
+        <ul class="actionlist">
+            <li><a href="{% url 'admin-tool' 'all_settings' %}">Overview</a></li>
+        </ul>
     </div>
 
-    <div class="wrap">
-        <h1>Subscriptions</h1>
-        <div class="meta">Laatst bijgewerkt: <span id="updated"></span></div>
+</div>
+<div class="wrap">
+    <h1>Domain name overview</h1>
 
-        <div class="legend">
-            <span>Status:</span>
-            <span class="pill ok">Actief</span>
-            <span class="pill warn">Binnenkort</span>
-            <span class="pill bad">Verlopen</span>
-        </div>
-
-
-
-        <p class="note" style="margin-top:12px">
-            Vragen of verlengen? Mail of WhatsApp ons met uw klantnummer.
+    <div style="margin-top:15px; padding:12px; border:1px solid #ddd; background:#f8f9fb;">
+        <h4 style="margin:0 0 8px 0;">How it works</h4>
+        <p style="margin:0 0 6px 0;">
+            Just Code Works has registered this domain on your project’s behalf. When you choose “Buy Now” and complete
+            payment, we transfer the domain to you. You become the official registrant and can manage DNS and renewals
+            directly.
+        </p>
+        <p style="margin:0;">
+            The domain is free for the first 12 months. We’ll send reminders at 60/30/7 days before expiry. If not
+            purchased by the end of the free period, we provide a 30-day grace window to buy or transfer. After that,
+            the domain may expire.
         </p>
     </div>
 
-    <script>
-        (function () {
-            var el = document.getElementById('updated');
-            if (!el) return;
-            var d = new Date();
-            el.textContent = d.toLocaleDateString('nl-NL', { day: '2-digit', month: '2-digit', year: 'numeric' });
-        })();
-    </script>
-    {% endblock %}
+
+    <table border="1" cellpadding="8" cellspacing="0">
+        <thead>
+            <tr>
+                <th>Domain</th>
+                <th>Registered</th>
+                <th>Valid Until</th>
+                <th>Owner</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>hmdklusbedrijf.nl</td>
+                <td>28-07-2025</td>
+                <td>28-07-2026</td>
+                <td>Just Code Works</td>
+                <td>Active</td>
+                <td><a href="#" class="btn-buy">Buy Now</a></td>
+            </tr>
+        </tbody>
+    </table>
+    <p style="margin-top:10px; font-size:0.9em; color:#555;">
+        Note: The "Buy Now" feature will be available very shortly.
+    </p>
+</div>
+
+<script>
+    (function () {
+        var el = document.getElementById('updated');
+        if (!el) return;
+        var d = new Date();
+        el.textContent = d.toLocaleDateString('nl-NL', { day: '2-digit', month: '2-digit', year: 'numeric' });
+    })();
+</script>
+{% endblock %}

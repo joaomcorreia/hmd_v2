@@ -6,6 +6,8 @@ from django.contrib.auth import views as auth_views
 from core import views as core
 from . import admin_preview
 from hmd.admin_extra import admin_tool
+from django.contrib.admin.views.decorators import staff_member_required
+from django.views.generic import TemplateView
 
 urlpatterns = [
     path("admin/preview/<str:app_label>/<str:model_name>/<int:pk>/", admin.site.admin_view(admin_preview.preview_edit), name="admin-preview-edit"),
@@ -40,6 +42,8 @@ urlpatterns = [
     ), name="password_reset_complete"),
     path("accounts/", include("django.contrib.auth.urls")),
     path("ai/", include("ai_engine.urls")),
+    path("path("admin/tools/ai/", admin_ai, name="admin_ai"),"),
+    path("", include("HMD.urls")), 
 ]
 
 if settings.DEBUG:

@@ -1,25 +1,156 @@
 {% extends "admin/index.html" %}
+{% load static %}
+
+{% block extrastyle %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'css/admin_main_styles.css' %}">
+{% endblock %}
+
+
+{% block extrahead %}
+<style>
+    /* Left sidebar lists */
+    .admin-links {
+        list-style: none;
+        margin: 0;
+        padding: 0
+    }
+
+    .admin-links>li {
+        margin: 6px 0
+    }
+
+    .admin-links a {
+        text-decoration: none
+    }
+
+    .admin-links .nested {
+        display: none;
+        margin: 6px 0 0 16px;
+        padding: 0;
+        list-style: none
+    }
+
+    .admin-links .nested li {
+        margin: 4px 0
+    }
+
+    .admin-links .accordion>a {
+        display: inline-flex;
+        gap: 6px;
+        align-items: center
+    }
+
+    .admin-links .accordion .caret {
+        transition: transform .15s ease-in-out
+    }
+
+    .admin-links .accordion>a[aria-expanded="true"] .caret {
+        transform: rotate(90deg)
+    }
+
+    .subs {
+        list-style: none;
+        margin: 0;
+        padding: 0
+    }
+
+    .subs li {
+        margin: 6px 0
+    }
+
+    /* Make main area full width in Django admin and hide right related column */
+    #content-main {
+        width: 100%;
+        float: none
+    }
+
+    #content-related {
+        display: none
+    }
+
+    /* Robust responsive grid for dashboard cards */
+    .dashboard-grid {
+        display: grid !important;
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+        gap: 16px;
+        margin: 16px 0;
+        grid-auto-flow: row dense;
+    }
+
+    .dashboard-grid>* {
+        grid-column: auto !important
+    }
+
+    /* Card basics */
+    .card {
+        border: 1px solid #ddd;
+        border-radius: 12px;
+        padding: 14px;
+        background: #fff;
+        box-sizing: border-box
+    }
+
+    .card h3 {
+        margin: 0 0 8px;
+        font-size: 1.05rem
+    }
+
+    .card h3 a {
+        text-decoration: none
+    }
+
+    .card p {
+        margin: 0;
+        color: #555;
+        font-size: .92rem;
+        line-height: 1.35
+    }
+
+    .admin-sidebar {
+        margin: 16px 0
+    }
+
+    .module {
+        margin-bottom: 16px
+    }
+
+    #header {
+        background-color: blanchedalmond;
+    }
+
+    /* Optional: single column on very small screens */
+    @media (max-width:480px) {
+        .dashboard-grid {
+            grid-template-columns: 1fr
+        }
+    }
+</style>
+{{ block.super }}
+{% endblock %}
 
 {% block content %}
-<div class="module">
-    <h2>PAGES</h2>
-    <ul class="admin-links">
-        <li>Home</li>
-        <li>Over Ons</li>
-        <li>Diensten</li>
-        <li>Portfolio</li>
-        <li>Contact</li>
-    </ul>
+<div class="admin-sidebar">
+    <div class="module">
+        <h2>PAGES</h2>
+        <ul class="admin-links">
+            <li>Home</li>
+            <li>Over Ons</li>
+            <li>Diensten</li>
+            <li>Portfolio</li>
+            <li>Contact</li>
+        </ul>
+    </div>
 
     <div class="module">
         <h2>SUBSCRIPTIONS</h2>
-        <ul class="actionlist">
-            <li><a href="{% url 'admin-tool' 'overview' %}">Overview</a></li>
-            <li><a href="{% url 'admin-tool' 'domain-name' %}">Domain Name</a></li>
-            <li><a href="{% url 'admin-tool' 'hosting' %}">Hosting</a></li>
-            <li><a href="{% url 'admin-tool' 'website' %}">Website</a></li>
-            <li><a href="{% url 'admin-tool' 'seo' %}">SEO</a></li>
-            <li><a href="{% url 'admin-tool' 'social-networks' %}">Social Networks</a></li>
+        <ul class="admin-links">
+            <li><a href="/admin/tools/overview/">Overview</a></li>
+            <li><a href="/admin/tools/domain-name/">Domain Name</a></li>
+            <li><a href="/admin/tools/hosting/">Hosting</a></li>
+            <li><a href="/admin/tools/website/">Website</a></li>
+            <li><a href="/admin/tools/seo/">SEO</a></li>
+            <li><a href="/admin/tools/social-networks/">Social Networks</a></li>
         </ul>
     </div>
 
@@ -30,73 +161,56 @@
             <li><a href="{% url 'admin:core_portfolioitem_changelist' %}">Portfolio beheren</a></li>
         </ul>
     </div>
+</div>
 
-    {{ block.super }}
-    {% endblock %}
+<div class="wrap">
+    <div class="dashboard-grid" role="navigation" aria-label="Admin dashboard quick links">
+        <div class="card">
+            <h3><a href="/admin/domains/overview/">Domain & Ownership</a></h3>
+            <p>Status, dates, transfer to owner.</p>
+        </div>
 
-    {% block extrahead %}
-    {{ block.super }}
-    <style>
-        .admin-links {
-            list-style: none;
-            margin: 0;
-            padding: 0
-        }
+        <div class="card">
+            <h3><a href="/admin/site/overview/">Website Overview</a></h3>
+            <p>What is live now and next steps.</p>
+        </div>
 
-        .admin-links>li {
-            margin: 6px 0
-        }
+        <div class="card">
+            <h3><a href="/admin/billing/plans/">Plans & Add-ons</a></h3>
+            <p>Choose a plan. Add features when needed.</p>
+        </div>
 
-        .admin-links a {
-            text-decoration: none
-        }
+        <div class="card">
+            <h3><a href="/admin/help/editing/">Admin Pages & Editing</a></h3>
+            <p>Edit text, images, services, and contact info.</p>
+        </div>
 
-        .admin-links .nested {
-            display: none;
-            margin: 6px 0 0 16px;
-            padding: 0;
-            list-style: none
-        }
+        <div class="card">
+            <h3><a href="/admin/apps/">Apps</a></h3>
+            <p>Image resizer, watermark, QR code maker.</p>
+        </div>
 
-        .admin-links .nested li {
-            margin: 4px 0
-        }
+        <div class="card">
+            <h3><a href="/admin/insights/">Insights</a></h3>
+            <p>Facebook data and Google Analytics.</p>
+        </div>
 
-        .admin-links .accordion>a {
-            display: inline-flex;
-            gap: 6px;
-            align-items: center
-        }
+        <div class="card">
+            <h3><a href="/admin/printing/">Printing Materials</a></h3>
+            <p>Order flyers, cards, and more.</p>
+        </div>
 
-        .admin-links .accordion .caret {
-            transition: transform .15s ease-in-out
-        }
+        <div class="card">
+            <h3><a href="/admin/billing/">Billing</a></h3>
+            <p>All your payments here. Invoices and receipts.</p>
+        </div>
+        <div class="card">
+            <h3><a href="/admin/billing/">Settings</a></h3>
+            <p>Settings for your admin and for your website. Make major changes on your account. Upgrades, request new
+                features, Cancel your account.</p>
+        </div>
+    </div>
+</div>
 
-        .admin-links .accordion>a[aria-expanded="true"] .caret {
-            transform: rotate(90deg)
-        }
 
-        .subs {
-            list-style: none;
-            margin: 0;
-            padding: 0
-        }
-
-        .subs li {
-            margin: 6px 0
-        }
-    </style>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const toggle = document.getElementById('dienstenToggle');
-            const list = document.getElementById('dienstenList');
-            if (!toggle || !list) return;
-            const open = () => { list.style.display = 'block'; toggle.setAttribute('aria-expanded', 'true'); };
-            const close = () => { list.style.display = 'none'; toggle.setAttribute('aria-expanded', 'false'); };
-            const isOpen = () => toggle.getAttribute('aria-expanded') === 'true';
-            toggle.addEventListener('click', function (e) { e.preventDefault(); isOpen() ? close() : open(); });
-        });
-    </script>
-    {% endblock %}
-
-    {% block sidebar %}{% endblock %}
+{% endblock %}

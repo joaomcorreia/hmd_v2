@@ -51,7 +51,7 @@ ROOT_URLCONF = "hmd.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": TEMPLATE_DIRS,
+        "DIRS": [BASE_DIR / "HMD" / "templates"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
