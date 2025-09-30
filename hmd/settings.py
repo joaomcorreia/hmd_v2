@@ -51,7 +51,8 @@ ROOT_URLCONF = "hmd.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [BASE_DIR / "HMD" / "templates"],
+        # Use TEMPLATE_DIRS so project-level templates and optional admin_templates are found
+        "DIRS": TEMPLATE_DIRS,
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -111,3 +112,6 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # Allow admin preview iframes
 X_FRAME_OPTIONS = 'SAMEORIGIN'
+ 
+# Where to redirect users after logout (safe default)
+LOGOUT_REDIRECT_URL = '/'
