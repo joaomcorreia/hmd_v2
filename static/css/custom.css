@@ -354,3 +354,35 @@ a#renovatie {
     -webkit-text-fill-color: #fff !important;
     opacity: 1;
 }
+
+/* Login/logout button in header — minimal text-link style (Option B)
+   keeps a subtle inline appearance without a solid button background */
+.site-button-login {
+    display: inline;
+    vertical-align: middle;
+    padding: 0 6px;
+    background: none;
+    color: #00a651; /* site accent as a subtle link */
+    text-decoration: none;
+    border: none;
+    border-radius: 0;
+    font-weight: 500;
+}
+
+.site-button-login i {
+    font-size: 0.95em;
+    margin-right: 4px;
+}
+
+.site-button-login:hover,
+.site-button-login:focus {
+    text-decoration: underline;
+    color: #0c5a33; /* slightly darker on hover */
+}
+
+@media (max-width: 768px) {
+    .site-button-login {
+        padding: 0 6px;
+        font-size: 14px;
+    }
+}
