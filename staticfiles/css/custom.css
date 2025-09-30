@@ -354,3 +354,15 @@ a#renovatie {
     -webkit-text-fill-color: #fff !important;
     opacity: 1;
 }
+
+.site-button-login {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem; /* reduced gap so icon and text are tighter */
+    font-size: 14px; /* slightly smaller than before */
+    font-weight: 500; /* less bold */
+    color: #ffffff !important;
+    border-radius: 6px;
+    text-decoration: none !important;
+    padding: 0 6px; /* small horizontal padding to keep spacing */
+}
