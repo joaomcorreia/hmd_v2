@@ -9455,7 +9455,7 @@ HEADER (top part of page)
 
 
 .extra-nav .extra-cell>a {
-	font-size: 18px;
+	font-size: 12px !important;
 }
 
 

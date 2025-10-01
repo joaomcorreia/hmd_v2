@@ -3,6 +3,8 @@
 
 {% block extrastyle %}
 {{ block.super }}
+<link rel="stylesheet" href="{% static 'css/admin_main_styles.css' %}
+">
 <style>
   .tool-preview-layout {
     display: flex;
@@ -41,9 +43,9 @@
   <div class="module">
     <h2>PAGES</h2>
     <ul class="actionlist">
-  <li{% if tool_slug == 'home-preview' %} class="active" {% endif %}><a
+      <li{% if tool_slug=='home-preview' %} class="active" {% endif %}><a
           href="{% url 'admin-tool' 'home-preview' %}">Homepage Preview</a></li>
-  <li{% if tool_slug == 'over-ons-preview' %} class="active" {% endif %}><a
+        <li{% if tool_slug=='over-ons-preview' %} class="active" {% endif %}><a
             href="{% url 'admin-tool' 'over-ons-preview' %}">Over Ons Preview</a></li>
           <li><a href="{% url 'admin-tool' 'overview' %}">Overview</a></li>
           <li><a href="{% url 'admin-tool' 'website' %}">Website</a></li>

@@ -4,46 +4,11 @@
 {% block extrastyle %}
 {{ block.super }}
 <link rel="stylesheet" href="{% static 'css/admin_main_styles.css' %}">
-{% endblock %}
-{% include sidebar.html %}
-{% block content %}
-
-<div class="admin-sidebar">
-    <div class="module">
-        <h2>SUSBSCRIPTIONS</h2>
-        <ul class="actionlist">
-            <li><a href="{% url 'admin-tool' 'overview' %}">Overview</a></li>
-            <li><a href="{% url 'admin-tool' 'domain-name' %}">Domain Name</a></li>
-            <li><a href="{% url 'admin-tool' 'hosting' %}">Hosting</a></li>
-            <li><a href="{% url 'admin-tool' 'website' %}">Website</a></li>
-            <li><a href="{% url 'admin-tool' 'seo' %}">SEO</a></li>
-            <li><a href="{% url 'admin-tool' 'social-networks' %}">Social Networks</a></li>
-        </ul>
-        <h2>GOOGLE</h2>
-        <ul class="actionlist">
-            <li><a href="{% url 'admin-tool' 'all_settings' %}">Overview</a></li>
-        </ul>
-        <h2>FACEBOOK</h2>
-        <ul class="actionlist">
-            <li><a href="{% url 'admin-tool' 'all_settings' %}">Overview</a></li>
-        </ul>
-        <h2>USERS</h2>
-        <ul class="actionlist">
-            <li><a href="{% url 'admin-tool' 'all_settings' %}">Overview</a></li>
-        </ul>
-        <h2>SETTINGS</h2>
-        <ul class="actionlist">
-            <li><a href="{% url 'admin-tool' 'all_settings' %}">Overview</a></li>
-        </ul>
-    </div>
-</div>
-<!-- AI Features Pricing Table | JCW Admin -->
-<!-- AI Plans with Legend | JCW Admin -->
 <style>
     .pricing-wrap {
         font-family: system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
         color: #111;
-        line-height: 1.45
+        line-height: 1.45;
     }
 
     .legend {
@@ -51,69 +16,69 @@
         border: 1px solid #e5e7eb;
         border-radius: 10px;
         padding: 14px 16px;
-        margin: 0 0 14px
+        margin: 0 0 14px;
     }
 
     .legend h3 {
         font-size: 16px;
-        margin: 0 0 8px
+        margin: 0 0 8px;
     }
 
     .legend ul {
         margin: 0;
-        padding-left: 18px
+        padding-left: 18px;
     }
 
     .legend li {
-        margin: 6px 0
+        margin: 6px 0;
     }
 
     .legend .note {
         font-size: 12px;
         color: #6b7280;
-        margin-top: 8px
+        margin-top: 8px;
     }
 
     .table {
         width: 100%;
         border-collapse: collapse;
-        font-size: 14px
+        font-size: 14px;
     }
 
     .table caption {
         text-align: left;
         font-weight: 600;
-        margin: 0 0 8px
+        margin: 0 0 8px;
     }
 
     .table th,
     .table td {
         border: 1px solid #e5e7eb;
         padding: 10px 12px;
-        vertical-align: top
+        vertical-align: top;
     }
 
     .table thead th {
         background: #f1f5f9;
         font-weight: 700;
-        text-align: left
+        text-align: left;
     }
 
     .plan-col {
-        min-width: 190px
+        min-width: 190px;
     }
 
     .feature-col {
-        width: 28%
+        width: 28%;
     }
 
     .price {
         font-size: 18px;
-        font-weight: 800
+        font-weight: 800;
     }
 
     .muted {
-        color: #6b7280
+        color: #6b7280;
     }
 
     .badge {
@@ -123,21 +88,24 @@
         border-radius: 999px;
         background: #eef2ff;
         color: #3730a3;
-        margin-left: 6px
+        margin-left: 6px;
     }
 
     @media (max-width: 900px) {
         .table {
-            font-size: 13px
+            font-size: 13px;
         }
 
         .feature-col {
-            width: auto
+            width: auto;
         }
     }
 </style>
+{% endblock %}
+{% block content %}
+{% include sidebar_template|default:"admin/sidebar.html" %}
 
-<div class="pricing-wrap">
+<div class="wrap">
 
     <!-- LEGEND / EXPLANATION -->
     <div class="legend">

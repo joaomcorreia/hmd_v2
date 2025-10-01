@@ -1,0 +1,54 @@
+{% extends "admin/base_site.html" %}
+{% load static %}
+
+{% block extrastyle %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'css/admin_main_styles.css' %}">
+<style>
+    .prints-wrap {
+        display: flex;
+        gap: 24px;
+        align-items: flex-start
+    }
+
+    .sticker-preview {
+        width: 200px;
+        height: 200px;
+        border: 1px dashed #ccc;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center
+    }
+
+    .form-row {
+        margin: 8px 0
+    }
+</style>
+{% endblock %}
+
+
+{% block content %}
+{% include sidebar_template|default:"admin/sidebar.html" %}
+<div class="wrap">
+    <div>
+        <h1>Stickers — Preview</h1>
+        <div class="sticker-preview" id="sticker-preview">
+            <div id="sticker-text">Sticker Text</div>
+        </div>
+        <h3>Edit details</h3>
+        <div>
+            <label class="form-row">Text: <input id="inp-sticker-text" value="Sticker Text"></label>
+        </div>
+    </div>
+</div>
+
+<script>
+    function applySticker() {
+        document.getElementById('sticker-text').textContent = document.getElementById('inp-sticker-text').value;
+    }
+    document.getElementById('inp-sticker-text').addEventListener('input', applySticker);
+    applySticker();
+</script>
+
+{% endblock %}

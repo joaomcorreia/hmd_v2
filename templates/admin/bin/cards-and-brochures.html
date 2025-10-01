@@ -3,7 +3,6 @@
 
 {% block extrastyle %}
 {{ block.super }}
-<link rel="stylesheet" href="{% static 'css/admin_main_styles.css' %}">
 <style>
     .cards-tool-layout {
         display: flex;
@@ -165,11 +164,11 @@
 
 {% block content %}
 {% with
-  default_name=request.user.get_full_name|default:request.user.username|default:'Contactpersoon'
-  default_title=request.user.profile.job_title|default:'Eigenaar'
-  default_phone=SITE_SETTINGS_PHONE_DISPLAY
-  default_email=request.user.email|default:SITE_SETTINGS_EMAIL
-  default_company=SITE_SETTINGS_COMPANY
+default_name=request.user.get_full_name|default:request.user.username|default:'Contactpersoon'
+default_title=request.user.profile.job_title|default:'Eigenaar'
+default_phone=SITE_SETTINGS_PHONE_DISPLAY
+default_email=request.user.email|default:SITE_SETTINGS_EMAIL
+default_company=SITE_SETTINGS_COMPANY
 %}
 <div class="cards-tool-layout">
     {% include "admin/sidebar.html" %}
@@ -190,13 +189,16 @@
                         <input type="text" id="cards-input-name" placeholder="Jane Doe" value="{{ default_name }}">
                     </label>
                     <label>Title / Function
-                        <input type="text" id="cards-input-title" placeholder="Web Developer" value="{{ default_title }}">
+                        <input type="text" id="cards-input-title" placeholder="Web Developer"
+                            value="{{ default_title }}">
                     </label>
                     <label>Phone
-                        <input type="text" id="cards-input-phone" placeholder="+31 6 1234 5678" value="{{ default_phone }}">
+                        <input type="text" id="cards-input-phone" placeholder="+31 6 1234 5678"
+                            value="{{ default_phone }}">
                     </label>
                     <label>Email
-                        <input type="email" id="cards-input-email" placeholder="jane@email.com" value="{{ default_email }}">
+                        <input type="email" id="cards-input-email" placeholder="jane@email.com"
+                            value="{{ default_email }}">
                     </label>
                     <label>Company Name
                         <input type="text" id="cards-input-company" placeholder="Just Code Works"
@@ -205,7 +207,8 @@
                 </form>
                 <div class="cards-tool-preview">
                     <div class="cards-tool-card" aria-live="polite">
-                        <div class="cards-tool-card-logo" id="cards-logo">{{ default_company|default:"JC"|slice:":2"|upper }}</div>
+                        <div class="cards-tool-card-logo" id="cards-logo">{{
+                            default_company|default:"JC"|slice:":2"|upper }}</div>
                         <div class="cards-tool-card-name" id="cards-name">{{ default_name }}</div>
                         <div class="cards-tool-card-title" id="cards-title">{{ default_title }}</div>
                         <div class="cards-tool-card-contact" id="cards-company">{{ default_company }}</div>
@@ -306,10 +309,3 @@
 </script>
 {% endwith %}
 {% endblock %}
-
-
-
-
-
-
-

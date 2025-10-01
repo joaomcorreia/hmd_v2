@@ -1,0 +1,21 @@
+{% extends "admin/base_site.html" %}
+{% load static %}
+
+{% block extrastyle %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'css/admin_main_styles.css' %}">
+{% endblock %}
+
+{% block content %}
+{% include sidebar_template|default:"admin/sidebar.html" %}
+
+<div class="wrap">
+    <h1>Users</h1>
+    <p>This links to the default Django admin users list.</p>
+    <p><a href="{% url 'admin:auth_user_changelist' %}">Open Users in Admin</a></p>
+    <h1>Users</h1>
+    <p>This links to the default Django admin users list.</p>
+    <p><a href="{% url 'admin:auth_user_changelist' %}">Open Users in Admin</a></p>
+</div>
+
+{% endblock %}

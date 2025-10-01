@@ -1,35 +1,34 @@
 {% extends "admin/base_site.html" %}
 {% load static %}
 
-{% block branding %}
-<h1 id="site-name"><a href="{% url 'admin:index' %}">HMD Klusbedrijf — Admin</a></h1>
+{% block extrastyle %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'css/admin_main_styles.css' %}
+">
 {% endblock %}
 
-{% block extrastyle %}{{ block.super }}
+{% block content %}
+{% include sidebar_template|default:"admin/sidebar.html" %}
 
-<div class="google-analytics-report">
-    <style>
-        .google-analytics-report {
-            display: flex;
-            justify-content: center;
-            margin-top: 20px;
-        }
 
-        .google-analytics-report iframe {
-            width: 100%;
-            max-width: 1200px;
-            height: 800px;
-            border: none;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-    </style>
-    <iframe width="600" height="450"
-        src="https://lookerstudio.google.com/embed/reporting/7380db5e-fbb4-4ede-bc77-ed0fee2116fc/page/6zXD"
-        frameborder="0" style="border:0" allowfullscreen
-        sandbox="allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"></iframe>
+<style>
+    .google-analytics-report {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+    }
 
-    {% endblock %}
-    {% block content %}
+    .google-analytics-report iframe {
+        width: 100%;
+        max-width: 1200px;
+        height: 800px;
+        border: none;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+</style>
+<div class="wrap">
+    <h1>Google Analytics Reports</h1>
+</div>
 
-    {% endblock %}
+{% endblock %}

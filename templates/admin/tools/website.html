@@ -7,33 +7,10 @@
 {% endblock %}
 
 {% block content %}
+{% include sidebar_template|default:"admin/sidebar.html" %}
 
 
-<div class="admin-sidebar">
-    <div class="module">
-        <h2>EDIT WEBSITE</h2>
-        <ul class="actionlist">
-            <li><a href="{% url 'admin-tool' 'home-preview' %}">Edit Website</a></li>
-        </ul>
-        <h2>SUSBSCRIPTIONS</h2>
-        <ul class="actionlist">
-            <li><a href="{% url 'admin-tool' 'overview' %}">Overview</a></li>
-            <li><a href="{% url 'admin-tool' 'domain-name' %}">Domain Name</a></li>
-            <li><a href="{% url 'admin-tool' 'hosting' %}">Hosting</a></li>
-            <li><a href="{% url 'admin-tool' 'website' %}">Website</a></li>
-            <li><a href="{% url 'admin-tool' 'seo' %}">SEO</a></li>
-            <li><a href="{% url 'admin-tool' 'ai' %}">AI</a></li>
-            <li><a href="{% url 'admin-tool' 'social-networks' %}">Social Networks</a></li>
-        </ul>
-
-        <h2>SETTINGS</h2>
-        <ul class="actionlist">
-            <li><a href="{% url 'admin-tool' 'all_settings' %}">Overview</a></li>
-        </ul>
-    </div>
-
-</div>
-<section class="pricing">
+<div class="wrap">
     <h2>Website Pakketten</h2>
     <div class="pricing-grid">
 
@@ -116,7 +93,7 @@
         </div>
 
     </div>
-</section>
+</div>
 {% endblock %}
 
 {% block extrahead %}

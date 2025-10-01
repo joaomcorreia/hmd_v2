@@ -3,6 +3,8 @@
 <nav id="nav-sidebar" aria-label="{% translate 'Sidebar' %}">
     <input type="search" id="nav-filter" placeholder="{% translate 'Filter navigation' %}">
     {% include "admin/app_list.html" with app_list=available_apps show_changelinks=False %}
+    {# Include the shared admin tools sidebar so it also appears on model changelist pages #}
+    {% include "admin/sidebar.html" %}
 
     <div class="module" style="margin-top:16px">
         <h2>SUBSCRIPTIONS</h2>

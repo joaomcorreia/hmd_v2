@@ -86,7 +86,11 @@
                                 <button type="submit" class="btn-login"><i class="fa fa-sign-out"></i> Logout</button>
                             </form>
                             {% else %}
-                            <a href="{% url 'admin:login' %}?next=/admin/" class="btn-login"><i class="fa fa-user"></i> Login</a>
+                            <!-- Open admin login in a new tab so the site header doesn't show the login form -->
+                            <a href="{% url 'admin:login' %}?next=/admin/" target="_blank" rel="noopener" class="btn-login">
+                                <i class="fa fa-user"></i>
+                                <span class="sr-only">Admin login</span>
+                            </a>
                             {% endif %}
                         </div>
                         <div class="extra-cell">
@@ -95,8 +99,7 @@
                     </div>
 
                     <!-- Contact slide -->
-                    <div class="contact-slide-hide" style="background-image: url('{% static " img/background/bg-5.png"
-                        %}');">
+                    <div class="contact-slide-hide" style="background-image: url('{% static 'img/background/bg-5.png' %}');">
                         <div class="contact-nav">
                             <a href="javascript:void(0)" class="contact_close">&times;</a>
                             <div class="contact-nav-form p-a30">

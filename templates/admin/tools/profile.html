@@ -1,0 +1,24 @@
+{% extends "admin/base_site.html" %}
+{% load static %}
+
+{% block extrastyle %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'css/admin_main_styles.css' %}
+">
+{% endblock %}
+
+{% block content %}
+{% include sidebar_template|default:"admin/sidebar.html" %}
+
+<div class="wrap">
+    <h1>Your Profile</h1>
+    <p>Logged in as: <strong>{{ request.user.get_full_name|default:request.user.username }}</strong></p>
+    <ul>
+        <li>Username: {{ request.user.username }}</li>
+        <li>Email: {{ request.user.email }}</li>
+        <li>Staff: {{ request.user.is_staff }}</li>
+        <li>Superuser: {{ request.user.is_superuser }}</li>
+    </ul>
+    <p><a href="{% url 'admin:auth_user_change' request.user.pk %}">Edit your user</a></p>
+</div>
+{% endblock %}

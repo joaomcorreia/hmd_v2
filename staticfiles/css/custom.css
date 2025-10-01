@@ -358,11 +358,24 @@ a#renovatie {
 .site-button-login {
     display: inline-flex;
     align-items: center;
-    gap: 0.25rem; /* reduced gap so icon and text are tighter */
-    font-size: 14px; /* slightly smaller than before */
-    font-weight: 500; /* less bold */
+    gap: 0.25rem;
+    /* reduced gap so icon and text are tighter */
+    font-size: 10px !important;
     color: #ffffff !important;
     border-radius: 6px;
     text-decoration: none !important;
-    padding: 0 6px; /* small horizontal padding to keep spacing */
+    padding: 0 6px;
+    /* small horizontal padding to keep spacing */
+}
+
+.btn-login {
+    display: inline-flex;
+    align-items: center;
+    font-size: 8px !important;
+    color: #ffffff !important;
+    border-radius: 6px;
+    text-decoration: none !important;
+    padding: 0 6px;
+    background-color: #111;
+    /* small horizontal padding to keep spacing */
 }

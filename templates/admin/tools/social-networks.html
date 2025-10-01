@@ -3,14 +3,14 @@
 
 {% block extrastyle %}
 {{ block.super }}
-<link rel="stylesheet" href="{% static 'css/admin_main_styles.css' %}">
+<link rel="stylesheet" href="{% static 'css/admin_main_styles.css' %}
+">
+
 {% endblock %}
 
 {% block content %}
+{% include sidebar_template|default:"admin/sidebar.html" %}
 
-{% block sidebar %}
-{% include "admin/sidebar.html" %}
-{% endblock %}
 
 <section class="pricing">
     <h2>Website Pakketten</h2>

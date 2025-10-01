@@ -642,6 +642,23 @@ tbody tr:hover {
     font-size: 12px
 }
 
+.prints-wrap {
+    display: flex;
+    gap: 24px;
+    align-items: flex-start
+}
+
+.other-preview {
+    width: 320px;
+    height: 200px;
+    border: 1px solid #ddd;
+    padding: 12px
+}
+
+.form-row {
+    margin: 8px 0
+}
+
 @media (max-width:720px) {
     thead {
         display: none

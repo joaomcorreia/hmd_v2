@@ -1,0 +1,31 @@
+{% extends "admin/base_site.html" %}
+{% load static %}
+
+{% block extrastyle %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'css/admin_main_styles.css' %}
+">
+{% endblock %}
+
+{% block content %}
+{% include sidebar_template|default:"admin/sidebar.html" %}
+<div class="prints-wrap">
+    <div>
+        <h1>Other Prints — Preview</h1>
+        <div class="other-preview" id="other-preview">
+            <div id="other-text">Preview area</div>
+        </div>
+        <h3>Edit details</h3>
+        <div>
+            <label class="form-row">Text: <input id="inp-other-text" value="Preview area"></label>
+        </div>
+    </div>
+</div>
+
+<script>
+    function applyOther() { document.getElementById('other-text').textContent = document.getElementById('inp-other-text').value }
+    document.getElementById('inp-other-text').addEventListener('input', applyOther);
+    applyOther();
+</script>
+
+{% endblock %}

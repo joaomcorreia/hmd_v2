@@ -3,7 +3,8 @@
 
 {% block extrastyle %}
 {{ block.super }}
-<link rel="stylesheet" href="{% static 'css/admin_main_styles.css' %}">
+<link rel="stylesheet" href="{% static 'css/admin_main_styles.css' %}
+">
 <!-- SEO Pricing | 3 monthly plans + 1 one-off -->
 <style>
     :root {
@@ -197,130 +198,102 @@
 
 {% block content %}
 
-<div class="admin-sidebar">
-    <div class="module">
-        <h2>EDIT WEBSITE</h2>
-        <ul class="actionlist">
-            <li><a href="{% url 'admin-tool' 'home-preview' %}">Edit Website</a></li>
-        </ul>
-        <h2>SUSBSCRIPTIONS</h2>
-        <ul class="actionlist">
-            <li><a href="{% url 'admin-tool' 'overview' %}">Overview</a></li>
-            <li><a href="{% url 'admin-tool' 'domain-name' %}">Domain Name</a></li>
-            <li><a href="{% url 'admin-tool' 'hosting' %}">Hosting</a></li>
-            <li><a href="{% url 'admin-tool' 'website' %}">Website</a></li>
-            <li><a href="{% url 'admin-tool' 'seo' %}">SEO</a></li>
-            <li><a href="{% url 'admin-tool' 'social-networks' %}">Social Networks</a></li>
-        </ul>
-        <h2>GOOGLE</h2>
-        <ul class="actionlist">
-            <li><a href="{% url 'admin-tool' 'all_settings' %}">Overview</a></li>
-        </ul>
-        <h2>FACEBOOK</h2>
-        <ul class="actionlist">
-            <li><a href="{% url 'admin-tool' 'all_settings' %}">Overview</a></li>
-        </ul>
-        <h2>USERS</h2>
-        <ul class="actionlist">
-            <li><a href="{% url 'admin-tool' 'all_settings' %}">Overview</a></li>
-        </ul>
-        <h2>SETTINGS</h2>
-        <ul class="actionlist">
-            <li><a href="{% url 'admin-tool' 'all_settings' %}">Overview</a></li>
-        </ul>
+{% include sidebar_template|default:"admin/sidebar.html" %}
+
+<div class="wrap">
+    <h1>SEO Plans & Pricing</h1>
+    <div class="seo-pricing">
+
+        <!-- Legend -->
+        <div class="legend">
+            <h3>Why monthly plans exist</h3>
+            <p><strong>One-time setup</strong> covers the base SEO. <strong>Monthly plans</strong> keep rankings alive
+                with
+                scheduled AI updates, new content,
+                per-service/location tweaks, and crawl pings. Choose one-off if you only want the initial fix.</p>
+        </div>
+
+        <!-- Pricing cards -->
+        <div class="pricing-grid">
+
+            <!-- Basic -->
+            <section class="plan">
+                <header>
+                    <div class="title">Basic</div>
+                    <div class="subtitle">Starter on-page SEO</div>
+                    <div class="price">€39</div>
+                    <div class="period">per month</div>
+                </header>
+                <div class="features">
+                    <div class="row"><span>Titles & meta for core pages</span></div>
+                    <div class="row"><span>Core JSON-LD (Org/Local)</span></div>
+                    <div class="row"><span>Optimize up to 5 pages</span></div>
+                    <div class="row"><span>XML sitemap + crawl ping</span></div>
+                    <div class="row"><span>AI updates</span><span class="dash">—</span></div>
+                    <div class="row"><span>Reports</span><span class="dash">—</span></div>
+                </div>
+                <div class="cta"><a href="#" class="btn">Choose Basic</a></div>
+            </section>
+
+            <!-- Growth (Active) -->
+            <section class="plan active">
+                <header class="ribbon">
+                    <div class="title">Growth</div>
+                    <div class="subtitle">Local services + radius</div>
+                    <div class="price">€89</div>
+                    <div class="period">per month</div>
+                    <span>Your plan</span>
+                </header>
+                <div class="features">
+                    <div class="row"><span>Everything in Basic</span></div>
+                    <div class="row"><span>Up to 20 service pages</span></div>
+                    <div class="row"><span>Locations: radius ≤ 50 km</span></div>
+                    <div class="row"><span>Per-service JSON-LD</span></div>
+                    <div class="row"><span>AI meta refresh</span><span>weekly</span></div>
+                    <div class="row"><span>Monthly report</span><span>included</span></div>
+                </div>
+                <div class="cta"><a href="#" class="btn">Choose Growth</a></div>
+            </section>
+
+            <!-- Pro EU -->
+            <section class="plan">
+                <header>
+                    <div class="title">Pro EU</div>
+                    <div class="subtitle">Multi-city & multilingual</div>
+                    <div class="price">€199</div>
+                    <div class="period">per month</div>
+                </header>
+                <div class="features">
+                    <div class="row"><span>Everything in Growth</span></div>
+                    <div class="row"><span>60+ locations or custom list</span></div>
+                    <div class="row"><span>5 languages supported</span></div>
+                    <div class="row"><span>AI pages/FAQs/JSON-LD</span><span>monthly</span></div>
+                    <div class="row"><span>A/B test titles & H1</span></div>
+                    <div class="row"><span>GBP sync + sitemap auto-pings</span></div>
+                </div>
+                <div class="cta"><a href="#" class="btn">Choose Pro EU</a></div>
+            </section>
+
+            <!-- One-Off Jumpstart -->
+            <section class="plan oneoff">
+                <header>
+                    <div class="title">One-Off Jumpstart</div>
+                    <div class="subtitle">Audit + fix + 5 pages</div>
+                    <div class="price">€349</div>
+                </header>
+                <div class="features">
+                    <div class="row"><span>Technical audit + fixes</span></div>
+                    <div class="row"><span>Titles, metas, H1, canonicals</span></div>
+                    <div class="row"><span>Core JSON-LD (Org/Local)</span></div>
+                    <div class="row"><span>Optimize up to 5 pages</span></div>
+                    <div class="row"><span>XML sitemap submit + ping</span></div>
+                    <div class="row"><span>Warranty</span><span>14-day tweaks</span></div>
+                </div>
+                <div class="cta"><a href="#" class="btn">Book One-Off</a></div>
+                <div class="small">No ongoing AI updates or reports.</div>
+            </section>
+
+        </div>
     </div>
 </div>
-<div class="seo-pricing">
-
-    <!-- Legend -->
-    <div class="legend">
-        <h3>Why monthly plans exist</h3>
-        <p><strong>One-time setup</strong> covers the base SEO. <strong>Monthly plans</strong> keep rankings alive with
-            scheduled AI updates, new content,
-            per-service/location tweaks, and crawl pings. Choose one-off if you only want the initial fix.</p>
-    </div>
-
-    <!-- Pricing cards -->
-    <div class="pricing-grid">
-
-        <!-- Basic -->
-        <section class="plan">
-            <header>
-                <div class="title">Basic</div>
-                <div class="subtitle">Starter on-page SEO</div>
-                <div class="price">€39</div>
-                <div class="period">per month</div>
-            </header>
-            <div class="features">
-                <div class="row"><span>Titles & meta for core pages</span></div>
-                <div class="row"><span>Core JSON-LD (Org/Local)</span></div>
-                <div class="row"><span>Optimize up to 5 pages</span></div>
-                <div class="row"><span>XML sitemap + crawl ping</span></div>
-                <div class="row"><span>AI updates</span><span class="dash">—</span></div>
-                <div class="row"><span>Reports</span><span class="dash">—</span></div>
-            </div>
-            <div class="cta"><a href="#" class="btn">Choose Basic</a></div>
-        </section>
-
-        <!-- Growth (Active) -->
-        <section class="plan active">
-            <header class="ribbon">
-                <div class="title">Growth</div>
-                <div class="subtitle">Local services + radius</div>
-                <div class="price">€89</div>
-                <div class="period">per month</div>
-                <span>Your plan</span>
-            </header>
-            <div class="features">
-                <div class="row"><span>Everything in Basic</span></div>
-                <div class="row"><span>Up to 20 service pages</span></div>
-                <div class="row"><span>Locations: radius ≤ 50 km</span></div>
-                <div class="row"><span>Per-service JSON-LD</span></div>
-                <div class="row"><span>AI meta refresh</span><span>weekly</span></div>
-                <div class="row"><span>Monthly report</span><span>included</span></div>
-            </div>
-            <div class="cta"><a href="#" class="btn">Choose Growth</a></div>
-        </section>
-
-        <!-- Pro EU -->
-        <section class="plan">
-            <header>
-                <div class="title">Pro EU</div>
-                <div class="subtitle">Multi-city & multilingual</div>
-                <div class="price">€199</div>
-                <div class="period">per month</div>
-            </header>
-            <div class="features">
-                <div class="row"><span>Everything in Growth</span></div>
-                <div class="row"><span>60+ locations or custom list</span></div>
-                <div class="row"><span>5 languages supported</span></div>
-                <div class="row"><span>AI pages/FAQs/JSON-LD</span><span>monthly</span></div>
-                <div class="row"><span>A/B test titles & H1</span></div>
-                <div class="row"><span>GBP sync + sitemap auto-pings</span></div>
-            </div>
-            <div class="cta"><a href="#" class="btn">Choose Pro EU</a></div>
-        </section>
-
-        <!-- One-Off Jumpstart -->
-        <section class="plan oneoff">
-            <header>
-                <div class="title">One-Off Jumpstart</div>
-                <div class="subtitle">Audit + fix + 5 pages</div>
-                <div class="price">€349</div>
-            </header>
-            <div class="features">
-                <div class="row"><span>Technical audit + fixes</span></div>
-                <div class="row"><span>Titles, metas, H1, canonicals</span></div>
-                <div class="row"><span>Core JSON-LD (Org/Local)</span></div>
-                <div class="row"><span>Optimize up to 5 pages</span></div>
-                <div class="row"><span>XML sitemap submit + ping</span></div>
-                <div class="row"><span>Warranty</span><span>14-day tweaks</span></div>
-            </div>
-            <div class="cta"><a href="#" class="btn">Book One-Off</a></div>
-            <div class="small">No ongoing AI updates or reports.</div>
-        </section>
-
-    </div>
-</div>
-
 {% endblock %}

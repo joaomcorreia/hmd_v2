@@ -3,16 +3,19 @@
 
 {% block extrastyle %}
 {{ block.super }}
-<link rel="stylesheet" href="{% static 'css/admin_main_styles.css' %}">
+<link rel="stylesheet" href="{% static 'css/admin_main_styles.css' %}
+">
 <style>
   .tool-preview-layout {
     display: flex;
     gap: 24px;
   }
+
   .tool-preview-layout .preview-panel {
     flex: 1;
     min-height: 70vh;
   }
+
   .tool-preview-layout iframe {
     width: 100%;
     border: 1px solid #d7d7d7;
@@ -20,12 +23,14 @@
     min-height: 80vh;
     background: #fff;
   }
+
   .tool-preview-layout .preview-help {
     font-size: 13px;
     line-height: 1.6;
     margin-bottom: 12px;
     color: #555;
   }
+
   .tool-preview-layout .preview-help strong {
     color: #1e4db7;
   }
@@ -33,51 +38,21 @@
 {% endblock %}
 
 {% block content %}
+{% include sidebar_template|default:"admin/sidebar.html" %}
 {% with tool_slug=request.resolver_match.kwargs.slug %}
-<div class="admin-sidebar">
-    <div class="module">
-        <h2>PAGES</h2>
-        <ul class="actionlist">
-            <li{% if tool_slug == 'home-preview' %} class="active"{% endif %}><a href="{% url 'admin-tool' 'home-preview' %}">Homepage Preview</a></li>
-            <li{% if tool_slug == 'over-ons-preview' %} class="active"{% endif %}><a href="{% url 'admin-tool' 'over-ons-preview' %}">Over Ons Preview</a></li>
-            <li><a href="{% url 'admin-tool' 'overview' %}">Overview</a></li>
-            <li><a href="{% url 'admin-tool' 'website' %}">Website</a></li>
-        </ul>
-        <h2>SUSBSCRIPTIONS</h2>
-        <ul class="actionlist">
-            <li><a href="{% url 'admin-tool' 'domain-name' %}">Domain Name</a></li>
-            <li><a href="{% url 'admin-tool' 'hosting' %}">Hosting</a></li>
-            <li><a href="{% url 'admin-tool' 'seo' %}">SEO</a></li>
-            <li><a href="{% url 'admin-tool' 'social-networks' %}">Social Networks</a></li>
-        </ul>
-        <h2>GOOGLE</h2>
-        <ul class="actionlist">
-            <li><a href="{% url 'admin-tool' 'google' %}">Overview</a></li>
-        </ul>
-        <h2>FACEBOOK</h2>
-        <ul class="actionlist">
-            <li><a href="{% url 'admin-tool' 'all_settings' %}">Overview</a></li>
-        </ul>
-        <h2>USERS</h2>
-        <ul class="actionlist">
-            <li><a href="{% url 'admin-tool' 'all_settings' %}">Overview</a></li>
-        </ul>
-        <h2>SETTINGS</h2>
-        <ul class="actionlist">
-            <li><a href="{% url 'admin-tool' 'all_settings' %}">Overview</a></li>
-        </ul>
+
+<div class="wrap"> </div>
+<div class="tool-preview-layout">
+  <div class="preview-panel">
+    <div class="preview-help">
+      This is a live preview of your homepage. Changes made in the <strong>Website</strong> tool will be reflected here.
+      Use the <strong>Admin Return</strong> link in the top-right corner of the preview to return to this admin page.
+      Note that some dynamic elements may not display correctly in this preview.
     </div>
+    <iframe src="{% url 'index' %}?preview=1&admin_return={{ request.get_full_path|urlencode }}"
+      title="Homepage preview" loading="lazy"></iframe>
+  </div>
 </div>
 
-<div class="tool-preview-layout">
-    <div class="preview-panel">
-        <div class="preview-help">
-            <strong>Tip:</strong> deze preview laadt de publieke homepage binnen de admin. Wanneer je met de muis over
-            onderdelen beweegt (bijvoorbeeld slides), verschijnt een knop om rechtstreeks naar het bijbehorende
-            bewerkformulier te gaan.
-        </div>
-        <iframe src="{% url 'index' %}?preview=1&admin_return={{ request.get_full_path|urlencode }}" title="Homepage preview" loading="lazy"></iframe>
-    </div>
-</div>
 {% endwith %}
 {% endblock %}

@@ -1,0 +1,42 @@
+{% extends "admin/base_site.html" %}
+{% load static %}
+
+{% block extrastyle %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'css/admin_main_styles.css' %}
+">
+
+{% endblock %}
+
+{% block content %}
+{% include sidebar_template|default:"admin/sidebar.html" %}
+<div class="admin-tools-wrap">
+    <h1>Facebook Insights</h1>
+    <p>Summary of recent Facebook metrics.</p>
+
+    <div id="fb-cards" class="cards-grid">
+        <div class="card">Loading…</div>
+    </div>
+</div>
+<script>
+    async function loadFbSummary() {
+        try {
+            const res = await fetch('/admin/api/fb/summary/');
+            if (!res.ok) throw new Error('Network');
+            const data = await res.json();
+            const target = document.getElementById('fb-cards');
+            target.innerHTML = '';
+            data.cards.forEach(c => {
+                const el = document.createElement('div');
+                el.className = 'card';
+                el.innerHTML = `<h3>${c.title}</h3><div class="value">${c.value}</div>`;
+                target.appendChild(el);
+            });
+        } catch (e) {
+            document.getElementById('fb-cards').innerHTML = '<div class="card error">Failed to load data</div>';
+        }
+    }
+    document.addEventListener('DOMContentLoaded', loadFbSummary);
+</script>
+
+{% endblock %}

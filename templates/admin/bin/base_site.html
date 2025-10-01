@@ -4,7 +4,8 @@
 
 {% block branding %}
 <!-- BRANDING OVERRIDE ACTIVE -->
-<h1 id="site-name"><a href="{% url 'admin:index' %}">{{ SITE_SETTINGS_COMPANY|default:"HMD Klusbedrijf" }} &mdash; Admin</a></h1>
+<h1 id="site-name"><a href="{% url 'admin:index' %}">{{ SITE_SETTINGS_COMPANY|default:"HMD Klusbedrijf" }} &mdash;
+        Admin</a></h1>
 <style>
     #header #site-name {
         display: block !important;
@@ -13,8 +14,8 @@
 </style>
 {% endblock %}
 
+{% block extrastyle %}
+
+<link rel="stylesheet" href="{% static 'css/admin_main_styles.css' %}">
+{% endblock %}
 {% block nav-global %}{% endblock %}
-
-
-
-

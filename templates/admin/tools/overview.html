@@ -2,47 +2,18 @@
 {% load static %}
 
 {% block extrastyle %}
-<link rel="stylesheet" href="{% static 'css/admin_main_styles.css' %}">
 {% endblock %}
+<link rel="stylesheet" href="{% static 'css/admin_main_styles.css' %}
+">
 
 {% block branding %}
 <h1 id="site-name"><a href="{% url 'admin:index' %}">HMD Klusbedrijf — Admin</a></h1>
 {% endblock %}
 
 {% block content %}
-<div class="admin-sidebar">
-    <div class="module">
-        <h2>EDIT WEBSITE</h2>
-        <ul class="actionlist">
-            <li><a href="{% url 'admin-tool' 'home-preview' %}">Edit Website</a></li>
-        </ul>
-        <h2>SUSBSCRIPTIONS</h2>
-        <ul class="actionlist">
-            <li><a href="{% url 'admin-tool' 'overview' %}">Overview</a></li>
-            <li><a href="{% url 'admin-tool' 'domain-name' %}">Domain Name</a></li>
-            <li><a href="{% url 'admin-tool' 'hosting' %}">Hosting</a></li>
-            <li><a href="{% url 'admin-tool' 'website' %}">Website</a></li>
-            <li><a href="{% url 'admin-tool' 'seo' %}">SEO</a></li>
-            <li><a href="{% url 'admin-tool' 'social-networks' %}">Social Networks</a></li>
-        </ul>
-        <h2>GOOGLE</h2>
-        <ul class="actionlist">
-            <li><a href="{% url 'admin-tool' 'all_settings' %}">Overview</a></li>
-        </ul>
-        <h2>FACEBOOK</h2>
-        <ul class="actionlist">
-            <li><a href="{% url 'admin-tool' 'all_settings' %}">Overview</a></li>
-        </ul>
-        <h2>USERS</h2>
-        <ul class="actionlist">
-            <li><a href="{% url 'admin-tool' 'all_settings' %}">Overview</a></li>
-        </ul>
-        <h2>SETTINGS</h2>
-        <ul class="actionlist">
-            <li><a href="{% url 'admin-tool' 'all_settings' %}">Overview</a></li>
-        </ul>
-    </div>
-</div>
+
+{% include sidebar_template|default:"admin/sidebar.html" %}
+
 <div class="wrap">
     <h1>Subscriptions Overview</h1>
     <div class="meta">Laatst bijgewerkt: <span id="updated"></span></div>

@@ -3,9 +3,7 @@
 
 {% block extrastyle %}
 {{ block.super }}
-<link rel="stylesheet" href="{% static 'css/admin_main_styles.css' %}">
 {% endblock %}
-
 
 {% block extrahead %}
 <style>
@@ -78,6 +76,25 @@
         grid-auto-flow: row dense;
     }
 
+    /* Two-column layout: sidebar + main grid */
+    .admin-dashboard-grid {
+        display: grid;
+        grid-template-columns: 260px 1fr;
+        gap: 24px;
+        align-items: start;
+    }
+
+    /* Make sidebar full-width above small screens */
+    @media (max-width: 900px) {
+        .admin-dashboard-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .admin-sidebar {
+            margin-bottom: 0;
+        }
+    }
+
     .dashboard-grid>* {
         grid-column: auto !important
     }
@@ -115,9 +132,9 @@
         margin-bottom: 16px
     }
 
-    #header {
+    /* #header {
         background-color: blanchedalmond;
-    }
+    } */
 
     /* Optional: single column on very small screens */
     @media (max-width:480px) {
@@ -127,89 +144,66 @@
     }
 </style>
 {{ block.super }}
+
 {% endblock %}
 
+
+
 {% block content %}
-<div class="admin-sidebar">
-    <div class="module">
-        <h2>PAGES</h2>
-        <ul class="admin-links">
-            <li>Home</li>
-            <li>Over Ons</li>
-            <li>Diensten</li>
-            <li>Portfolio</li>
-            <li>Contact</li>
-        </ul>
-    </div>
 
-    <div class="module">
-        <h2>SUBSCRIPTIONS</h2>
-        <ul class="admin-links">
-            <li><a href="/admin/tools/overview/">Overview</a></li>
-            <li><a href="/admin/tools/domain-name/">Domain Name</a></li>
-            <li><a href="/admin/tools/hosting/">Hosting</a></li>
-            <li><a href="/admin/tools/website/">Website</a></li>
-            <li><a href="/admin/tools/seo/">SEO</a></li>
-            <li><a href="/admin/tools/social-networks/">Social Networks</a></li>
-        </ul>
-    </div>
+<div class="admin-dashboard-grid">
+    {% include sidebar_template|default:"admin/sidebar.html" %}
 
-    <div class="module">
-        <h2>EDIT CONTENT</h2>
-        <ul class="admin-links">
-            <li><a href="{% url 'admin:core_slide_changelist' %}">Slides beheren</a></li>
-            <li><a href="{% url 'admin:core_portfolioitem_changelist' %}">Portfolio beheren</a></li>
-        </ul>
+    <div class="wrap">
+        <div class="dashboard-grid" role="navigation" aria-label="Admin dashboard quick links">
+            <div class="card">
+                <h3><a href="/admin/domains/overview/">Domain & Ownership</a></h3>
+                <p>Status, dates, transfer to owner.</p>
+            </div>
+
+            <div class="card">
+                <h3><a href="/admin/site/overview/">Website Overview</a></h3>
+                <p>What is live now and next steps.</p>
+            </div>
+
+            <div class="card">
+                <h3><a href="/admin/billing/plans/">Plans & Add-ons</a></h3>
+                <p>Choose a plan. Add features when needed.</p>
+            </div>
+
+            <div class="card">
+                <h3><a href="/admin/help/editing/">Admin Pages & Editing</a></h3>
+                <p>Edit text, images, services, and contact info.</p>
+            </div>
+
+            <div class="card">
+                <h3><a href="/admin/apps/">Apps</a></h3>
+                <p>Image resizer, watermark, QR code maker.</p>
+            </div>
+
+            <div class="card">
+                <h3><a href="/admin/insights/">Insights</a></h3>
+                <p>Facebook data and Google Analytics.</p>
+            </div>
+
+            <div class="card">
+                <h3><a href="/admin/printing/">Printing Materials</a></h3>
+                <p>Order flyers, cards, and more.</p>
+            </div>
+
+            <div class="card">
+                <h3><a href="/admin/billing/">Billing</a></h3>
+                <p>All your payments here. Invoices and receipts.</p>
+            </div>
+            <div class="card">
+                <h3><a href="/admin/billing/">Settings</a></h3>
+                <p>Settings for your admin and for your website. Make major changes on your account. Upgrades, request
+                    new
+                    features, Cancel your account.</p>
+            </div>
+        </div>
     </div>
 </div>
-
-<div class="wrap">
-    <div class="dashboard-grid" role="navigation" aria-label="Admin dashboard quick links">
-        <div class="card">
-            <h3><a href="/admin/domains/overview/">Domain & Ownership</a></h3>
-            <p>Status, dates, transfer to owner.</p>
-        </div>
-
-        <div class="card">
-            <h3><a href="/admin/site/overview/">Website Overview</a></h3>
-            <p>What is live now and next steps.</p>
-        </div>
-
-        <div class="card">
-            <h3><a href="/admin/billing/plans/">Plans & Add-ons</a></h3>
-            <p>Choose a plan. Add features when needed.</p>
-        </div>
-
-        <div class="card">
-            <h3><a href="/admin/help/editing/">Admin Pages & Editing</a></h3>
-            <p>Edit text, images, services, and contact info.</p>
-        </div>
-
-        <div class="card">
-            <h3><a href="/admin/apps/">Apps</a></h3>
-            <p>Image resizer, watermark, QR code maker.</p>
-        </div>
-
-        <div class="card">
-            <h3><a href="/admin/insights/">Insights</a></h3>
-            <p>Facebook data and Google Analytics.</p>
-        </div>
-
-        <div class="card">
-            <h3><a href="/admin/printing/">Printing Materials</a></h3>
-            <p>Order flyers, cards, and more.</p>
-        </div>
-
-        <div class="card">
-            <h3><a href="/admin/billing/">Billing</a></h3>
-            <p>All your payments here. Invoices and receipts.</p>
-        </div>
-        <div class="card">
-            <h3><a href="/admin/billing/">Settings</a></h3>
-            <p>Settings for your admin and for your website. Make major changes on your account. Upgrades, request new
-                features, Cancel your account.</p>
-        </div>
-    </div>
 </div>
 
 

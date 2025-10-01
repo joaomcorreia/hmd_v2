@@ -1,0 +1,96 @@
+{# Use provided tool_slug or default to empty string. Keep logic simple so sidebar can be included from any admin
+template. #}
+{% with tool_slug=tool_slug|default:'' %}
+<aside class="admin-sidebar" role="navigation" aria-label="Admin tools sidebar">
+    <div class="module">
+        <h2>DASHBOARD</h2>
+        <ul class="actionlist">
+            <li><a href="/admin/">Overview</a></li>
+        </ul>
+
+        <h2>EDIT WEBSITE</h2>
+        <ul class="actionlist">
+            <li{% if tool_slug == 'home-preview' %} class="active" {% endif %}><a
+                    href="{% url 'admin-tool' 'home-preview' %}">Edit Homepage</a></li>
+                <li><a href="/admin/core/slide/">- Main Slider</a></li>
+                <li><a href="/admin/core/homecarouselitem/">- Home carousel items</a></li>
+                <li><a href="/admin/core/homeaboutpanel/">- Homepage about panel</a></li>
+                <li><a href="/admin/core/homevalueblock/">- Homepage value block</a></li>
+                <li><a href="/admin/core/aboutpage/">Edit Over Ons</a></li>
+                <li><a href="/admin/core/aboutbenefit/">- About benefits</a></li>
+                <li><a href="/admin/core/aboutcarouselitem/">- About carousel items</a></li>
+                <li><a href="/admin/core/aboutcompanyblock/">- About company blocks</a></li>
+                <li><a href="/admin/core/abouthero/">- About hero</a></li>
+                <li><a href="/admin/core/aboutprocessstep/">- About process steps</a></li>
+        </ul>
+
+        <h2>SUBSCRIPTIONS</h2>
+        <ul class="actionlist">
+            <li{% if tool_slug == 'overview' %} class="active" {% endif %}><a
+                    href="{% url 'admin-tool' 'overview' %}">Overview</a></li>
+                <li{% if tool_slug == 'domain-name' %} class="active" {% endif %}><a
+                        href="{% url 'admin-tool' 'domain-name' %}">Domain</a></li>
+                    <li{% if tool_slug == 'hosting' %} class="active" {% endif %}><a
+                            href="{% url 'admin-tool' 'hosting' %}">Hosting</a></li>
+                        <li{% if tool_slug == 'website' %} class="active" {% endif %}><a
+                                href="{% url 'admin-tool' 'website' %}">Website</a></li>
+                            <li{% if tool_slug == 'seo' %} class="active" {% endif %}><a
+                                    href="{% url 'admin-tool' 'seo' %}">SEO</a></li>
+                                <li{% if tool_slug == 'social-networks' %} class="active" {% endif %}><a
+                                        href="{% url 'admin-tool' 'social-networks' %}">Social Networks</a></li>
+        </ul>
+
+        <h2>AI FEATURES</h2>
+        <ul class="actionlist">
+            <li><a href="{% url 'admin-tool' 'ai' %}">Overview</a></li>
+        </ul>
+
+        <h2>GOOGLE</h2>
+        <ul class="actionlist">
+            <li><a href="{% url 'admin-tool' 'google' %}">Analytics</a></li>
+        </ul>
+
+        <h2>FACEBOOK</h2>
+        <ul class="actionlist">
+            <li><a href="{% url 'admin-tool' 'facebook' %}">Insights</a></li>
+        </ul>
+
+        <h2>SETTINGS</h2>
+        <ul class="actionlist">
+            <li><a href="{% url 'admin-tool' 'all_settings' %}">Site Settings</a></li>
+            <li><a href="{% url 'admin-tool' 'profile' %}">Profile</a></li>
+        </ul>
+
+        <h2>USERS</h2>
+        <ul class="actionlist">
+            <li><a href="{% url 'admin:auth_user_changelist' %}">Overview</a></li>
+            <li{% if tool_slug == 'users' %} class="active" {% endif %}><a href="{% url 'admin-tool' 'users' %}">Users</a>
+                </li>
+        </ul>
+
+        <h2>PRINTS</h2>
+        <ul class="actionlist">
+            <li{% if tool_slug == 'cards' %} class="active" {% endif %}><a href="{% url 'admin-tool' 'cards' %}">Cards</a>
+                </li>
+                <li{% if tool_slug == 'trifold' %} class="active" {% endif %}><a
+                        href="{% url 'admin-tool' 'trifold' %}">Trifolds</a></li>
+                    <li{% if tool_slug == 'tags' %} class="active" {% endif %}><a
+                            href="{% url 'admin-tool' 'tags' %}">Tags</a></li>
+                        <li{% if tool_slug == 'stickers' %} class="active" {% endif %}><a
+                                href="{% url 'admin-tool' 'stickers' %}">Stickers</a></li>
+                            <li{% if tool_slug == 'clothing' %} class="active" {% endif %}><a
+                                    href="{% url 'admin-tool' 'clothing' %}">Clothing</a></li>
+                                <li{% if tool_slug == 'prints-others' %} class="active" {% endif %}><a
+                                        href="{% url 'admin-tool' 'prints-others' %}">Others</a></li>
+        </ul>
+
+        <h2>TOOLS</h2>
+        <ul class="actionlist">
+            <li{% if tool_slug == 'qr-maker' %} class="active" {% endif %}><a href="{% url 'admin-tool' 'qr-maker' %}">QR
+                    Code Maker</a></li>
+                <li{% if tool_slug == 'image-resizer' %} class="active" {% endif %}><a
+                        href="{% url 'admin-tool' 'image-resizer' %}">Image Resizer</a></li>
+        </ul>
+    </div>
+</aside>
+{% endwith %}

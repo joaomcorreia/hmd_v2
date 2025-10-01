@@ -1,0 +1,56 @@
+{% extends "admin/base_site.html" %}
+{% load static %}
+
+{% block extrastyle %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'css/admin_main_styles.css' %}">
+
+
+<style>
+    .prints-wrap {
+        display: flex;
+        gap: 24px;
+        align-items: flex-start
+    }
+
+    .tag-preview {
+        width: 240px;
+        height: 120px;
+        border: 1px solid #ddd;
+        padding: 8px;
+        background: white
+    }
+
+    .form-row {
+        margin: 8px 0
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+{% include sidebar_template|default:"admin/sidebar.html" %}
+<div class="wrap">
+    <div>
+        <h1>Tags — Preview</h1>
+        <div class="tag-preview" id="tag-preview">
+            <div style="font-weight:700" id="tag-title">Name</div>
+            <div id="tag-sub">Role • Company</div>
+        </div>
+        <h3>Edit details</h3>
+        <div>
+            <label class="form-row">Name: <input id="inp-tag-name" value="Name"></label>
+            <label class="form-row">Subtext: <input id="inp-tag-sub" value="Role • Company"></label>
+        </div>
+    </div>
+</div>
+
+<script>
+    function applyTag() {
+        document.getElementById('tag-title').textContent = document.getElementById('inp-tag-name').value;
+        document.getElementById('tag-sub').textContent = document.getElementById('inp-tag-sub').value;
+    }
+    ['inp-tag-name', 'inp-tag-sub'].forEach(id => document.getElementById(id).addEventListener('input', applyTag));
+    applyTag();
+</script>
+
+{% endblock %}

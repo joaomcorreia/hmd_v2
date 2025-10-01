@@ -1,0 +1,88 @@
+{% extends "admin/base_site.html" %}
+{% load static %}
+{% block extrastyle %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'css/admin_main_styles.css' %}
+">
+<style>
+    .resizer-wrap {
+        display: flex;
+        gap: 24px
+    }
+
+    .preview {
+        width: 320px;
+        height: 240px;
+        border: 1px solid #ddd;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #fff
+    }
+
+    .form-row {
+        margin: 8px 0
+    }
+</style>
+
+{% endblock %}
+
+{% block content %}
+{% include sidebar_template|default:"admin/sidebar.html" %}
+<div class="resizer-wrap">
+    <div>
+        <h1>Image Resizer & Crop</h1>
+        <input type="file" id="img-file" accept="image/*"><br>
+        <div class="preview" id="img-preview">No image loaded</div>
+    </div>
+    <div>
+        <h3>Controls</h3>
+        <label class="form-row">Width: <input id="out-width" type="number" value="800"></label>
+        <label class="form-row">Height: <input id="out-height" type="number" value="600"></label>
+        <button id="apply-resize">Apply Resize</button>
+        <h3>Crop</h3>
+        <p>Use the crop controls in a later iteration; this demo allows simple resize and center-crop.</p>
+        <button id="download">Download Result</button>
+    </div>
+</div>
+
+<script>
+    let img = null;
+    const preview = document.getElementById('img-preview');
+    const canvas = document.createElement('canvas');
+    function loadFile(file) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            img = new Image();
+            img.onload = function () {
+                preview.innerHTML = ''; preview.appendChild(img); img.style.maxWidth = '100%'; img.style.maxHeight = '100%';
+            }
+            img.src = e.target.result;
+        }
+        reader.readAsDataURL(file);
+    }
+
+    document.getElementById('img-file').addEventListener('change', (ev) => {
+        if (ev.target.files && ev.target.files[0]) loadFile(ev.target.files[0]);
+    });
+
+    document.getElementById('apply-resize').addEventListener('click', () => {
+        if (!img) return alert('Load an image first');
+        const w = parseInt(document.getElementById('out-width').value) || 800;
+        const h = parseInt(document.getElementById('out-height').value) || 600;
+        canvas.width = w; canvas.height = h;
+        const ctx = canvas.getContext('2d');
+        // center-crop: draw image scaled to cover canvas
+        const ratio = Math.max(w / img.width, h / img.height);
+        const sw = w / ratio, sh = h / ratio;
+        const sx = (img.width - sw) / 2, sy = (img.height - sh) / 2;
+        ctx.drawImage(img, sx, sy, sw, sh, 0, 0, w, h);
+        preview.innerHTML = ''; const out = new Image(); out.src = canvas.toDataURL('image/png'); out.style.maxWidth = '100%'; out.style.maxHeight = '100%'; preview.appendChild(out);
+    });
+
+    document.getElementById('download').addEventListener('click', () => {
+        if (!canvas.width) return alert('Generate a result first');
+        const a = document.createElement('a'); a.href = canvas.toDataURL('image/png'); a.download = 'resized.png'; a.click();
+    });
+</script>
+{% endblock %}

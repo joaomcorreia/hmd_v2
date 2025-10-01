@@ -1,0 +1,133 @@
+{% extends "admin/base_site.html" %}
+{% load static %}
+{% block extrastyle %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'css/admin_main_styles.css' %}
+">
+<style>
+    .qr-preview {
+        width: 220px;
+        height: 220px;
+        border: 1px solid #ddd;
+        display: flex;
+        align-items: center;
+        justify-content: center
+    }
+
+    .form-row {
+        margin-right: 18px;
+        display: block;
+        width: 100px;
+    }
+
+    canvas#qr-canvas {
+        border: 1px solid #ddd;
+        display: block
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+{% include sidebar_template|default:"admin/sidebar.html" %}
+
+<div class="wrap">
+    <div>
+        <h1>QR Code Maker</h1>
+        <div class="qr-preview" id="qr-preview">QR</div>
+        <h3>Options</h3>
+        <div>
+            <label class="form-row">URL/Text: <input id="qr-text" value="https://example.com"></label><br>
+            <label class="form-row">Size: <input id="qr-size" type="number" value="220"></label><br>
+            <button id="gen-qr">Generate</button>
+        </div>
+    </div>
+    <div>
+        <h2>Preview</h2>
+        <canvas id="qr-canvas"></canvas>
+        <div style="margin-top:12px;">
+            <a id="download-qr" class="site-button-secondry" href="#" download="qr-code.png">Download QR</a>
+        </div>
+    </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+<script>
+    async function generateQRCode(text, size) {
+        const previewDiv = document.getElementById('qr-preview');
+        const canvas = document.getElementById('qr-canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = size; canvas.height = size;
+        previewDiv.innerHTML = '';
+
+        // 1) Try client-side QR generation using QRious if available
+        try {
+            if (window.QRious) {
+                const qrious = new QRious({ value: text, size: size });
+                const src = qrious.toDataURL();
+                const img = new Image();
+                img.onload = () => { ctx.clearRect(0, 0, canvas.width, canvas.height); ctx.drawImage(img, 0, 0, size, size); }
+                img.src = src;
+                const p = document.createElement('img'); p.src = src; p.style.maxWidth = '100%'; p.style.maxHeight = '100%'; previewDiv.appendChild(p);
+                return;
+            }
+        } catch (e) { console.warn('QRious failed', e); }
+
+        // 2) Try server-side PNG endpoint
+        try {
+            const resp = await fetch(`/admin/api/qr/?text=${encodeURIComponent(text)}&size=${size}`);
+            if (resp.status === 200) {
+                const blob = await resp.blob(); const url = URL.createObjectURL(blob);
+                const img = new Image(); img.onload = () => { ctx.clearRect(0, 0, canvas.width, canvas.height); ctx.drawImage(img, 0, 0, size, size); }
+                img.src = url; const p = document.createElement('img'); p.src = url; p.style.maxWidth = '100%'; p.style.maxHeight = '100%'; previewDiv.appendChild(p);
+                return;
+            }
+        } catch (e) { console.warn('QR server failed', e); }
+
+        // 3) Fallback to Google Charts (fetch as blob to avoid <img> broken icon)
+        try {
+            const googleUrl = 'https://chart.googleapis.com/chart?cht=qr&chs=' + size + 'x' + size + '&chl=' + encodeURIComponent(text);
+            const r = await fetch(googleUrl);
+            if (!r.ok) throw new Error('Google Charts not ok: ' + r.status);
+            const blob = await r.blob(); const url = URL.createObjectURL(blob);
+            const img = new Image(); img.onload = () => { ctx.clearRect(0, 0, canvas.width, canvas.height); ctx.drawImage(img, 0, 0, size, size); }
+            img.src = url; const p = document.createElement('img'); p.src = url; p.style.maxWidth = '100%'; p.style.maxHeight = '100%'; previewDiv.appendChild(p);
+            return;
+        } catch (e) {
+            console.warn('Google fallback failed', e);
+        }
+
+        previewDiv.innerHTML = '<div style="color:#c00;padding:8px">Could not generate QR preview.</div>';
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+
+    document.getElementById('gen-qr').addEventListener('click', () => {
+        const text = document.getElementById('qr-text').value;
+        const size = parseInt(document.getElementById('qr-size').value) || 220;
+        generateQRCode(text, size);
+    });
+    // init
+    generateQRCode(document.getElementById('qr-text').value, parseInt(document.getElementById('qr-size').value));
+
+    // Download handler: export the canvas content as a PNG and trigger download
+    document.getElementById('download-qr').addEventListener('click', function (e) {
+        e.preventDefault();
+        const canvas = document.getElementById('qr-canvas');
+        if (!canvas || !canvas.toDataURL) {
+            alert('QR image not available to download. Please generate it first.');
+            return;
+        }
+        try {
+            const dataUrl = canvas.toDataURL('image/png');
+            // create a temporary link to trigger download
+            const a = document.createElement('a');
+            a.href = dataUrl;
+            a.download = 'qr-code.png';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        } catch (err) {
+            console.error('Download failed', err);
+            alert('Failed to download QR image.');
+        }
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,120 @@
+{% extends "admin/base_site.html" %}
+{% load static %}
+
+{% block extrastyle %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'css/admin_main_styles.css' %}
+">
+<style>
+    .prints-wrap {
+        display: flex;
+        gap: 24px;
+        align-items: flex-start
+    }
+
+    .card-preview {
+        width: 320px;
+        height: 200px;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        padding: 16px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
+        background: white
+    }
+
+    .card-preview .logo {
+        height: 40px
+    }
+
+    .card-preview .name {
+        font-weight: 700;
+        font-size: 18px
+    }
+
+    .card-preview .role {
+        color: #666
+    }
+
+    .slider {
+        flex: 1
+    }
+
+    .slider .slide {
+        display: inline-block;
+        width: 160px;
+        height: 100px;
+        margin-right: 8px;
+        border: 1px solid #eee;
+        background: #fafafa;
+        text-align: center;
+        padding: 16px
+    }
+
+    .form-row {
+        margin: 8px 0
+    }
+</style>
+{% endblock %}
+{% block content %}
+{% include sidebar_template|default:"admin/sidebar.html" %}
+<div class="prints-wrap">
+    <div>
+        <h1>Cards — Live Preview</h1>
+        <div class="card-preview" id="card-preview">
+            <img src="{% static 'img/logo-mini.png' %}" class="logo" id="card-logo" alt="logo">
+            <div class="name" id="card-name">Company Name</div>
+            <div class="role" id="card-role">Job Title</div>
+            <div class="contact" id="card-contact">email@example.com — 020 123 4567</div>
+        </div>
+        <h3>Edit details</h3>
+        <div>
+            <label class="form-row">Company name: <input id="inp-name" value="Company Name"></label>
+            <label class="form-row">Role: <input id="inp-role" value="Job Title"></label>
+            <label class="form-row">Email: <input id="inp-email" value="email@example.com"></label>
+            <label class="form-row">Phone: <input id="inp-phone" value="020 123 4567"></label>
+        </div>
+    </div>
+
+    <div class="slider">
+        <h2>Designs</h2>
+        <div id="designs" class="designs">
+            <div class="slide" data-scheme="default">Default</div>
+            <div class="slide" data-scheme="modern">Modern</div>
+            <div class="slide" data-scheme="classic">Classic</div>
+            <div class="slide" data-scheme="bold">Bold</div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function applyValues() {
+        document.getElementById('card-name').textContent = document.getElementById('inp-name').value;
+        document.getElementById('card-role').textContent = document.getElementById('inp-role').value;
+        document.getElementById('card-contact').textContent = document.getElementById('inp-email').value + ' — ' + document.getElementById('inp-phone').value;
+    }
+
+    ['inp-name', 'inp-role', 'inp-email', 'inp-phone'].forEach(id => {
+        document.getElementById(id).addEventListener('input', applyValues);
+    });
+
+    // design switching
+    Array.from(document.querySelectorAll('.slide')).forEach(el => {
+        el.addEventListener('click', () => {
+            const scheme = el.dataset.scheme;
+            const preview = document.getElementById('card-preview');
+            preview.dataset.scheme = scheme;
+            // simple color switch for demo
+            switch (scheme) {
+                case 'modern': preview.style.background = '#f7fafc'; preview.style.color = '#111'; break;
+                case 'classic': preview.style.background = '#fffbe6'; preview.style.color = '#222'; break;
+                case 'bold': preview.style.background = '#111827'; preview.style.color = '#fff'; break;
+                default: preview.style.background = '#fff'; preview.style.color = '#111';
+            }
+        });
+    });
+
+    // initialize
+    applyValues();
+</script>
+
+{% endblock %}

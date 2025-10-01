@@ -3,45 +3,25 @@
 
 {% block extrastyle %}
 {{ block.super }}
-<link rel="stylesheet" href="{% static 'css/admin_main_styles.css' %}">
+<link rel="stylesheet" href="{% static 'css/admin_main_styles.css' %}
+">
 {% endblock %}
 
 {% block content %}
 
+{% include sidebar_template|default:"admin/sidebar.html" %}
 
-<div class="admin-sidebar">
-    <div class="module">
-        <h2>EDIT WEBSITE</h2>
-        <ul class="actionlist">
-            <li><a href="{% url 'admin-tool' 'home-preview' %}">Edit Website</a></li>
-        </ul>
-        <h2>EDIT SIDEBAR WIDGETS</h2>
-        <ul class="actionlist">
-            <li><a href="{% url 'admin-tool' 'overview' %}">Overview</a></li>
-        </ul>
-        <h2>SUSBSCRIPTIONS</h2>
-        <ul class="actionlist">
-            <li><a href="{% url 'admin-tool' 'overview' %}">Overview</a></li>
-            <li><a href="{% url 'admin-tool' 'domain-name' %}">Domain Name</a></li>
-            <li><a href="{% url 'admin-tool' 'hosting' %}">Hosting</a></li>
-            <li><a href="{% url 'admin-tool' 'website' %}">Website</a></li>
-            <li><a href="{% url 'admin-tool' 'seo' %}">SEO</a></li>
-            <li><a href="{% url 'admin-tool' 'social-networks' %}">Social Networks</a></li>
-        </ul>
-
-        <h2>GOOGLE</h2>
-        <ul class="actionlist">
-            <li><a href="{% url 'admin-tool' 'overview' %}">Overview</a></li>
-        </ul>
-        <h2>FACEBOOK</h2>
-        <ul class="actionlist">
-            <li><a href="{% url 'admin-tool' 'overview' %}">Overview</a></li>
-        </ul>
-
-        <h2>SETTINGS</h2>
-        <ul class="actionlist">
-            <li><a href="{% url 'admin-tool' 'all_settings' %}">Overview</a></li>
-        </ul>
+<div class="wrap">
+    <div class="card">
+        <h3>Translations</h3>
+        <p>Website language and translations On / Off</p>
+        <p>Admin language and translations On / Off</p>
     </div>
-
+    <div class="card">
+        <h3>Contact form Email</h3>
+        <p>Email address for contact form submissions</p>
+    </div>
 </div>
+
+
+{% endblock %}

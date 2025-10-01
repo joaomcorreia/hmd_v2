@@ -362,7 +362,8 @@ a#renovatie {
     vertical-align: middle;
     padding: 0 6px;
     background: none;
-    color: #00a651; /* site accent as a subtle link */
+    color: #00a651;
+    /* site accent as a subtle link */
     text-decoration: none;
     border: none;
     border-radius: 0;
@@ -377,7 +378,8 @@ a#renovatie {
 .site-button-login:hover,
 .site-button-login:focus {
     text-decoration: underline;
-    color: #0c5a33; /* slightly darker on hover */
+    color: #0c5a33;
+    /* slightly darker on hover */
 }
 
 @media (max-width: 768px) {
@@ -385,4 +387,11 @@ a#renovatie {
         padding: 0 6px;
         font-size: 14px;
     }
+}
+
+/* Contact slide background (moved from inline template to avoid editor lint warnings) */
+.contact-slide-hide {
+    background-image: url("/static/img/background/bg-5.png");
+    background-size: cover;
+    background-position: center center;
 }
