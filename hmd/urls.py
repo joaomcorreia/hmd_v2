@@ -17,6 +17,17 @@ urlpatterns = [
     path("admin/api/", include("analytics.urls")),
     path("admin/", admin.site.urls),
 
+    # Admin password reset alias so the admin login page can show a working "Forgotten your login credentials?" link
+    path("admin/password_reset/", auth_views.PasswordResetView.as_view(
+        template_name="registration/password_reset_form.html",
+        email_template_name="registration/password_set_email.txt",
+        subject_template_name="registration/password_set_subject.txt",
+        success_url=reverse_lazy("password_reset_done"),
+    ), name="admin_password_reset"),
+    path("admin/password_reset/done/", auth_views.PasswordResetDoneView.as_view(
+        template_name="registration/password_reset_done.html"
+    ), name="admin_password_reset_done"),
+
     # public site
     path("", core.index, name="index"),
     path("over-ons/", core.over_ons, name="over-ons"),

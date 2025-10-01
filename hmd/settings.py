@@ -19,9 +19,25 @@ TEMPLATE_DIRS = [BASE_DIR / "templates"]
 if ADMIN_TEMPLATES_DIR.exists():
     TEMPLATE_DIRS.append(ADMIN_TEMPLATES_DIR)
 
-SECRET_KEY = 'django-insecure-g4%+x4o1=ojtwde@^_h81jp$2-71-oi5wp$4=+r+g!^7_2m@@w'
-DEBUG = True
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'testserver']
+# Security / environment-aware settings
+# Read sensitive values from environment in production. For local development you can
+# set DJANGO_DEBUG=True and optionally provide a DJANGO_SECRET_KEY. In production
+# set DJANGO_DEBUG=False and provide DJANGO_SECRET_KEY and ALLOWED_HOSTS.
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
+
+# DEBUG can be controlled with the DJANGO_DEBUG env var (default True for local dev)
+DEBUG = os.environ.get('DJANGO_DEBUG', 'True').lower() in ('1', 'true', 'yes')
+
+# ALLOWED_HOSTS can be a comma-separated list provided via env (useful for deploys)
+raw_allowed = os.environ.get('ALLOWED_HOSTS', '127.0.0.1,localhost,testserver')
+ALLOWED_HOSTS = [h.strip() for h in raw_allowed.split(',') if h.strip()]
+
+# Ensure a SECRET_KEY is present in production
+if not SECRET_KEY:
+    if not DEBUG:
+        raise ImproperlyConfigured('The DJANGO_SECRET_KEY environment variable must be set in production')
+    # fallback development key (kept for convenience in local dev only)
+    SECRET_KEY = 'django-insecure-g4%+x4o1=ojtwde@^_h81jp$2-71-oi5wp$4=+r+g!^7_2m@@w'
 
 INSTALLED_APPS = [
     "analytics.apps.AnalyticsConfig",
@@ -108,12 +124,25 @@ EMAIL_HOST_USER = "justcodeworks@gmail.com"
 EMAIL_HOST_PASSWORD = "your-16-char-app-password"
 DEFAULT_FROM_EMAIL = "noreply@localhost"
 
+# Allow admin preview iframes
+X_FRAME_OPTIONS = 'SAMEORIGIN'
+
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # Allow admin preview iframes
-X_FRAME_OPTIONS = 'SAMEORIGIN'
- 
 # Where to redirect users after logout (safe default)
 LOGOUT_REDIRECT_URL = '/'
 # After login, redirect users to the admin dashboard by default
 LOGIN_REDIRECT_URL = '/admin/'
+
+# Production security recommendations when DEBUG is False
+if not DEBUG:
+    # Use HTTPS in production (set to True when you have TLS terminated)
+    SECURE_SSL_REDIRECT = os.environ.get('SECURE_SSL_REDIRECT', 'True').lower() in ('1', 'true', 'yes')
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    SECURE_HSTS_SECONDS = int(os.environ.get('SECURE_HSTS_SECONDS', 31536000))
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = os.environ.get('SECURE_HSTS_INCLUDE_SUBDOMAINS', 'True').lower() in ('1', 'true', 'yes')
+    SECURE_HSTS_PRELOAD = os.environ.get('SECURE_HSTS_PRELOAD', 'True').lower() in ('1', 'true', 'yes')
+    SECURE_BROWSER_XSS_FILTER = True
+    SECURE_CONTENT_TYPE_NOSNIFF = True
