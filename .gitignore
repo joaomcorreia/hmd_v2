@@ -1,8 +1,77 @@
-db.sqlite3
-media/home-carousel/
+# HMD Project .gitignore
+
+# Python
 __pycache__/
-preview_output.html
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Django
+*.log
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+staticfiles/
+
+# Environment variables
+.env
+.env.local
+.env.production
+.env.staging
+
+# Virtual environment
+.venv/
+venv/
+ENV/
+env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Media files (keep structure but ignore uploads)
+media/home-carousel/
 media/home-value/
 media/about-hero/
 media/about-carousel/
 media/about-process/
+media/portfolio/
+media/slider/
+
+# Temporary files
+preview_output.html
+*.tmp
+*.temp
+temp_*
+tmp_*
+
+# Deployment files
+*.zip
+*.tar.gz
+
+# Backup files
+*.bak
+*.backup
