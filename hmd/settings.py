@@ -29,7 +29,7 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
 DEBUG = os.environ.get('DJANGO_DEBUG', 'True').lower() in ('1', 'true', 'yes')
 
 # ALLOWED_HOSTS can be a comma-separated list provided via env (useful for deploys)
-raw_allowed = os.environ.get('ALLOWED_HOSTS', '127.0.0.1,localhost,testserver')
+raw_allowed = os.environ.get('ALLOWED_HOSTS', '127.0.0.1,localhost,testserver,test3.hmdklusbedrijf.nl,hmdklusbedrijf.nl')
 ALLOWED_HOSTS = [h.strip() for h in raw_allowed.split(',') if h.strip()]
 
 # Ensure a SECRET_KEY is present in production
@@ -128,6 +128,11 @@ DEFAULT_FROM_EMAIL = "noreply@localhost"
 X_FRAME_OPTIONS = 'SAMEORIGIN'
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# AI Integration Settings
+OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY', '')  # Add to environment variables
+MAGICAI_URL = os.environ.get('MAGICAI_URL', 'https://tools.justcodeworks.eu')
+MAGICAI_API_KEY = os.environ.get('MAGICAI_API_KEY', '')  # Your MagicAI API key
 
 # Allow admin preview iframes
 # Where to redirect users after logout (safe default)
