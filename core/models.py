@@ -286,3 +286,73 @@ class FacebookCampaign(models.Model):
     impressions = models.IntegerField(default=0)
     clicks = models.IntegerField(default=0)
 
+
+# --- Quote Requests ---
+class QuoteRequest(models.Model):
+    # Contact Information
+    name = models.CharField(max_length=100, verbose_name="Naam")
+    phone = models.CharField(max_length=20, verbose_name="Telefoon")
+    address = models.CharField(max_length=200, blank=True, verbose_name="Adres")
+    city = models.CharField(max_length=100, blank=True, verbose_name="Plaats")
+    
+    # Services (stored as comma-separated string for simplicity)
+    services = models.TextField(verbose_name="Gewenste Diensten")
+    
+    # Planning
+    preferred_date = models.DateField(null=True, blank=True, verbose_name="Gewenste Datum")
+    flexible_timing = models.BooleanField(default=False, verbose_name="Datum Flexibel")
+    
+    # Description
+    description = models.TextField(blank=True, verbose_name="Opmerking/Beschrijving")
+    
+    # Metadata
+    submitted_at = models.DateTimeField(auto_now_add=True, verbose_name="Aangevraagd op")
+    ip_address = models.GenericIPAddressField(null=True, blank=True, verbose_name="IP Adres")
+    user_agent = models.TextField(blank=True, verbose_name="Browser Info")
+    
+    # Status tracking
+    STATUS_CHOICES = [
+        ('new', 'Nieuw'),
+        ('contacted', 'Contact opgenomen'),
+        ('quoted', 'Offerte verstuurd'),
+        ('accepted', 'Geaccepteerd'),
+        ('completed', 'Voltooid'),
+        ('declined', 'Afgewezen'),
+    ]
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='new', verbose_name="Status")
+    notes = models.TextField(blank=True, verbose_name="Interne notities")
+    
+    class Meta:
+        verbose_name = "Offerte Aanvraag"
+        verbose_name_plural = "Offerte Aanvragen"
+        ordering = ['-submitted_at']
+    
+    def __str__(self):
+        return f"{self.name} - {self.phone} ({self.submitted_at.strftime('%d/%m/%Y %H:%M')})"
+    
+    def get_services_list(self):
+        """Return services as a list for display"""
+        return [s.strip() for s in self.services.split(',') if s.strip()]
+    
+    def get_whatsapp_message(self):
+        """Generate the WhatsApp message that was sent"""
+        message = f"*OFFERTE AANVRAAG*\n========================\n\n"
+        message += f"*CONTACTGEGEVENS*\nNaam: {self.name}\nTelefoon: {self.phone}\n"
+        if self.address:
+            message += f"Adres: {self.address}\n"
+        if self.city:
+            message += f"Plaats: {self.city}\n"
+        message += f"\n*GEWENSTE DIENSTEN*\n"
+        for service in self.get_services_list():
+            message += f"- {service}\n"
+        if self.preferred_date or self.flexible_timing:
+            message += f"\n*PLANNING*\n"
+            if self.preferred_date:
+                message += f"Gewenste datum: {self.preferred_date}\n"
+            if self.flexible_timing:
+                message += f"Datum is flexibel\n"
+        if self.description:
+            message += f"\n*OPMERKING*\n{self.description}\n"
+        message += f"\nAangevraagd op: {self.submitted_at.strftime('%d-%m-%Y')}\nVia: HMD Klusbedrijf website"
+        return message
+

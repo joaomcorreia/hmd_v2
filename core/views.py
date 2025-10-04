@@ -2,10 +2,14 @@
 from django.conf import settings as dj_settings
 from django.contrib import messages
 from django.core.mail import send_mail
-from django.http import Http404
+from django.http import Http404, JsonResponse
 from django.shortcuts import render, redirect
 from django.templatetags.static import static
 from django.urls import reverse
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_http_methods
+import json
+from datetime import datetime
 
 from .forms import ContactForm
 from .models import (
@@ -21,6 +25,7 @@ from .models import (
     PortfolioItem,
     SiteSettings,
     ContactSubmission,
+    QuoteRequest,
 )
 
 
@@ -273,6 +278,44 @@ def service_detail(request, slug):
         "robots": "index,follow",
     }
     return render(request, f"diensten/{slug}.html", {"meta": meta, "svc": svc})
+
+
+@csrf_exempt
+@require_http_methods(["POST"])
+def submit_quote_request(request):
+    """Handle quote request form submission via AJAX"""
+    try:
+        # Parse JSON data from request body
+        data = json.loads(request.body.decode('utf-8'))
+        
+        # Create quote request
+        quote_request = QuoteRequest(
+            name=data.get('name', ''),
+            phone=data.get('phone', ''),
+            address=data.get('address', ''),
+            city=data.get('city', ''),
+            services=', '.join(data.get('services', [])),  # Convert list to comma-separated string
+            preferred_date=datetime.strptime(data['preferred_date'], '%Y-%m-%d').date() if data.get('preferred_date') else None,
+            flexible_timing=data.get('flexible_timing', False),
+            description=data.get('description', ''),
+            ip_address=request.META.get('REMOTE_ADDR'),
+            user_agent=request.META.get('HTTP_USER_AGENT', ''),
+        )
+        
+        # Save to database
+        quote_request.save()
+        
+        return JsonResponse({
+            'success': True,
+            'message': 'Quote request saved successfully',
+            'id': quote_request.id
+        })
+        
+    except Exception as e:
+        return JsonResponse({
+            'success': False,
+            'error': str(e)
+        }, status=400)
 
 
 

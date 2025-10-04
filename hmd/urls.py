@@ -35,6 +35,7 @@ urlpatterns = [
     path("portfolio/", core.portfolio, name="portfolio"),
     path("contact/", core.contact, name="contact"),
     path("diensten/<slug:slug>/", core.service_detail, name="service-detail"),
+    path("api/quote-request/", core.submit_quote_request, name="submit-quote-request"),
 
     # auth
     path("accounts/password_reset/", auth_views.PasswordResetView.as_view(
