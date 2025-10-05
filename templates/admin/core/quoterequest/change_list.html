@@ -1,0 +1,12 @@
+{% extends "admin/change_list.html" %}
+{% load static %}
+
+{% block extrastyle %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'css/admin_main_styles.css' %}">
+{% endblock %}
+
+{% block content %}
+{% include sidebar_template|default:"admin/sidebar.html" %}
+{{ block.super }}
+{% endblock %}

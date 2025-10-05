@@ -61,6 +61,13 @@
             <li><a href="{% url 'admin-tool' 'profile' %}">Profile</a></li>
         </ul>
 
+        <h2>QUOTE REQUESTS</h2>
+        <ul class="actionlist">
+            <li><a href="{% url 'admin:core_quoterequest_changelist' %}">All Requests</a></li>
+            <li><a href="{% url 'admin:core_quoterequest_add' %}">Add New Request</a></li>
+            <li><a href="{% url 'admin:core_contactsubmission_changelist' %}">Contact Submissions</a></li>
+        </ul>
+
         <h2>USERS</h2>
         <ul class="actionlist">
             <li><a href="{% url 'admin:auth_user_changelist' %}">Overview</a></li>

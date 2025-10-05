@@ -7,7 +7,7 @@ from django.contrib.auth.forms import PasswordResetForm
 from django.template.response import TemplateResponse
 from django.http import HttpResponseRedirect
 from django.db import models
-from .models import Slide, HomeAboutPanel, HomeValueBlock, HomeCarouselItem, AboutHero, AboutCarouselItem, AboutCompanyBlock, AboutProcessStep, AboutBenefit, PortfolioItem, SiteSettings, ContactSubmission
+from .models import Slide, HomeAboutPanel, HomeValueBlock, HomeCarouselItem, AboutHero, AboutCarouselItem, AboutCompanyBlock, AboutProcessStep, AboutBenefit, PortfolioItem, SiteSettings, ContactSubmission, QuoteRequest
 
 # Admin branding
 admin.site.site_header = "HMD Klusbedrijf — Admin"
@@ -251,4 +251,44 @@ class SEOAdmin(StaticPageAdmin):
 class SocialNetworksAdmin(StaticPageAdmin):
     change_list_template = "admin/tools/social-networks.html"
 
+
+@admin.register(QuoteRequest)
+class QuoteRequestAdmin(admin.ModelAdmin):
+    change_list_template = 'admin/core/quoterequest/change_list.html'
+    change_form_template = 'admin/core/quoterequest/change_form.html'
+    add_form_template = 'admin/core/quoterequest/change_form.html'
+    
+    list_display = ['name', 'phone', 'city', 'get_services_display', 'status', 'submitted_at']
+    list_filter = ['status', 'submitted_at', 'flexible_timing']
+    search_fields = ['name', 'phone', 'address', 'city', 'description']
+    readonly_fields = ['submitted_at', 'ip_address', 'user_agent', 'get_whatsapp_message']
+    
+    fieldsets = (
+        ('Contactgegevens', {
+            'fields': ('name', 'phone', 'address', 'city')
+        }),
+        ('Diensten & Planning', {
+            'fields': ('services', 'preferred_date', 'flexible_timing', 'description')
+        }),
+        ('Status & Notities', {
+            'fields': ('status', 'notes')
+        }),
+        ('Metadata', {
+            'fields': ('submitted_at', 'ip_address', 'user_agent'),
+            'classes': ('collapse',)
+        }),
+        ('WhatsApp Bericht', {
+            'fields': ('get_whatsapp_message',),
+            'classes': ('collapse',)
+        })
+    )
+    
+    def get_services_display(self, obj):
+        services_list = obj.get_services_list()
+        return ', '.join(services_list) if services_list else 'Geen diensten geselecteerd'
+    get_services_display.short_description = 'Diensten'
+    
+    def get_whatsapp_message(self, obj):
+        return obj.get_whatsapp_message()
+    get_whatsapp_message.short_description = 'WhatsApp Bericht'
 
