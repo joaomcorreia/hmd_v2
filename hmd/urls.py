@@ -5,7 +5,7 @@ from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
 from core import views as core
 from . import admin_preview
-from hmd.admin_extra import admin_tool
+from hmd.views_admin import admin_tool
 from django.contrib.admin.views.decorators import staff_member_required
 from django.views.generic import TemplateView
 

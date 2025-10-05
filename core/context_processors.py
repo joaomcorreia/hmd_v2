@@ -14,8 +14,9 @@ def site_constants(request):
         "SITE_SETTINGS_WA_URL": settings_obj.whatsapp_url if settings_obj else "https://wa.me/31687111289",
         "SITE_SETTINGS_WA_DIGITS": settings_obj.whatsapp_digits if settings_obj else "31687111289",
         "SITE_SETTINGS_PHONE_DISPLAY": settings_obj.phone_display if settings_obj and settings_obj.phone_display else "06 87111289",
-        "SITE_SETTINGS_EMAIL": settings_obj.contact_email if settings_obj and settings_obj.contact_email else "info@hmdklusbedrijf.nl",
-        "SITE_SETTINGS_WHATSAPP_E164": settings_obj.whatsapp if settings_obj and settings_obj.whatsapp else "+31687111289",
+        "SITE_SETTINGS_EMAIL": settings_obj.contact_email_display if settings_obj and settings_obj.contact_email_display else "info@hmdklusbedrijf.nl",
+        "SITE_SETTINGS_WHATSAPP_E164": settings_obj.whatsapp_phone if settings_obj and settings_obj.whatsapp_phone else "+31687111289",
+        "SITE_SETTINGS_ADDRESS": settings_obj.business_address if settings_obj and settings_obj.business_address else "Witte de Withstraat 28<br>4671 AP Dinteloord",
     }
 
 from .constants import SERVICES_TICKER

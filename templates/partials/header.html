@@ -37,8 +37,7 @@
                                 <span class="icon-cell site-text-primary"><i class="fa fa-map-marker"></i></span>
                             </div>
                             <div class="icon-content">
-                                <strong>Witte de Withstraat 28</strong>
-                                <span>4671 AP Dinteloord</span>
+                                {{ SITE_SETTINGS_ADDRESS|safe|linebreaksbr }}
                             </div>
                         </li>
                         <li>
@@ -114,8 +113,7 @@
                                         <div class="icon-content">
                                             <h5 class="m-t0 font-weight-500">WhatsApp</h5>
                                             <p><a href="{{ SITE_SETTINGS_WA_URL }}" target="_blank"
-                                                    rel="noopener"><strong>{{ SITE_SETTINGS_PHONE_DISPLAY
-                                                        }}</strong></a>
+                                                    rel="noopener"><strong>{{ SITE_SETTINGS_PHONE_DISPLAY }}</strong></a>
                                             </p>
                                         </div>
                                     </div>
@@ -131,17 +129,21 @@
                                         </div>
                                         <div class="icon-content">
                                             <h5 class="m-t0 font-weight-500">Adres</h5>
-                                            <p>Witte de Withstraat 28<br>4671 AP Dinteloord</p>
+                                            <p>{{ SITE_SETTINGS_ADDRESS|safe|linebreaksbr }}</p>
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="full-social-bg">
                                     <ul>
-                                        <li><a href="https://www.facebook.com/hmdKlusBV" target="_blank" rel="noopener"
+                                        {% if SITE_SETTINGS.facebook_url %}
+                                        <li><a href="{{ SITE_SETTINGS.facebook_url }}" target="_blank" rel="noopener"
                                                 class="fa fa-facebook"></a></li>
-                                        <li><a href="https://www.instagram.com/hmdklusbv" target="_blank" rel="noopener"
+                                        {% endif %}
+                                        {% if SITE_SETTINGS.instagram_url %}
+                                        <li><a href="{{ SITE_SETTINGS.instagram_url }}" target="_blank" rel="noopener"
                                                 class="fa fa-instagram"></a></li>
+                                        {% endif %}
                                         <li><a href="{{ SITE_SETTINGS_WA_URL }}" target="_blank" rel="noopener"
                                                 class="fa fa-whatsapp"></a></li>
                                     </ul>
@@ -312,10 +314,14 @@
                         </ul>
 
                         <ul class="social-icons">
-                            <li><a href="https://www.facebook.com/hmdKlusBV" target="_blank" rel="noopener"
+                            {% if SITE_SETTINGS.facebook_url %}
+                            <li><a href="{{ SITE_SETTINGS.facebook_url }}" target="_blank" rel="noopener"
                                     class="fa fa-facebook"></a></li>
-                            <li><a href="https://www.instagram.com/hmdklusbv" target="_blank" rel="noopener"
+                            {% endif %}
+                            {% if SITE_SETTINGS.instagram_url %}
+                            <li><a href="{{ SITE_SETTINGS.instagram_url }}" target="_blank" rel="noopener"
                                     class="fa fa-instagram"></a></li>
+                            {% endif %}
                             <li><a href="{{ SITE_SETTINGS_WA_URL }}" target="_blank" rel="noopener"
                                     class="fa fa-whatsapp"></a></li>
                         </ul>

@@ -1,0 +1,59 @@
+{% extends "admin/base.html" %}
+{% load static %}
+
+{% block extrahead %}
+{{ block.super }}
+<style>
+
+
+    /* Fix admin sidebar module conflicts globally */
+    .admin-sidebar .module {
+        float: none !important;
+        width: auto !important;
+        margin-right: 0 !important;
+    }
+    
+    /* Ensure proper grid layout on dashboard */
+    .admin-dashboard-grid {
+        display: grid;
+        grid-template-columns: 260px 1fr;
+        gap: 30px;
+        align-items: start;
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+    
+    .dashboard-grid {
+        display: grid !important;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 24px;
+        margin: 20px 0;
+        grid-auto-flow: row dense;
+        max-width: none;
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 1200px) {
+        .dashboard-grid {
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        }
+    }
+    
+    @media (max-width: 900px) {
+        .admin-dashboard-grid {
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block branding %}
+{{ block.super }}
+{% endblock %}
+
+{% block content %}
+{{ block.super }}
+{% endblock %}
+

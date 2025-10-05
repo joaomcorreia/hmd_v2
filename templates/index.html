@@ -12,7 +12,7 @@
   "telephone": "+31 6 87111289",
   "address": {
     "@type": "PostalAddress",
-    "streetAddress": "Witte de Withstraat 28",
+    "streetAddress": "{{ SITE_SETTINGS.business_address|linebreaks|striptags|default:'Witte de Withstraat 28' }}",
     "postalCode": "4671 AP",
     "addressLocality": "Dinteloord",
     "addressCountry": "NL"
@@ -435,7 +435,7 @@
                                 {{ SITE_SETTINGS_PHONE_DISPLAY }}
                             </a>
                         </h2>
-                        <h4 class="call-us-address m-t0 m-b20">Witte de Withstraat 28, 4671 AP Dinteloord</h4>
+                        <h4 class="call-us-address m-t0 m-b20">{{ SITE_SETTINGS.business_address|linebreaks|striptags|default:'Witte de Withstraat 28, 4671 AP Dinteloord' }}</h4>
                         <a href="{% url 'contact' %}" class="site-button btn-effect">Neem contact op</a>
                     </div>
                 </div>

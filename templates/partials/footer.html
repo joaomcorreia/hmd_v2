@@ -13,7 +13,7 @@
 
                 <div class="col-lg-4 col-md-6">
                     <div class="call-to-action-right text-center">
-                        <a class="site-button" href="https://wa.me/31687111289" target="_blank" rel="noopener">
+                        <a class="site-button" href="{{ SITE_SETTINGS.whatsapp_url|default:'https://wa.me/31687111289' }}" target="_blank" rel="noopener">
                             <i class="fa fa-whatsapp"></i> Stuur een bericht
                         </a>
                     </div>
@@ -41,11 +41,15 @@
                             van 50 km).
                         </p>
                         <ul class="social-icons mt-social-links">
-                            <li><a href="https://www.facebook.com/hmdKlusBV" target="_blank" rel="noopener"
+                            {% if SITE_SETTINGS.facebook_url %}
+                            <li><a href="{{ SITE_SETTINGS.facebook_url }}" target="_blank" rel="noopener"
                                     class="fa fa-facebook"></a></li>
-                            <li><a href="https://www.instagram.com/hmdklusbv" target="_blank" rel="noopener"
+                            {% endif %}
+                            {% if SITE_SETTINGS.instagram_url %}
+                            <li><a href="{{ SITE_SETTINGS.instagram_url }}" target="_blank" rel="noopener"
                                     class="fa fa-instagram"></a></li>
-                            <li><a href="https://wa.me/31687111289" target="_blank" rel="noopener"
+                            {% endif %}
+                            <li><a href="{{ SITE_SETTINGS_WA_URL }}" target="_blank" rel="noopener"
                                     class="fa fa-whatsapp"></a></li>
                         </ul>
                     </div>
@@ -97,7 +101,7 @@
             <div class="row">
                 <div class="mt-footer-bot-center text-center">
                     <span class="copyrights-text">
-                        © 2025 HMD Klusbedrijf | KVK 97861847 | Ontwikkeld door
+                        © 2025 HMD Klusbedrijf | KVK {{ SITE_SETTINGS.kvk_number|default:"97861847" }} | Ontwikkeld door
                         <a href="https://justcodeworks.net" target="_blank" rel="noopener">Just Code Works</a>
                     </span>
                 </div>

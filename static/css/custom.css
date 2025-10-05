@@ -395,3 +395,21 @@ a#renovatie {
     background-size: cover;
     background-position: center center;
 }
+
+/* Fix potential shadow/overlay issues in contact slide */
+.contact-slide-hide::before {
+    content: none !important;
+}
+
+.contact-slide-hide .contact-info {
+    position: relative;
+    z-index: 10;
+}
+
+.contact-slide-hide .mt-icon-box-wraper {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    box-shadow: none;
+}

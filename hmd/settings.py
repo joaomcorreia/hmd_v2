@@ -40,6 +40,7 @@ if not SECRET_KEY:
     SECRET_KEY = 'django-insecure-g4%+x4o1=ojtwde@^_h81jp$2-71-oi5wp$4=+r+g!^7_2m@@w'
 
 INSTALLED_APPS = [
+    "core",
     "analytics.apps.AnalyticsConfig",
     "django.contrib.admin",
     "django.contrib.auth",
@@ -48,7 +49,6 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "pages",
-    "core",
     "ai_engine",
 ]
 
@@ -151,3 +151,10 @@ if not DEBUG:
     SECURE_HSTS_PRELOAD = os.environ.get('SECURE_HSTS_PRELOAD', 'True').lower() in ('1', 'true', 'yes')
     SECURE_BROWSER_XSS_FILTER = True
     SECURE_CONTENT_TYPE_NOSNIFF = True
+
+# Google Analytics 4 Configuration
+GA4_PROPERTY_ID = os.environ.get('GA4_PROPERTY_ID', '502191337')  # Your GA4 property ID
+GA4_CREDENTIALS_FILE = os.environ.get('GA4_CREDENTIALS_FILE', BASE_DIR / 'google-analytics-credentials.json')
+
+# Analytics settings
+ANALYTICS_CACHE_TIMEOUT = int(os.environ.get('ANALYTICS_CACHE_TIMEOUT', 3600))  # 1 hour default

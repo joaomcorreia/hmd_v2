@@ -3,32 +3,412 @@
 
 {% block extrastyle %}
 {{ block.super }}
-<link rel="stylesheet" href="{% static 'css/admin_main_styles.css' %}
-">
+<link rel="stylesheet" href="{% static 'css/admin_main_styles.css' %}">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+    .analytics-dashboard {
+        padding: 20px;
+        background: #f8f9fa;
+        min-height: 100vh;
+    }
+    
+    .analytics-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 30px;
+        padding: 20px;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    .analytics-period {
+        font-size: 14px;
+        color: #6c757d;
+        margin: 0;
+    }
+    
+    .metrics-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+        margin-bottom: 30px;
+    }
+    
+    .metric-card {
+        background: white;
+        padding: 25px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        text-align: center;
+        transition: transform 0.2s ease;
+    }
+    
+    .metric-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    }
+    
+    .metric-value {
+        font-size: 2.5em;
+        font-weight: bold;
+        color: #00a651;
+        margin-bottom: 5px;
+    }
+    
+    .metric-label {
+        font-size: 14px;
+        color: #6c757d;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    
+    .details-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 20px;
+    }
+    
+    .detail-card {
+        background: white;
+        padding: 25px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    .detail-card h3 {
+        margin-top: 0;
+        margin-bottom: 20px;
+        color: #343a40;
+        border-bottom: 2px solid #00a651;
+        padding-bottom: 10px;
+    }
+    
+    .detail-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+    
+    .detail-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 0;
+        border-bottom: 1px solid #e9ecef;
+    }
+    
+    .detail-item:last-child {
+        border-bottom: none;
+    }
+    
+    .detail-name {
+        font-weight: 500;
+        color: #495057;
+    }
+    
+    .detail-value {
+        font-weight: bold;
+        color: #00a651;
+    }
+    
+    .error-message {
+        background: #f8d7da;
+        color: #721c24;
+        padding: 20px;
+        border-radius: 8px;
+        border: 1px solid #f5c6cb;
+        text-align: center;
+    }
+    
+    .mock-data-notice {
+        background: #fff3cd;
+        color: #856404;
+        padding: 15px;
+        border-radius: 8px;
+        border: 1px solid #ffeaa7;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+    
+    .refresh-btn {
+        background: #00a651;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 14px;
+    }
+    
+    .refresh-btn:hover {
+        background: #008542;
+    }
+    
+    .filter-bar {
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        margin-bottom: 20px;
+        display: flex;
+        gap: 15px;
+        align-items: center;
+    }
+    
+    .filter-select {
+        padding: 8px 12px;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        background: white;
+        cursor: pointer;
+    }
+    
+    .chart-container {
+        background: white;
+        padding: 25px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        margin-bottom: 30px;
+    }
+    
+    .chart-wrapper {
+        position: relative;
+        height: 300px;
+        margin-top: 20px;
+    }
+    
+    .netherlands-badge {
+        background: linear-gradient(45deg, #ff4444, #ffffff, #0066cc);
+        color: white;
+        padding: 8px 16px;
+        border-radius: 20px;
+        font-weight: bold;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        animation: dutchFlag 3s ease-in-out infinite;
+    }
+    
+    @keyframes dutchFlag {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+    }
+</style>
 {% endblock %}
 
 {% block content %}
 {% include sidebar_template|default:"admin/sidebar.html" %}
 
-
-<style>
-    .google-analytics-report {
-        display: flex;
-        justify-content: center;
-        margin-top: 20px;
-    }
-
-    .google-analytics-report iframe {
-        width: 100%;
-        max-width: 1200px;
-        height: 800px;
-        border: none;
-        border-radius: 8px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
-</style>
-<div class="wrap">
-    <h1>Google Analytics Reports</h1>
+<div class="analytics-dashboard">
+    <div class="analytics-header">
+        <div>
+            <h1 style="margin: 0; color: #343a40;">📊 Google Analytics Dashboard</h1>
+            {% if analytics_data.period %}
+            <p class="analytics-period">
+                {{ analytics_data.period }} | Laatste update: {{ analytics_data.generated_at|date:"d-m-Y H:i" }}
+                {% if request.GET.country == 'Netherlands' %}
+                <span class="netherlands-badge">🇳🇱 Alleen Nederland</span>
+                {% endif %}
+            </p>
+            {% endif %}
+        </div>
+        <button class="refresh-btn" onclick="window.location.reload()">🔄 Ververs Data</button>
+    </div>
+    
+    <!-- Filter Bar -->
+    <div class="filter-bar">
+        <strong>📍 Filter op land:</strong>
+        <select class="filter-select" onchange="filterByCountry(this.value)">
+            <option value="">🌍 Alle landen</option>
+            <option value="Netherlands" {% if request.GET.country == 'Netherlands' %}selected{% endif %}>🇳🇱 Alleen Nederland</option>
+            <option value="Belgium" {% if request.GET.country == 'Belgium' %}selected{% endif %}>🇧🇪 Alleen België</option>
+            <option value="Germany" {% if request.GET.country == 'Germany' %}selected{% endif %}>🇩🇪 Alleen Duitsland</option>
+        </select>
+        
+        <strong>📅 Periode:</strong>
+        <select class="filter-select" onchange="filterByDays(this.value)">
+            <option value="7" {% if request.GET.days == '7' %}selected{% endif %}>Laatste 7 dagen</option>
+            <option value="30" {% if not request.GET.days or request.GET.days == '30' %}selected{% endif %}>Laatste 30 dagen</option>
+            <option value="90" {% if request.GET.days == '90' %}selected{% endif %}>Laatste 90 dagen</option>
+        </select>
+    </div>
+    
+    {% if analytics_data.error %}
+    <div class="error-message">
+        <h3>⚠️ Fout bij ophalen data</h3>
+        <p>{{ analytics_data.error }}</p>
+        <p><small>Controleer je Google Analytics configuratie of probeer het later opnieuw.</small></p>
+    </div>
+    {% else %}
+    
+    {% if "Mock Data" in analytics_data.period %}
+    <div class="mock-data-notice">
+        <strong>⚠️ Mock Data Weergave</strong> - Dit zijn voorbeeld gegevens. Configureer Google Analytics API voor echte data.
+    </div>
+    {% endif %}
+    
+    <!-- Charts Section -->
+    {% if analytics_data.daily_data %}
+    <div class="chart-container">
+        <h3>📈 Dagelijkse Bezoekers Trend</h3>
+        <div class="chart-wrapper">
+            <canvas id="dailyChart"></canvas>
+        </div>
+    </div>
+    {% endif %}
+    
+    <!-- Metrics Overview -->
+    <div class="metrics-grid">
+        <div class="metric-card">
+            <div class="metric-value">{{ analytics_data.overview.total_users|floatformat:0 }}</div>
+            <div class="metric-label">Totaal Gebruikers</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-value">{{ analytics_data.overview.total_sessions|floatformat:0 }}</div>
+            <div class="metric-label">Totaal Sessies</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-value">{{ analytics_data.overview.total_pageviews|floatformat:0 }}</div>
+            <div class="metric-label">Paginaweergaves</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-value">{{ analytics_data.overview.bounce_rate }}%</div>
+            <div class="metric-label">Bounce Rate</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-value">{{ analytics_data.overview.avg_session_duration|floatformat:0 }}s</div>
+            <div class="metric-label">Gem. Sessieduur</div>
+        </div>
+    </div>
+    
+    <!-- Detailed Breakdowns -->
+    <div class="details-grid">
+        <!-- Top Pages -->
+        <div class="detail-card">
+            <h3>📄 Top Pagina's</h3>
+            <ul class="detail-list">
+                {% for page in analytics_data.top_pages %}
+                <li class="detail-item">
+                    <span class="detail-name">{{ page.page|default:"/" }}</span>
+                    <span class="detail-value">{{ page.views }} weergaves</span>
+                </li>
+                {% empty %}
+                <li class="detail-item">
+                    <span class="detail-name">Geen data beschikbaar</span>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        
+        <!-- Top Countries -->
+        <div class="detail-card">
+            <h3>🌍 Top Landen</h3>
+            <ul class="detail-list">
+                {% for country in analytics_data.top_countries %}
+                <li class="detail-item">
+                    <span class="detail-name">{{ country.country }}</span>
+                    <span class="detail-value">{{ country.users }} gebruikers</span>
+                </li>
+                {% empty %}
+                <li class="detail-item">
+                    <span class="detail-name">Geen data beschikbaar</span>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        
+        <!-- Device Breakdown -->
+        <div class="detail-card">
+            <h3>📱 Apparaten</h3>
+            <ul class="detail-list">
+                {% for device in analytics_data.device_breakdown %}
+                <li class="detail-item">
+                    <span class="detail-name">
+                        {% if device.device == "desktop" %}🖥️ Desktop
+                        {% elif device.device == "mobile" %}📱 Mobiel
+                        {% elif device.device == "tablet" %}📱 Tablet
+                        {% else %}{{ device.device|title }}
+                        {% endif %}
+                    </span>
+                    <span class="detail-value">{{ device.sessions }} sessies</span>
+                </li>
+                {% empty %}
+                <li class="detail-item">
+                    <span class="detail-name">Geen data beschikbaar</span>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    
+    {% endif %}
 </div>
+
+<script>
+function filterByCountry(country) {
+    const url = new URL(window.location);
+    if (country) {
+        url.searchParams.set('country', country);
+    } else {
+        url.searchParams.delete('country');
+    }
+    window.location.href = url.toString();
+}
+
+function filterByDays(days) {
+    const url = new URL(window.location);
+    url.searchParams.set('days', days);
+    window.location.href = url.toString();
+}
+
+{% if analytics_data.daily_data %}
+// Daily Chart
+const dailyCtx = document.getElementById('dailyChart').getContext('2d');
+const dailyChart = new Chart(dailyCtx, {
+    type: 'line',
+    data: {
+        labels: [{% for day in analytics_data.daily_data %}'{{ day.date|date:"M j" }}'{% if not forloop.last %},{% endif %}{% endfor %}],
+        datasets: [{
+            label: '👥 Gebruikers',
+            data: [{% for day in analytics_data.daily_data %}{{ day.users }}{% if not forloop.last %},{% endif %}{% endfor %}],
+            borderColor: '#00a651',
+            backgroundColor: 'rgba(0, 166, 81, 0.1)',
+            tension: 0.4,
+            fill: true
+        }, {
+            label: '📱 Sessies',
+            data: [{% for day in analytics_data.daily_data %}{{ day.sessions }}{% if not forloop.last %},{% endif %}{% endfor %}],
+            borderColor: '#0066cc',
+            backgroundColor: 'rgba(0, 102, 204, 0.1)',
+            tension: 0.4,
+            fill: false
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: {
+                display: true,
+                position: 'top'
+            }
+        },
+        scales: {
+            y: {
+                beginAtZero: true,
+                grid: {
+                    color: 'rgba(0,0,0,0.1)'
+                }
+            },
+            x: {
+                grid: {
+                    color: 'rgba(0,0,0,0.1)'
+                }
+            }
+        }
+    }
+});
+{% endif %}
+</script>
 
 {% endblock %}

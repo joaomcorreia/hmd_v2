@@ -193,14 +193,75 @@ class PortfolioItem(models.Model):
 
 # --- Core / site ---
 class SiteSettings(models.Model):
+    # Company Information
     company_name = models.CharField(max_length=120, blank=True, default="HMD Klusbedrijf")
+    
+    # Contact Information
+    contact_email_display = models.EmailField(
+        verbose_name="Contact E-mail (zichtbaar op website)", 
+        help_text="E-mailadres dat bezoekers zien op de website",
+        default="info@hmdklusbedrijf.nl"
+    )
+    contact_email_receive = models.EmailField(
+        verbose_name="E-mail ontvangst", 
+        help_text="E-mailadres waar contactformulieren naartoe worden gestuurd",
+        default="justcodeworks@gmail.com"
+    )
+    whatsapp_phone = models.CharField(
+        max_length=32, 
+        blank=True, 
+        verbose_name="WhatsApp Nummer",
+        help_text="Inclusief landcode (bijvoorbeeld: +31687111289)",
+        default="+31687111289"
+    )
+    phone_display = models.CharField(
+        max_length=32, 
+        blank=True, 
+        verbose_name="Telefoonnummer (weergave)",
+        help_text="Hoe het telefoonnummer op de website wordt weergegeven",
+        default="06 87111289"
+    )
+    
+    # Business Information
+    business_address = models.TextField(
+        blank=True,
+        verbose_name="Bedrijfsadres",
+        help_text="Volledig adres inclusief postcode en plaats",
+        default="Dinteloord, Nederland"
+    )
+    kvk_number = models.CharField(
+        max_length=20,
+        blank=True,
+        verbose_name="KvK Nummer",
+        help_text="Kamer van Koophandel nummer",
+        default=""
+    )
+    opening_times = models.TextField(
+        blank=True,
+        verbose_name="Openingstijden",
+        help_text="Openingstijden en beschikbaarheid",
+        default="Maandag t/m vrijdag: 8:00 - 17:00\nWeekend: Op afspraak"
+    )
+    
+    # Social Media
+    facebook_url = models.URLField(
+        blank=True,
+        verbose_name="Facebook Link",
+        help_text="Volledige Facebook URL (bijvoorbeeld: https://facebook.com/hmdklusbedrijf)"
+    )
+    instagram_url = models.URLField(
+        blank=True,
+        verbose_name="Instagram Link", 
+        help_text="Volledige Instagram URL (bijvoorbeeld: https://instagram.com/hmdklusbedrijf)"
+    )
+
+    # Legacy fields for backwards compatibility
     contact_email = models.EmailField(default="justcodeworks@gmail.com")
     whatsapp = models.CharField(max_length=32, blank=True, default="+31687111289")
-    phone_display = models.CharField(max_length=32, blank=True, default="06 87111289")
 
     @property
     def whatsapp_digits(self) -> str:
-        raw = self.whatsapp or ""
+        raw = self.whatsapp_phone or self.whatsapp or ""
         digits = ''.join(ch for ch in raw if ch.isdigit())
         if digits.startswith('00'):
             digits = digits[2:]

@@ -142,7 +142,27 @@ class PortfolioItemAdmin(admin.ModelAdmin):
 
 @admin.register(SiteSettings)
 class SiteSettingsAdmin(PreviewReturnMixin, admin.ModelAdmin):
-    list_display = ("contact_email",)
+    list_display = ("company_name", "contact_email_display", "whatsapp_phone")
+    
+    fieldsets = (
+        ('Bedrijfsinformatie', {
+            'fields': ('company_name', 'business_address', 'kvk_number', 'opening_times')
+        }),
+        ('Contactgegevens', {
+            'fields': ('contact_email_display', 'contact_email_receive', 'whatsapp_phone', 'phone_display')
+        }),
+        ('Social Media', {
+            'fields': ('facebook_url', 'instagram_url')
+        }),
+    )
+    
+    def has_add_permission(self, request):
+        # Only allow one SiteSettings instance
+        return not SiteSettings.objects.exists()
+        
+    def has_delete_permission(self, request, obj=None):
+        # Don't allow deletion of SiteSettings
+        return False
 
 @admin.register(ContactSubmission)
 class ContactSubmissionAdmin(admin.ModelAdmin):

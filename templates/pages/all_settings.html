@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Site Instellingen{% endblock %}
+{% block content %}
+<div class="container" style="max-width:900px;margin:40px auto;">
+    <h1 class="mb-4">Site Instellingen</h1>
+    <div class="row" style="display: flex; flex-wrap: wrap; gap: 24px;">
+        <!-- Facebook Card -->
+        <div class="card p-4" style="flex:1 1 300px;min-width:300px;max-width:400px;">
+            <h4>Facebook Link</h4>
+            <form method="post" action="?section=facebook">
+                {% csrf_token %}
+                <input type="url" name="facebook_url" class="form-control mb-2" value="{{ SITE_SETTINGS.facebook_url }}" placeholder="Facebook URL">
+                <button type="submit" class="btn btn-primary">Opslaan</button>
+            </form>
+        </div>
+        <!-- Instagram Card -->
+        <div class="card p-4" style="flex:1 1 300px;min-width:300px;max-width:400px;">
+            <h4>Instagram Link</h4>
+            <form method="post" action="?section=instagram">
+                {% csrf_token %}
+                <input type="url" name="instagram_url" class="form-control mb-2" value="{{ SITE_SETTINGS.instagram_url }}" placeholder="Instagram URL">
+                <button type="submit" class="btn btn-primary">Opslaan</button>
+            </form>
+        </div>
+        <!-- WhatsApp Card -->
+        <div class="card p-4" style="flex:1 1 300px;min-width:300px;max-width:400px;">
+            <h4>WhatsApp Telefoonnummer</h4>
+            <form method="post" action="?section=whatsapp">
+                {% csrf_token %}
+                <input type="text" name="whatsapp_phone" class="form-control mb-2" value="{{ SITE_SETTINGS.whatsapp_phone }}" placeholder="bv. 31612345678">
+                <button type="submit" class="btn btn-primary">Opslaan</button>
+            </form>
+        </div>
+        <!-- Address Card -->
+        <div class="card p-4" style="flex:1 1 300px;min-width:300px;max-width:400px;">
+            <h4>Adres</h4>
+            <form method="post" action="?section=address">
+                {% csrf_token %}
+                <textarea name="business_address" class="form-control mb-2" rows="3" placeholder="Adres">{{ SITE_SETTINGS.business_address }}</textarea>
+                <button type="submit" class="btn btn-primary">Opslaan</button>
+            </form>
+        </div>
+        <!-- Opening Times Card -->
+        <div class="card p-4" style="flex:1 1 300px;min-width:300px;max-width:400px;">
+            <h4>Openingstijden</h4>
+            <form method="post" action="?section=opening_times">
+                {% csrf_token %}
+                <textarea name="opening_times" class="form-control mb-2" rows="3" placeholder="Openingstijden">{{ SITE_SETTINGS.opening_times }}</textarea>
+                <button type="submit" class="btn btn-primary">Opslaan</button>
+            </form>
+        </div>
+        <!-- KVK Card -->
+        <div class="card p-4" style="flex:1 1 300px;min-width:300px;max-width:400px;">
+            <h4>KVK Nummer</h4>
+            <form method="post" action="?section=kvk">
+                {% csrf_token %}
+                <input type="text" name="kvk_number" class="form-control mb-2" value="{{ SITE_SETTINGS.kvk_number }}" placeholder="KVK Nummer">
+                <button type="submit" class="btn btn-primary">Opslaan</button>
+            </form>
+        </div>
+        <!-- Email Card -->
+        <div class="card p-4" style="flex:1 1 300px;min-width:300px;max-width:400px;">
+            <h4>Email voor Contactformulier</h4>
+            <form method="post" action="?section=email">
+                {% csrf_token %}
+                <label>Publiek getoond emailadres</label>
+                <input type="email" name="contact_email_display" class="form-control mb-2" value="{{ SITE_SETTINGS.contact_email_display }}" placeholder="info@hmdklusbedrijf.nl">
+                <label>Email waar berichten naartoe gaan</label>
+                <input type="email" name="contact_email_receive" class="form-control mb-2" value="{{ SITE_SETTINGS.contact_email_receive }}" placeholder="ontvangst@email.nl">
+                <button type="submit" class="btn btn-primary">Opslaan</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,27 +1,171 @@
 {% extends "admin/base_site.html" %}
 {% load static %}
 
+{% block title %}Site Instellingen{% endblock %}
+
 {% block extrastyle %}
 {{ block.super }}
-<link rel="stylesheet" href="{% static 'css/admin_main_styles.css' %}
-">
+<link rel="stylesheet" href="{% static 'css/admin_main_styles.css' %}">
+<style>
+    .tool-layout {
+        display: grid;
+        grid-template-columns: 260px 1fr;
+        gap: 30px;
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+    
+    .settings-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 24px;
+    }
+    
+    .settings-card {
+        flex: 1 1 300px;
+        min-width: 300px;
+        max-width: 400px;
+        background: white;
+        border: 1px solid #e3e3e3;
+        border-radius: 8px;
+        padding: 20px;
+    }
+    
+    .settings-card h4 {
+        margin: 0 0 15px 0;
+        color: #333;
+        font-size: 16px;
+    }
+    
+    .form-control {
+        width: 100%;
+        padding: 8px 12px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        margin-bottom: 12px;
+        font-size: 14px;
+    }
+    
+    .btn-primary {
+        background: #417690;
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 14px;
+    }
+    
+    .btn-primary:hover {
+        background: #2e5266;
+    }
+</style>
 {% endblock %}
 
 {% block content %}
-
-{% include sidebar_template|default:"admin/sidebar.html" %}
-
-<div class="wrap">
-    <div class="card">
-        <h3>Translations</h3>
-        <p>Website language and translations On / Off</p>
-        <p>Admin language and translations On / Off</p>
-    </div>
-    <div class="card">
-        <h3>Contact form Email</h3>
-        <p>Email address for contact form submissions</p>
+<div class="tool-layout">
+    {% include sidebar_template|default:"admin/sidebar.html" %}
+    
+    <div>
+        <h1>Site Instellingen</h1>
+        <p>Beheer alle website-instellingen per categorie. Wijzigingen worden direct opgeslagen.</p>
+        
+        <!-- Success Messages -->
+        {% if messages %}
+            <div style="margin: 20px 0;">
+                {% for message in messages %}
+                    <div style="background: #d4edda; border: 1px solid #c3e6cb; color: #155724; padding: 12px; border-radius: 4px; margin-bottom: 10px;">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+        
+        <div class="settings-grid">
+            <!-- Facebook Card -->
+            <div class="settings-card">
+                <h4>Facebook Link</h4>
+                <form method="post" action="?section=facebook">
+                    {% csrf_token %}
+                    <input type="url" name="facebook_url" class="form-control" 
+                           value="{{ SITE_SETTINGS.facebook_url }}" 
+                           placeholder="https://facebook.com/hmdklusbedrijf">
+                    <button type="submit" class="btn-primary">Opslaan</button>
+                </form>
+            </div>
+            
+            <!-- Instagram Card -->
+            <div class="settings-card">
+                <h4>Instagram Link</h4>
+                <form method="post" action="?section=instagram">
+                    {% csrf_token %}
+                    <input type="url" name="instagram_url" class="form-control" 
+                           value="{{ SITE_SETTINGS.instagram_url }}" 
+                           placeholder="https://instagram.com/hmdklusbedrijf">
+                    <button type="submit" class="btn-primary">Opslaan</button>
+                </form>
+            </div>
+            
+            <!-- WhatsApp Card -->
+            <div class="settings-card">
+                <h4>WhatsApp Nummer</h4>
+                <form method="post" action="?section=whatsapp">
+                    {% csrf_token %}
+                    <input type="tel" name="whatsapp_phone" class="form-control" 
+                           value="{{ SITE_SETTINGS.whatsapp_phone }}" 
+                           placeholder="+31687111289">
+                    <button type="submit" class="btn-primary">Opslaan</button>
+                </form>
+            </div>
+            
+            <!-- Phone Display Card -->
+            <div class="settings-card">
+                <h4>Telefoon Weergave</h4>
+                <form method="post" action="?section=phone_display">
+                    {% csrf_token %}
+                    <input type="tel" name="phone_display" class="form-control" 
+                           value="{{ SITE_SETTINGS.phone_display }}" 
+                           placeholder="06 87111289">
+                    <button type="submit" class="btn-primary">Opslaan</button>
+                </form>
+            </div>
+            
+            <!-- Contact Email Card -->
+            <div class="settings-card">
+                <h4>Contact E-mail (Zichtbaar)</h4>
+                <form method="post" action="?section=contact_email">
+                    {% csrf_token %}
+                    <input type="email" name="contact_email_display" class="form-control" 
+                           value="{{ SITE_SETTINGS.contact_email_display }}" 
+                           placeholder="info@hmdklusbedrijf.nl">
+                    <button type="submit" class="btn-primary">Opslaan</button>
+                </form>
+            </div>
+            
+            <!-- Business Address Card -->
+            <div class="settings-card">
+                <h4>Bedrijfsadres</h4>
+                <form method="post" action="?section=address">
+                    {% csrf_token %}
+                    <textarea name="business_address" class="form-control" rows="3" 
+                              placeholder="Volledig adres inclusief postcode en plaats">{{ SITE_SETTINGS.business_address }}</textarea>
+                    <button type="submit" class="btn-primary">Opslaan</button>
+                </form>
+            </div>
+            
+            <!-- KvK Number Card -->
+            <div class="settings-card">
+                <h4>KvK Nummer</h4>
+                <form method="post" action="?section=kvk">
+                    {% csrf_token %}
+                    <input type="text" name="kvk_number" class="form-control" 
+                           value="{{ SITE_SETTINGS.kvk_number }}" 
+                           placeholder="12345678">
+                    <button type="submit" class="btn-primary">Opslaan</button>
+                </form>
+            </div>
+        </div>
     </div>
 </div>
-
-
 {% endblock %}

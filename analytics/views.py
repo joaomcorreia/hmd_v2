@@ -3,28 +3,36 @@ from django.core.cache import cache
 from django.utils import timezone
 from django.http import HttpResponse
 from django.views.decorators.http import require_GET
+from django.shortcuts import render
+from django.contrib.admin.views.decorators import staff_member_required
 import io
 from django.core.cache import caches
+from .services import ga_service
 
 # simple cache alias (use default cache)
 _cache = cache
 
 def ga_summary(request):
-    key = "ga_summary_v1"
-    data = cache.get(key)
-    if not data:
-        # STUB DATA — replace later with GA4 API result
-        data = {
-            "generated_at": timezone.now().isoformat(),
-            "cards": [
-                {"title": "Users (7d)", "value": 421},
-                {"title": "Sessions (7d)", "value": 613},
-                {"title": "Bounce Rate", "value": "47%"},
-                {"title": "Top Page", "value": "/diensten/"},
-            ],
-        }
-        cache.set(key, data, 120)  # 2 minutes for GA
-    return JsonResponse(data)
+    """API endpoint for Google Analytics summary data"""
+    try:
+        data = ga_service.get_overview_data(days=30)
+        return JsonResponse(data)
+    except Exception as e:
+        return JsonResponse({"error": str(e)}, status=500)
+
+@staff_member_required
+def analytics_dashboard(request):
+    """Main analytics dashboard view"""
+    try:
+        analytics_data = ga_service.get_overview_data(days=30)
+    except Exception as e:
+        analytics_data = {"error": str(e)}
+    
+    context = {
+        'analytics_data': analytics_data,
+        'sidebar_template': 'admin/sidebar.html',
+    }
+    return render(request, 'admin/tools/google.html', context)
 
 def fb_summary(request):
     key = "fb_summary_v1"

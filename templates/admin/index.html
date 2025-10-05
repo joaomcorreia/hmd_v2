@@ -1,161 +1,222 @@
-{% extends "admin/index.html" %}
+{% extends "admin/base_site.html" %}
 {% load static %}
 
-{% block extrastyle %}
-{{ block.super }}
-{% endblock %}
+{% block title %}Beheer & overzicht{% endblock %}
 
 {% block extrahead %}
 <style>
-    /* Left sidebar lists */
-    .admin-links {
-        list-style: none;
-        margin: 0;
-        padding: 0
+    /* Admin Dashboard Styles */
+    .admin-info-bar {
+        background: #f8f9fa;
+        border-bottom: 1px solid #e9ecef;
+        padding: 12px 20px;
+        margin: 0 0 20px 0;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        font-size: 14px;
+        gap: 30px;
     }
-
-    .admin-links>li {
-        margin: 6px 0
+    
+    .admin-info-bar .status {
+        display: flex;
+        align-items: center;
+        gap: 8px;
     }
-
-    .admin-links a {
-        text-decoration: none
+    
+    .admin-info-bar .status-indicator {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #28a745;
     }
-
-    .admin-links .nested {
-        display: none;
-        margin: 6px 0 0 16px;
-        padding: 0;
-        list-style: none
+    
+    .admin-info-bar .numbers {
+        display: flex;
+        gap: 20px;
+        color: #6c757d;
     }
-
-    .admin-links .nested li {
-        margin: 4px 0
-    }
-
-    .admin-links .accordion>a {
-        display: inline-flex;
-        gap: 6px;
-        align-items: center
-    }
-
-    .admin-links .accordion .caret {
-        transition: transform .15s ease-in-out
-    }
-
-    .admin-links .accordion>a[aria-expanded="true"] .caret {
-        transform: rotate(90deg)
-    }
-
-    .subs {
-        list-style: none;
-        margin: 0;
-        padding: 0
-    }
-
-    .subs li {
-        margin: 6px 0
-    }
-
-    /* Make main area full width in Django admin and hide right related column */
-    #content-main {
-        width: 100%;
-        float: none
-    }
-
-    #content-related {
-        display: none
-    }
-
-    /* Robust responsive grid for dashboard cards */
-    .dashboard-grid {
-        display: grid !important;
-        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-        gap: 16px;
-        margin: 16px 0;
-        grid-auto-flow: row dense;
-    }
-
-    /* Two-column layout: sidebar + main grid */
+    
     .admin-dashboard-grid {
         display: grid;
         grid-template-columns: 260px 1fr;
-        gap: 24px;
+        gap: 30px;
         align-items: start;
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 20px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+    
+    .dashboard-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 24px;
+        margin: 20px 0;
+    }
+    
+    .card {
+        background: white;
+        border: 1px solid #e3e3e3;
+        border-radius: 8px;
+        padding: 20px;
+        text-align: left;
+        transition: box-shadow 0.2s ease;
+    }
+    
+    .card:hover {
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    
+    .card h3 {
+        margin: 0 0 8px 0;
+        font-size: 16px;
+        font-weight: 600;
+    }
+    
+    .card h3 a {
+        color: #333;
+        text-decoration: none;
+    }
+    
+    .card h3 a:hover {
+        color: #0066cc;
+    }
+    
+    .card p {
+        margin: 0;
+        color: #666;
+        font-size: 14px;
+        line-height: 1.4;
     }
 
-    /* Make sidebar full-width above small screens */
-    @media (max-width: 900px) {
+    /* Custom Admin Sidebar Styles */
+    .admin-sidebar {
+        background: #f8f9fa;
+        border: 1px solid #dee2e6;
+        border-radius: 8px;
+        padding: 0;
+        width: 100%;
+    }
+    
+    .admin-sidebar .module {
+        margin: 0;
+        padding: 0;
+    }
+    
+    .admin-sidebar .module h2 {
+        background: #417690;
+        color: white;
+        margin: 0;
+        padding: 10px 15px;
+        font-size: 14px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    
+    .admin-sidebar .module:first-child h2 {
+        border-top-left-radius: 7px;
+        border-top-right-radius: 7px;
+    }
+    
+    .admin-sidebar .actionlist {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        background: white;
+    }
+    
+    .admin-sidebar .actionlist li {
+        border-bottom: 1px solid #eee;
+        margin: 0;
+    }
+    
+    .admin-sidebar .actionlist li:last-child {
+        border-bottom: none;
+    }
+    
+    .admin-sidebar .actionlist li a {
+        display: block;
+        padding: 10px 15px;
+        color: #333;
+        text-decoration: none;
+        font-size: 13px;
+        transition: all 0.2s ease;
+    }
+    
+    .admin-sidebar .actionlist li a:hover {
+        background-color: #f8f9fa;
+        color: #417690;
+        padding-left: 20px;
+    }
+    
+    .admin-sidebar .actionlist li.active a {
+        background-color: #417690;
+        color: white;
+        font-weight: 600;
+    }
+    
+    .admin-sidebar .actionlist li.active a:hover {
+        background-color: #2e5266;
+        color: white;
+        padding-left: 15px;
+    }
+    
+    /* Indented sub-items */
+    .admin-sidebar .actionlist li a[href*="/-"] {
+        padding-left: 25px;
+        color: #666;
+        font-size: 12px;
+    }
+    
+    .admin-sidebar .actionlist li a[href*="/-"]:hover {
+        padding-left: 30px;
+        color: #417690;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
         .admin-dashboard-grid {
             grid-template-columns: 1fr;
         }
-
-        .admin-sidebar {
-            margin-bottom: 0;
+        
+        .dashboard-grid {
+            grid-template-columns: repeat(2, 1fr);
         }
     }
-
-    .dashboard-grid>* {
-        grid-column: auto !important
-    }
-
-    /* Card basics */
-    .card {
-        border: 1px solid #ddd;
-        border-radius: 12px;
-        padding: 14px;
-        background: #fff;
-        box-sizing: border-box
-    }
-
-    .card h3 {
-        margin: 0 0 8px;
-        font-size: 1.05rem
-    }
-
-    .card h3 a {
-        text-decoration: none
-    }
-
-    .card p {
-        margin: 0;
-        color: #555;
-        font-size: .92rem;
-        line-height: 1.35
-    }
-
-    .admin-sidebar {
-        margin: 16px 0
-    }
-
-    .module {
-        margin-bottom: 16px
-    }
-
-    /* #header {
-        background-color: blanchedalmond;
-    } */
-
-    /* Optional: single column on very small screens */
-    @media (max-width:480px) {
+    
+    @media (max-width: 480px) {
         .dashboard-grid {
-            grid-template-columns: 1fr
+            grid-template-columns: 1fr;
         }
     }
 </style>
-{{ block.super }}
-
 {% endblock %}
 
-
-
 {% block content %}
+<h1>Beheer & overzicht</h1>
+
+<!-- Customer Info Bar -->
+<div class="admin-info-bar">
+    <div class="status">
+        <div class="status-indicator"></div>
+        <span><strong>System Status:</strong> Under Development</span>
+    </div>
+    <div class="numbers">
+        <span><strong>Customer Number:</strong> JCW-NL-003</span>
+        <span><strong>Affiliate Number:</strong> TBD</span>
+    </div>
+</div>
 
 <div class="admin-dashboard-grid">
-    {% include sidebar_template|default:"admin/sidebar.html" %}
+    <!-- Sidebar -->
+    {% include "admin/sidebar.html" %}
 
-    <div class="wrap">
-        <div class="dashboard-grid" role="navigation" aria-label="Admin dashboard quick links">
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="dashboard-grid">
             <div class="card">
                 <h3><a href="/admin/domains/overview/">Domain & Ownership</a></h3>
                 <p>Status, dates, transfer to owner.</p>
@@ -172,39 +233,36 @@
             </div>
 
             <div class="card">
-                <h3><a href="/admin/help/editing/">Admin Pages & Editing</a></h3>
-                <p>Edit text, images, services, and contact info.</p>
+                <h3><a href="/admin/core/slide/">Slider Management</a></h3>
+                <p>Edit homepage slider images and content.</p>
             </div>
 
             <div class="card">
-                <h3><a href="/admin/apps/">Apps</a></h3>
-                <p>Image resizer, watermark, QR code maker.</p>
+                <h3><a href="/admin/core/sitesettings/">Site Settings</a></h3>
+                <p>Business info, contact details, and social media.</p>
             </div>
 
             <div class="card">
-                <h3><a href="/admin/insights/">Insights</a></h3>
+                <h3><a href="/admin/analytics/">Insights</a></h3>
                 <p>Facebook data and Google Analytics.</p>
             </div>
 
             <div class="card">
-                <h3><a href="/admin/printing/">Printing Materials</a></h3>
-                <p>Order flyers, cards, and more.</p>
+                <h3><a href="/admin/core/portfolioitem/">Portfolio</a></h3>
+                <p>Manage your work showcase and projects.</p>
             </div>
 
             <div class="card">
-                <h3><a href="/admin/billing/">Billing</a></h3>
-                <p>All your payments here. Invoices and receipts.</p>
+                <h3><a href="/admin/core/contactsubmission/">Contact Forms</a></h3>
+                <p>View and manage contact form submissions.</p>
             </div>
+
             <div class="card">
-                <h3><a href="/admin/billing/">Settings</a></h3>
-                <p>Settings for your admin and for your website. Make major changes on your account. Upgrades, request
-                    new
-                    features, Cancel your account.</p>
+                <h3><a href="/admin/auth/user/">User Management</a></h3>
+                <p>Admin users and permissions.</p>
             </div>
         </div>
     </div>
 </div>
-</div>
-
 
 {% endblock %}
