@@ -8,11 +8,16 @@ from . import admin_preview
 from hmd.views_admin import admin_tool
 from django.contrib.admin.views.decorators import staff_member_required
 from django.views.generic import TemplateView
+from ai_engine.views import ai_assistant_dashboard
 
 urlpatterns = [
     path("admin/preview/<str:app_label>/<str:model_name>/<int:pk>/", admin.site.admin_view(admin_preview.preview_edit), name="admin-preview-edit"),
 
+    # AI Assistant gets its own dedicated route with proper context
+    path("admin/tools/ai-assistant/", admin.site.admin_view(ai_assistant_dashboard), name="admin-ai-assistant"),
     path("admin/tools/<slug:slug>/", admin.site.admin_view(admin_tool), name="admin-tool"),
+    # Real-time analytics API endpoint
+    path("admin/api/realtime/", admin.site.admin_view(__import__('hmd.views_admin', fromlist=['realtime_analytics']).realtime_analytics), name="admin-realtime-analytics"),
     # include analytics API endpoints before the admin site so /admin/api/ routes resolve
     path("admin/api/", include("analytics.urls")),
     path("admin/", admin.site.urls),

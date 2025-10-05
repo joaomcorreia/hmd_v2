@@ -1,0 +1,508 @@
+<!-- Customer AI Assistant Widget for Frontend -->
+<div id="customerAiWidget" class="customer-ai-widget">
+    <button id="customerAiToggle" class="customer-ai-toggle" title="Chat with HMD AI Assistant">
+        <i class="fas fa-comments"></i>
+        <span class="ai-pulse"></span>
+    </button>
+    
+    <div id="customerAiChat" class="customer-ai-chat" style="display: none;">
+        <div class="customer-ai-header">
+            <div class="ai-info">
+                <div class="ai-avatar">🏠</div>
+                <div>
+                    <strong>HMD AI Assistant</strong>
+                    <small>Online • Ready to help</small>
+                </div>
+            </div>
+            <button id="customerAiClose" class="ai-close-btn">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <div id="customerAiMessages" class="customer-ai-messages">
+            <div class="ai-message received">
+                <div class="message-avatar">🏠</div>
+                <div class="message-content">
+                    <p>Hallo! Ik ben de AI-assistent van HMD Klusbedrijf. Ik kan u helpen met:</p>
+                    <div class="quick-options">
+                        <button class="quick-btn" data-question="Wat voor diensten bieden jullie aan?">📋 Onze Diensten</button>
+                        <button class="quick-btn" data-question="Hoe kan ik contact opnemen voor een offerte?">💰 Offerte Aanvragen</button>
+                        <button class="quick-btn" data-question="In welke regio's werken jullie?">📍 Werkgebied</button>
+                        <button class="quick-btn" data-question="Wat kost een klus gemiddeld?">💸 Prijsinformatie</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="customer-ai-input">
+            <input type="text" id="customerAiInput" placeholder="Stel uw vraag..." maxlength="300">
+            <button id="customerAiSend" type="button">
+                <i class="fas fa-paper-plane"></i>
+            </button>
+        </div>
+        
+        <div class="ai-typing-indicator" id="customerAiTyping" style="display: none;">
+            <span></span><span></span><span></span>
+            HMD AI typt...
+        </div>
+    </div>
+</div>
+
+<style>
+/* Customer AI Widget Styles */
+.customer-ai-widget {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 9999;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.customer-ai-toggle {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: linear-gradient(45deg, #007bff, #0056b3);
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    box-shadow: 0 4px 20px rgba(0,123,255,0.3);
+    transition: all 0.3s ease;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.customer-ai-toggle:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 25px rgba(0,123,255,0.4);
+}
+
+.ai-pulse {
+    position: absolute;
+    top: -2px;
+    right: -2px;
+    width: 16px;
+    height: 16px;
+    background: #28a745;
+    border-radius: 50%;
+    border: 2px solid white;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.2); opacity: 0.7; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+.customer-ai-chat {
+    position: absolute;
+    bottom: 80px;
+    right: 0;
+    width: 350px;
+    height: 500px;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+    border: 1px solid #e0e0e0;
+    display: flex;
+    flex-direction: column;
+    animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.customer-ai-header {
+    background: linear-gradient(45deg, #007bff, #0056b3);
+    color: white;
+    padding: 15px;
+    border-radius: 16px 16px 0 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.ai-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.ai-avatar {
+    width: 35px;
+    height: 35px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+}
+
+.ai-close-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 50%;
+    transition: background 0.2s;
+}
+
+.ai-close-btn:hover {
+    background: rgba(255,255,255,0.2);
+}
+
+.customer-ai-messages {
+    flex: 1;
+    padding: 15px;
+    overflow-y: auto;
+    background: #f8f9fa;
+}
+
+.ai-message {
+    margin-bottom: 15px;
+}
+
+.ai-message.received {
+    text-align: left;
+}
+
+.ai-message.sent {
+    text-align: right;
+}
+
+.message-content {
+    background: white;
+    padding: 12px 15px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    display: inline-block;
+    max-width: 85%;
+}
+
+.ai-message.sent .message-content {
+    background: #007bff;
+    color: white;
+}
+
+.message-avatar {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    background: #007bff;
+    color: white;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 30px;
+    margin-right: 8px;
+    vertical-align: top;
+    font-size: 14px;
+}
+
+.quick-options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.quick-btn {
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: center;
+}
+
+.quick-btn:hover {
+    background: #0056b3;
+    transform: translateY(-1px);
+}
+
+.customer-ai-input {
+    display: flex;
+    padding: 15px;
+    border-top: 1px solid #e0e0e0;
+    background: white;
+    border-radius: 0 0 16px 16px;
+}
+
+#customerAiInput {
+    flex: 1;
+    border: 1px solid #ddd;
+    padding: 10px 15px;
+    border-radius: 25px;
+    outline: none;
+    font-size: 14px;
+}
+
+#customerAiInput:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 2px rgba(0,123,255,0.2);
+}
+
+#customerAiSend {
+    background: #007bff;
+    border: none;
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-left: 10px;
+    cursor: pointer;
+    transition: background 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#customerAiSend:hover {
+    background: #0056b3;
+}
+
+.ai-typing-indicator {
+    padding: 10px 15px;
+    background: white;
+    border-top: 1px solid #e0e0e0;
+    font-size: 12px;
+    color: #666;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.ai-typing-indicator span {
+    width: 4px;
+    height: 4px;
+    background: #007bff;
+    border-radius: 50%;
+    animation: typing 1.4s infinite;
+}
+
+.ai-typing-indicator span:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.ai-typing-indicator span:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes typing {
+    0%, 60%, 100% { transform: translateY(0); }
+    30% { transform: translateY(-10px); }
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+    .customer-ai-widget {
+        bottom: 15px;
+        right: 15px;
+    }
+    
+    .customer-ai-chat {
+        width: 320px;
+        height: 450px;
+    }
+    
+    .quick-options {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+
+<script>
+// Customer AI Assistant Widget
+class CustomerAIAssistant {
+    constructor() {
+        this.isOpen = false;
+        this.isTyping = false;
+        
+        this.initializeElements();
+        this.attachEventListeners();
+        this.loadWelcomeMessage();
+    }
+    
+    initializeElements() {
+        this.widget = document.getElementById('customerAiWidget');
+        this.toggle = document.getElementById('customerAiToggle');
+        this.chat = document.getElementById('customerAiChat');
+        this.close = document.getElementById('customerAiClose');
+        this.messages = document.getElementById('customerAiMessages');
+        this.input = document.getElementById('customerAiInput');
+        this.send = document.getElementById('customerAiSend');
+        this.typing = document.getElementById('customerAiTyping');
+    }
+    
+    attachEventListeners() {
+        this.toggle.addEventListener('click', () => this.toggleChat());
+        this.close.addEventListener('click', () => this.closeChat());
+        this.send.addEventListener('click', () => this.sendMessage());
+        this.input.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') this.sendMessage();
+        });
+        
+        // Quick action buttons
+        this.messages.addEventListener('click', (e) => {
+            if (e.target.classList.contains('quick-btn')) {
+                const question = e.target.getAttribute('data-question');
+                if (question) {
+                    this.input.value = question;
+                    this.sendMessage();
+                }
+            }
+        });
+    }
+    
+    loadWelcomeMessage() {
+        // Welcome message is already in HTML
+    }
+    
+    toggleChat() {
+        if (this.isOpen) {
+            this.closeChat();
+        } else {
+            this.openChat();
+        }
+    }
+    
+    openChat() {
+        this.chat.style.display = 'block';
+        this.isOpen = true;
+        this.input.focus();
+        
+        // Hide notification
+        const notification = document.querySelector('.ai-pulse');
+        if (notification) notification.style.display = 'none';
+    }
+    
+    closeChat() {
+        this.chat.style.display = 'none';
+        this.isOpen = false;
+    }
+    
+    async sendMessage() {
+        const message = this.input.value.trim();
+        if (!message || this.isTyping) return;
+        
+        // Add user message
+        this.addMessage(message, 'sent');
+        this.input.value = '';
+        
+        // Show typing indicator
+        this.showTyping();
+        
+        try {
+            // Use the same contextual AI endpoint that works on localhost
+            const response = await fetch('/ai/contextual/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': this.getCSRFToken(),
+                },
+                body: JSON.stringify({
+                    question: message,
+                    current_page: 'frontend',
+                    page_context: 'customer'
+                })
+            });
+            
+            if (response.ok) {
+                const data = await response.json();
+                if (data.success) {
+                    this.addMessage(data.response, 'received');
+                } else {
+                    this.addMessage('Sorry, ik ondervind momenteel technische problemen. Probeer het later opnieuw of neem direct contact met ons op.', 'received');
+                }
+            } else {
+                throw new Error('Network response was not ok');
+            }
+        } catch (error) {
+            console.error('AI Assistant Error:', error);
+            this.addMessage('Sorry, ik kan momenteel niet reageren. Neem gerust contact met ons op via telefoon of WhatsApp!', 'received');
+        } finally {
+            this.hideTyping();
+        }
+    }
+    
+    addMessage(content, type) {
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `ai-message ${type}`;
+        
+        if (type === 'received') {
+            messageDiv.innerHTML = `
+                <div class="message-avatar">🏠</div>
+                <div class="message-content">
+                    <p>${this.formatMessage(content)}</p>
+                </div>
+            `;
+        } else {
+            messageDiv.innerHTML = `
+                <div class="message-content">
+                    <p>${this.formatMessage(content)}</p>
+                </div>
+            `;
+        }
+        
+        this.messages.appendChild(messageDiv);
+        this.scrollToBottom();
+    }
+    
+    formatMessage(text) {
+        return text
+            .replace(/\n/g, '<br>')
+            .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+            .replace(/\*(.*?)\*/g, '<em>$1</em>');
+    }
+    
+    showTyping() {
+        this.isTyping = true;
+        this.typing.style.display = 'flex';
+        this.scrollToBottom();
+    }
+    
+    hideTyping() {
+        this.isTyping = false;
+        this.typing.style.display = 'none';
+    }
+    
+    scrollToBottom() {
+        setTimeout(() => {
+            this.messages.scrollTop = this.messages.scrollHeight;
+        }, 100);
+    }
+    
+    getCSRFToken() {
+        const cookies = document.cookie.split(';');
+        for (let cookie of cookies) {
+            const [name, value] = cookie.trim().split('=');
+            if (name === 'csrftoken') return value;
+        }
+        
+        // Fallback: try to get from meta tag or form
+        const csrfMeta = document.querySelector('meta[name="csrf-token"]');
+        if (csrfMeta) return csrfMeta.getAttribute('content');
+        
+        const csrfInput = document.querySelector('input[name="csrfmiddlewaretoken"]');
+        if (csrfInput) return csrfInput.value;
+        
+        return '';
+    }
+}
+
+// Initialize when DOM is loaded
+document.addEventListener('DOMContentLoaded', function() {
+    new CustomerAIAssistant();
+});
+</script>

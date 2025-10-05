@@ -46,8 +46,8 @@ def index(request):
     about_panel = HomeAboutPanel.objects.first()
     about_url = reverse("over-ons")
     meta = {
-        "title": "Home | HMD Klusbedrijf",
-        "description": "Betrouwbaar klusbedrijf voor renovatie, onderhoud en reparaties in Dinteloord en omgeving.",
+        "title": "Home | Demo Klusbedrijf",
+        "description": "Betrouwbaar klusbedrijf voor renovatie, onderhoud en reparaties in Amsterdam en omgeving.",
         "canonical": request.build_absolute_uri("/"),
         "type": "website",
         "image_abs": _abs_static(request, "img/og-default.jpg"),
@@ -70,8 +70,8 @@ def over_ons(request):
     benefits = AboutBenefit.objects.all()
     process_steps = AboutProcessStep.objects.all()
     meta = {
-        "title": "Over Ons | HMD Klusbedrijf",
-        "description": "Ontdek HMD Klusbedrijf: 25 jaar vakmanschap in schilderwerk, vloeren, keukens en stukwerk. Betrouwbare service in Dinteloord en omgeving.",
+        "title": "Over Ons | Demo Klusbedrijf",
+        "description": "Ontdek Demo Klusbedrijf: 25 jaar vakmanschap in schilderwerk, vloeren, keukens en stukwerk. Betrouwbare service in Amsterdam en omgeving.",
         "canonical": request.build_absolute_uri(),
         "type": "website",
         "image_abs": _abs_static(request, "img/og-default.jpg"),
@@ -89,7 +89,7 @@ def over_ons(request):
 
 def diensten(request):
     meta = {
-        "title": "Diensten | HMD Klusbedrijf",
+        "title": "Diensten | Demo Klusbedrijf",
         "description": "Overzicht van alle diensten: kluswerk, renovaties, badkamers, timmerwerk, elektra en loodgieterij.",
         "canonical": request.build_absolute_uri(),
         "type": "website",
@@ -105,7 +105,7 @@ def portfolio(request):
     label_map = dict(PortfolioItem.CAT_CHOICES)
     categories = [(c, label_map.get(c, c)) for c in sorted(codes)]
     meta = {
-        "title": "Portfolio | HMD Klusbedrijf",
+        "title": "Portfolio | Demo Klusbedrijf",
         "description": "Projecten en referenties. Afbeeldingen in verschillende formaten, klik om te vergroten.",
         "canonical": request.build_absolute_uri(),
         "type": "website",
@@ -149,7 +149,7 @@ def contact(request):
         form = ContactForm()
 
     meta = {
-        "title": "Contact | HMD Klusbedrijf",
+        "title": "Contact | Demo Klusbedrijf",
         "description": "Neem contact op voor vragen of een vrijblijvende offerte.",
         "canonical": request.build_absolute_uri(),
         "type": "website",
@@ -270,7 +270,7 @@ def service_detail(request, slug):
     if not svc:
         raise Http404
     meta = {
-        "title": f"{svc['name']} | HMD Klusbedrijf",
+        "title": f"{svc['name']} | Demo Klusbedrijf",
         "description": svc["desc"],
         "canonical": request.build_absolute_uri(),
         "type": "website",

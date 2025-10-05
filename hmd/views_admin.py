@@ -18,6 +18,7 @@ def admin_tool(request, slug):
         'overview': 'admin/tools/overview.html',
         'home-preview': 'admin/tools/home-preview.html', 
         'domain-name': 'admin/tools/domain-name.html',
+        'ai-assistant': 'ai_engine/assistant_dashboard.html',
         'hosting': 'admin/tools/hosting.html',
         'website': 'admin/tools/website.html',
         'seo': 'admin/tools/seo.html',
@@ -47,10 +48,19 @@ def admin_tool(request, slug):
         except Exception as e:
             analytics_data = {"error": str(e)}
         
+        # Get real-time data for live user tracking
+        try:
+            realtime_data = ga_service.get_realtime_data()
+        except Exception as e:
+            realtime_data = {"error": str(e), "active_users": 0, "locations": [], "pages": [], "devices": []}
+        
         context = {
             'tool_slug': slug,
             'sidebar_template': 'admin/sidebar.html',
             'analytics_data': analytics_data,
+            'realtime_data': realtime_data,
+            'current_days': days,
+            'current_country': country_filter or 'all',
         }
         return render(request, tools[slug], context)
     
@@ -101,3 +111,29 @@ def admin_tool(request, slug):
     }
     
     return render(request, template_name, context)
+
+
+@staff_member_required
+def realtime_analytics(request):
+    """API endpoint for real-time analytics data"""
+    from django.http import JsonResponse
+    from analytics.services import ga_service
+    
+    try:
+        realtime_data = ga_service.get_realtime_data()
+        return JsonResponse({
+            'success': True,
+            'data': realtime_data
+        })
+    except Exception as e:
+        return JsonResponse({
+            'success': False,
+            'error': str(e),
+            'data': {
+                'active_users': 0,
+                'locations': [],
+                'pages': [],
+                'devices': [],
+                'timestamp': None
+            }
+        })

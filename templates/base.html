@@ -12,7 +12,7 @@
     {# SEO meta (uses {{ meta }} from views) #}
     {% include "partials/seo.html" %}
 
-    <title>{% block title %}HMD Klusbedrijf{% endblock %}</title>
+    <title>{% block title %}Demo Klusbedrijf{% endblock %}</title>
 
     {# Page-specific additions (e.g. homepage JSON-LD) #}
     {% block extra_head %}{% endblock %}
@@ -21,7 +21,8 @@
     {% endif %}
 </head>
 
-<body{% if request.GET.preview %} class="preview-mode" data-preview-admin-return="{{ request.GET.admin_return|default:'\/admin\/tools\/home-preview\/' }}"{% endif %}>
+<body{% if request.GET.preview %} class="preview-mode"
+    data-preview-admin-return="{{ request.GET.admin_return|default:'\/admin\/tools\/home-preview\/' }}" {% endif %}>
 
     <div class="page-wraper">
         {% include "partials/header.html" %}
@@ -57,12 +58,15 @@
     {% block extra_js %}{% endblock %}
 
     <!-- Professional Quote Request Modal -->
-    <div class="modal fade" id="quoteModal" tabindex="-1" role="dialog" aria-labelledby="quoteModalLabel" aria-hidden="true">
+    <div class="modal fade" id="quoteModal" tabindex="-1" role="dialog" aria-labelledby="quoteModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content" style="border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.3);">
-                <div class="modal-header" style="background: #f8f9fa; border-bottom: 1px solid #dee2e6; padding: 20px; border-radius: 15px 15px 0 0;">
+                <div class="modal-header"
+                    style="background: #f8f9fa; border-bottom: 1px solid #dee2e6; padding: 20px; border-radius: 15px 15px 0 0;">
                     <h2 id="quoteModalLabel" style="margin:0; color: #333; font-weight: 600;">Offerte Aanvragen</h2>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="font-size: 28px; background: none; border: none; color: #999;">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                        style="font-size: 28px; background: none; border: none; color: #999;">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
@@ -71,100 +75,129 @@
                         <!-- Contact Information -->
                         <div class="row" style="margin-bottom: 20px;">
                             <div class="col-md-6" style="margin-bottom: 15px;">
-                                <label style="font-weight: 600; color: #333; margin-bottom: 5px;">Naam <span style="color: red;">*</span></label>
-                                <input type="text" name="name" required style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 16px;" placeholder="Voor- en achternaam">
+                                <label style="font-weight: 600; color: #333; margin-bottom: 5px;">Naam <span
+                                        style="color: red;">*</span></label>
+                                <input type="text" name="name" required
+                                    style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 16px;"
+                                    placeholder="Voor- en achternaam">
                             </div>
                             <div class="col-md-6" style="margin-bottom: 15px;">
-                                <label style="font-weight: 600; color: #333; margin-bottom: 5px;">Telefoon <span style="color: red;">*</span></label>
-                                <input type="tel" name="phone" required style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 16px;" placeholder="06 12345678">
+                                <label style="font-weight: 600; color: #333; margin-bottom: 5px;">Telefoon <span
+                                        style="color: red;">*</span></label>
+                                <input type="tel" name="phone" required
+                                    style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 16px;"
+                                    placeholder="06 12345678">
                             </div>
                         </div>
-                        
+
                         <!-- Address -->
                         <div class="row" style="margin-bottom: 20px;">
                             <div class="col-md-6" style="margin-bottom: 15px;">
                                 <label style="font-weight: 600; color: #333; margin-bottom: 5px;">Adres</label>
-                                <input type="text" name="address" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 16px;" placeholder="Straat + huisnummer">
+                                <input type="text" name="address"
+                                    style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 16px;"
+                                    placeholder="Straat + huisnummer">
                             </div>
                             <div class="col-md-6" style="margin-bottom: 15px;">
                                 <label style="font-weight: 600; color: #333; margin-bottom: 5px;">Plaats</label>
-                                <input type="text" name="city" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 16px;" placeholder="Dinteloord" value="Dinteloord">
+                                <input type="text" name="city"
+                                    style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 16px;"
+                                    placeholder="Amsterdam" value="Amsterdam">
                             </div>
                         </div>
-                        
+
                         <!-- Services -->
                         <div style="margin-bottom: 20px;">
-                            <label style="font-weight: 600; color: #333; margin-bottom: 10px; display: block;">Gewenste diensten <span style="color: red;">*</span></label>
+                            <label style="font-weight: 600; color: #333; margin-bottom: 10px; display: block;">Gewenste
+                                diensten <span style="color: red;">*</span></label>
                             <div class="row">
                                 <div class="col-md-6">
                                     <div style="margin-bottom: 8px;">
-                                        <input type="checkbox" name="services" value="Schilderwerk" id="schilderwerk" style="margin-right: 8px;">
+                                        <input type="checkbox" name="services" value="Schilderwerk" id="schilderwerk"
+                                            style="margin-right: 8px;">
                                         <label for="schilderwerk" style="cursor: pointer;">Schilderwerk</label>
                                     </div>
                                     <div style="margin-bottom: 8px;">
-                                        <input type="checkbox" name="services" value="Elektra" id="elektra" style="margin-right: 8px;">
+                                        <input type="checkbox" name="services" value="Elektra" id="elektra"
+                                            style="margin-right: 8px;">
                                         <label for="elektra" style="cursor: pointer;">Elektra</label>
                                     </div>
                                     <div style="margin-bottom: 8px;">
-                                        <input type="checkbox" name="services" value="Tegelwerk" id="tegelwerk" style="margin-right: 8px;">
+                                        <input type="checkbox" name="services" value="Tegelwerk" id="tegelwerk"
+                                            style="margin-right: 8px;">
                                         <label for="tegelwerk" style="cursor: pointer;">Tegelwerk</label>
                                     </div>
                                     <div style="margin-bottom: 8px;">
-                                        <input type="checkbox" name="services" value="Stucwerk" id="stucwerk" style="margin-right: 8px;">
+                                        <input type="checkbox" name="services" value="Stucwerk" id="stucwerk"
+                                            style="margin-right: 8px;">
                                         <label for="stucwerk" style="cursor: pointer;">Stucwerk</label>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div style="margin-bottom: 8px;">
-                                        <input type="checkbox" name="services" value="Badkamer renovatie" id="badkamer" style="margin-right: 8px;">
+                                        <input type="checkbox" name="services" value="Badkamer renovatie" id="badkamer"
+                                            style="margin-right: 8px;">
                                         <label for="badkamer" style="cursor: pointer;">Badkamer renovatie</label>
                                     </div>
                                     <div style="margin-bottom: 8px;">
-                                        <input type="checkbox" name="services" value="Keuken montage" id="keuken" style="margin-right: 8px;">
+                                        <input type="checkbox" name="services" value="Keuken montage" id="keuken"
+                                            style="margin-right: 8px;">
                                         <label for="keuken" style="cursor: pointer;">Keuken montage</label>
                                     </div>
                                     <div style="margin-bottom: 8px;">
-                                        <input type="checkbox" name="services" value="Vloeren" id="vloeren" style="margin-right: 8px;">
+                                        <input type="checkbox" name="services" value="Vloeren" id="vloeren"
+                                            style="margin-right: 8px;">
                                         <label for="vloeren" style="cursor: pointer;">Vloeren</label>
                                     </div>
                                     <div style="margin-bottom: 8px;">
-                                        <input type="checkbox" name="services" value="Dakwerk" id="dakwerk" style="margin-right: 8px;">
+                                        <input type="checkbox" name="services" value="Dakwerk" id="dakwerk"
+                                            style="margin-right: 8px;">
                                         <label for="dakwerk" style="cursor: pointer;">Dakwerk</label>
                                     </div>
                                 </div>
                             </div>
-                            <p style="margin-top: 10px; color: #666; font-size: 14px;">Selecteer minimaal één dienst. Mis je iets? Vermeld het bij opmerkingen.</p>
+                            <p style="margin-top: 10px; color: #666; font-size: 14px;">Selecteer minimaal één dienst.
+                                Mis je iets? Vermeld het bij opmerkingen.</p>
                         </div>
-                        
+
                         <!-- Date and Timing -->
                         <div class="row" style="margin-bottom: 20px;">
                             <div class="col-md-6" style="margin-bottom: 15px;">
                                 <label style="font-weight: 600; color: #333; margin-bottom: 5px;">Gewenste datum</label>
-                                <input type="date" name="preferred_date" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 16px;">
+                                <input type="date" name="preferred_date"
+                                    style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 16px;">
                             </div>
                             <div class="col-md-6" style="padding-top: 35px;">
                                 <div>
-                                    <input type="checkbox" name="flexible_timing" id="flexible" style="margin-right: 8px;">
-                                    <label for="flexible" style="cursor: pointer;">Datum is flexibel / af te spreken</label>
+                                    <input type="checkbox" name="flexible_timing" id="flexible"
+                                        style="margin-right: 8px;">
+                                    <label for="flexible" style="cursor: pointer;">Datum is flexibel / af te
+                                        spreken</label>
                                 </div>
                             </div>
                         </div>
-                        
+
                         <!-- Description -->
                         <div style="margin-bottom: 20px;">
-                            <label style="font-weight: 600; color: #333; margin-bottom: 5px; display: block;">Opmerking / Beschrijving</label>
-                            <textarea name="description" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 16px; min-height: 100px; resize: vertical;" placeholder="Beschrijf kort je klus, gewenste maten, bijzonderheden..."></textarea>
+                            <label style="font-weight: 600; color: #333; margin-bottom: 5px; display: block;">Opmerking
+                                / Beschrijving</label>
+                            <textarea name="description"
+                                style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 16px; min-height: 100px; resize: vertical;"
+                                placeholder="Beschrijf kort je klus, gewenste maten, bijzonderheden..."></textarea>
                         </div>
                     </form>
                 </div>
-                <div class="modal-footer" style="padding: 20px 30px; border-top: 1px solid #dee2e6; justify-content: space-between;">
+                <div class="modal-footer"
+                    style="padding: 20px 30px; border-top: 1px solid #dee2e6; justify-content: space-between;">
                     <div style="color: #666; font-size: 14px;">
                         <i class="fa fa-whatsapp" style="color: #25D366; margin-right: 5px;"></i>
                         Wordt verzonden via WhatsApp
                     </div>
                     <div>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal" style="margin-right: 10px;">Annuleren</button>
-                        <button type="submit" form="quoteForm" class="btn" style="background: #25D366; color: white; border: none; padding: 10px 20px;">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                            style="margin-right: 10px;">Annuleren</button>
+                        <button type="submit" form="quoteForm" class="btn"
+                            style="background: #25D366; color: white; border: none; padding: 10px 20px;">
                             <i class="fa fa-paper-plane" style="margin-right: 5px;"></i> Verstuur Offerte Aanvraag
                         </button>
                     </div>
@@ -175,142 +208,141 @@
 
     <!-- Quote Form JavaScript -->
     <script>
-    function openQuoteModal() {
-        console.log('Opening quote modal...');
-        if (typeof $ !== 'undefined') {
-            console.log('jQuery loaded, showing modal');
-            $('#quoteModal').modal('show');
-        } else {
-            console.log('jQuery not loaded!');
-            alert('Er is een technisch probleem. Probeer de pagina te verversen.');
-        }
-    }
-    
-    document.getElementById('quoteForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        // Get form data using form reference
-        var formElement = document.getElementById('quoteForm');
-        var formData = new FormData(formElement);
-        
-        var name = formData.get('name') ? formData.get('name').trim() : '';
-        var phone = formData.get('phone') ? formData.get('phone').trim() : '';
-        var address = formData.get('address') ? formData.get('address').trim() : '';
-        var city = formData.get('city') ? formData.get('city').trim() : '';
-        var preferredDate = formData.get('preferred_date') || '';
-        var flexibleTiming = formData.get('flexible_timing') ? true : false;
-        var description = formData.get('description') ? formData.get('description').trim() : '';
-        
-        // Get selected services
-        var services = formData.getAll('services');
-        
-        // Debug validation - let's see exactly what we're getting
-        console.log('Form validation debug:');
-        console.log('Name:', '"' + name + '"', 'Length:', name.length);
-        console.log('Phone:', '"' + phone + '"', 'Length:', phone.length);
-        console.log('Services:', services);
-        console.log('All form data:');
-        for (var pair of formData.entries()) {
-            console.log(pair[0] + ': "' + pair[1] + '"');
-        }
-        
-        // Validation with better error messages
-        if (!name || name.length === 0) {
-            alert('Naam is verplicht. Huidige waarde: "' + name + '"');
-            return;
-        }
-        
-        if (!phone || phone.length === 0) {
-            alert('Telefoon is verplicht. Huidige waarde: "' + phone + '"');
-            return;
-        }
-        
-        if (services.length === 0) {
-            alert('Selecteer minimaal één dienst.');
-            return;
-        }
-        
-        // Generate professional WhatsApp message with safe formatting
-        var message = "*OFFERTE AANVRAAG*\n";
-        message += "========================\n\n";
-        message += "*CONTACTGEGEVENS*\n";
-        message += "Naam: " + name + "\n";
-        message += "Telefoon: " + phone + "\n";
-        if (address) message += "Adres: " + address + "\n";
-        if (city) message += "Plaats: " + city + "\n\n";
-        
-        message += "*GEWENSTE DIENSTEN*\n";
-        services.forEach(function(service) {
-            message += "- " + service + "\n";
-        });
-        message += "\n";
-        
-        if (preferredDate || flexibleTiming) {
-            message += "*PLANNING*\n";
-            if (preferredDate) {
-                message += "Gewenste datum: " + preferredDate + "\n";
+        function openQuoteModal() {
+            console.log('Opening quote modal...');
+            if (typeof $ !== 'undefined') {
+                console.log('jQuery loaded, showing modal');
+                $('#quoteModal').modal('show');
+            } else {
+                console.log('jQuery not loaded!');
+                alert('Er is een technisch probleem. Probeer de pagina te verversen.');
             }
-            if (flexibleTiming) {
-                message += "Datum is flexibel\n";
+        }
+
+        document.getElementById('quoteForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            // Get form data using form reference
+            var formElement = document.getElementById('quoteForm');
+            var formData = new FormData(formElement);
+
+            var name = formData.get('name') ? formData.get('name').trim() : '';
+            var phone = formData.get('phone') ? formData.get('phone').trim() : '';
+            var address = formData.get('address') ? formData.get('address').trim() : '';
+            var city = formData.get('city') ? formData.get('city').trim() : '';
+            var preferredDate = formData.get('preferred_date') || '';
+            var flexibleTiming = formData.get('flexible_timing') ? true : false;
+            var description = formData.get('description') ? formData.get('description').trim() : '';
+
+            // Get selected services
+            var services = formData.getAll('services');
+
+            // Debug validation - let's see exactly what we're getting
+            console.log('Form validation debug:');
+            console.log('Name:', '"' + name + '"', 'Length:', name.length);
+            console.log('Phone:', '"' + phone + '"', 'Length:', phone.length);
+            console.log('Services:', services);
+            console.log('All form data:');
+            for (var pair of formData.entries()) {
+                console.log(pair[0] + ': "' + pair[1] + '"');
             }
+
+            // Validation with better error messages
+            if (!name || name.length === 0) {
+                alert('Naam is verplicht. Huidige waarde: "' + name + '"');
+                return;
+            }
+
+            if (!phone || phone.length === 0) {
+                alert('Telefoon is verplicht. Huidige waarde: "' + phone + '"');
+                return;
+            }
+
+            if (services.length === 0) {
+                alert('Selecteer minimaal één dienst.');
+                return;
+            }
+
+            // Generate professional WhatsApp message with safe formatting
+            var message = "*OFFERTE AANVRAAG*\n";
+            message += "========================\n\n";
+            message += "*CONTACTGEGEVENS*\n";
+            message += "Naam: " + name + "\n";
+            message += "Telefoon: " + phone + "\n";
+            if (address) message += "Adres: " + address + "\n";
+            if (city) message += "Plaats: " + city + "\n\n";
+
+            message += "*GEWENSTE DIENSTEN*\n";
+            services.forEach(function (service) {
+                message += "- " + service + "\n";
+            });
             message += "\n";
-        }
-        
-        if (description) {
-            message += "*OPMERKING*\n";
-            message += description + "\n\n";
-        }
-        
-        message += "Aangevraagd op: " + new Date().toLocaleDateString('nl-NL');
-        message += "\nVia: HMD Klusbedrijf website";
-        
-        // Save to Django backend first
-        var quoteData = {
-            name: name,
-            phone: phone,
-            address: address,
-            city: city,
-            services: services,
-            preferred_date: preferredDate,
-            flexible_timing: flexibleTiming,
-            description: description
-        };
-        
-        // Send to Django backend
-        fetch('/api/quote-request/', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(quoteData)
-        })
-        .then(response => response.json())
-        .then(data => {
-            console.log('Quote request saved:', data);
-        })
-        .catch(error => {
-            console.error('Error saving quote request:', error);
-            // Continue with WhatsApp even if saving fails
+
+            if (preferredDate || flexibleTiming) {
+                message += "*PLANNING*\n";
+                if (preferredDate) {
+                    message += "Gewenste datum: " + preferredDate + "\n";
+                }
+                if (flexibleTiming) {
+                    message += "Datum is flexibel\n";
+                }
+                message += "\n";
+            }
+
+            if (description) {
+                message += "*OPMERKING*\n";
+                message += description + "\n\n";
+            }
+
+            message += "Aangevraagd op: " + new Date().toLocaleDateString('nl-NL');
+            message += "\nVia: Demo Klusbedrijf website";
+
+            // Save to Django backend first
+            var quoteData = {
+                name: name,
+                phone: phone,
+                address: address,
+                city: city,
+                services: services,
+                preferred_date: preferredDate,
+                flexible_timing: flexibleTiming,
+                description: description
+            };
+
+            // Send to Django backend
+            fetch('/api/quote-request/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(quoteData)
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Quote request saved:', data);
+                })
+                .catch(error => {
+                    console.error('Error saving quote request:', error);
+                    // Continue with WhatsApp even if saving fails
+                });
+
+            // Create WhatsApp URL (assuming phone number from site settings)
+            var whatsappUrl = "https://wa.me/31687111289?text=" + encodeURIComponent(message);
+
+            // Close modal
+            $('#quoteModal').modal('hide');
+
+            // Show success message
+            alert('🎉 Uw offerte aanvraag wordt geopend in WhatsApp!\\n\\nControleer de gegevens voordat u verstuurt.');
+
+            // Open WhatsApp
+            window.open(whatsappUrl, '_blank');
+
+            // Reset form
+            this.reset();
         });
-        
-        // Create WhatsApp URL (assuming phone number from site settings)
-        var whatsappUrl = "https://wa.me/31687111289?text=" + encodeURIComponent(message);
-        
-        // Close modal
-        $('#quoteModal').modal('hide');
-        
-        // Show success message
-        alert('🎉 Uw offerte aanvraag wordt geopend in WhatsApp!\\n\\nControleer de gegevens voordat u verstuurt.');
-        
-        // Open WhatsApp
-        window.open(whatsappUrl, '_blank');
-        
-        // Reset form
-        this.reset();
-    });
     </script>
 
-</body>
+    </body>
 
 </html>
-

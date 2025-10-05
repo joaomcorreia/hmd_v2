@@ -1,0 +1,155 @@
+{% extends "admin/base_site.html" %}
+{% load static %}
+
+{% block title %}AI Assistant - Conversation History{% endblock %}
+
+{% block extrastyle %}
+{{ block.super }}
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+<style>
+    .conversation-history {
+        padding: 20px;
+        max-width: 1000px;
+        margin: 0 auto;
+    }
+    
+    .history-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 25px;
+        border-radius: 10px;
+        margin-bottom: 30px;
+        text-align: center;
+    }
+    
+    .conversation-item {
+        background: white;
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 20px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        border-left: 4px solid #667eea;
+    }
+    
+    .conversation-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #eee;
+    }
+    
+    .conversation-type {
+        display: inline-block;
+        background: #667eea;
+        color: white;
+        padding: 4px 12px;
+        border-radius: 12px;
+        font-size: 0.8rem;
+        font-weight: 500;
+    }
+    
+    .conversation-type.premium {
+        background: linear-gradient(45deg, #ffa726, #ff9800);
+    }
+    
+    .conversation-date {
+        color: #666;
+        font-size: 0.9rem;
+    }
+    
+    .question {
+        background: #e3f2fd;
+        padding: 15px;
+        border-radius: 8px;
+        margin-bottom: 15px;
+        border-left: 4px solid #2196f3;
+    }
+    
+    .answer {
+        background: #f3e5f5;
+        padding: 15px;
+        border-radius: 8px;
+        border-left: 4px solid #9c27b0;
+        line-height: 1.6;
+    }
+    
+    .empty-state {
+        text-align: center;
+        padding: 60px 20px;
+        color: #666;
+    }
+    
+    .empty-state i {
+        font-size: 4rem;
+        margin-bottom: 20px;
+        opacity: 0.3;
+    }
+    
+    .back-button {
+        display: inline-block;
+        padding: 10px 20px;
+        background: #667eea;
+        color: white;
+        text-decoration: none;
+        border-radius: 6px;
+        margin-bottom: 20px;
+    }
+    
+    .back-button:hover {
+        background: #5a67d8;
+        color: white;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="conversation-history">
+    <a href="{% url 'admin-tool' 'ai-assistant' %}" class="back-button">
+        <i class="fas fa-arrow-left"></i> Back to AI Assistant
+    </a>
+
+    <div class="history-header">
+        <h1><i class="fas fa-history"></i> Conversation History</h1>
+        <div class="subtitle">Your AI assistant conversations</div>
+    </div>
+
+    {% if conversations %}
+        {% for conversation in conversations %}
+        <div class="conversation-item">
+            <div class="conversation-header">
+                <div>
+                    <span class="conversation-type {% if conversation.is_premium %}premium{% endif %}">
+                        {{ conversation.get_conversation_type_display }}
+                        {% if conversation.is_premium %}💎{% endif %}
+                    </span>
+                </div>
+                <div class="conversation-date">
+                    {{ conversation.created_at|date:"M d, Y H:i" }}
+                </div>
+            </div>
+            
+            <div class="question">
+                <strong><i class="fas fa-user"></i> You asked:</strong><br>
+                {{ conversation.question }}
+            </div>
+            
+            <div class="answer">
+                <strong><i class="fas fa-robot"></i> AI Assistant:</strong><br>
+                {{ conversation.ai_response|linebreaks }}
+            </div>
+        </div>
+        {% endfor %}
+    {% else %}
+    <div class="empty-state">
+        <i class="fas fa-comments"></i>
+        <h3>No conversations yet</h3>
+        <p>Start chatting with your AI assistant to see your conversation history here.</p>
+        <a href="{% url 'admin-tool' 'ai-assistant' %}" class="back-button">
+            Start Conversation
+        </a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

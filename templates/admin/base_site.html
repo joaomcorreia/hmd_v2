@@ -3,6 +3,8 @@
 
 {% block extrahead %}
 {{ block.super }}
+<!-- FontAwesome 5+ for modern admin UI icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
 
 
@@ -55,5 +57,7 @@
 
 {% block content %}
 {{ block.super }}
+<!-- AI Assistant Floating Widget - Available on all admin pages -->
+{% include "admin/ai_assistant_widget.html" %}
 {% endblock %}
 

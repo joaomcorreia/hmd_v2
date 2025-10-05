@@ -1,12 +1,12 @@
 {% extends "base.html" %}
 {% load static %}
-{% block title %}Home | HMD Klusbedrijf{% endblock %}
+{% block title %}Home | Demo Klusbedrijf{% endblock %}
 {% block extra_head %}
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "HomeAndConstructionBusiness",
-  "name": "HMD Klusbedrijf",
+  "name": "Demo Klusbedrijf",
   "image": "{{ request.scheme }}://{{ request.get_host }}{% static 'img/og-default.jpg' %}",
   "url": "{{ request.scheme }}://{{ request.get_host }}{{ request.path }}",
   "telephone": "+31 6 87111289",
@@ -14,13 +14,13 @@
     "@type": "PostalAddress",
     "streetAddress": "{{ SITE_SETTINGS.business_address|linebreaks|striptags|default:'Witte de Withstraat 28' }}",
     "postalCode": "4671 AP",
-    "addressLocality": "Dinteloord",
+    "addressLocality": "Amsterdam",
     "addressCountry": "NL"
   },
-  "areaServed": "Dinteloord en omgeving",
+  "areaServed": "Amsterdam en omgeving",
   "sameAs": [
-    "https://www.facebook.com/hmdKlusBV",
-    "https://www.instagram.com/hmdklusbv"
+    "https://www.facebook.com/demoKlusBV",
+    "https://www.instagram.com/demoklusbv"
   ]
 }
 </script>
@@ -133,7 +133,7 @@
                         <div class="mt-separator-outer separator-left text-wh">
                             <div class="mt-separator">
                                 <h2 class="text-uppercase sep-line-one "><span
-                                        class="font-weight-300 site-text-primary">HMD</span> Klusbedrijf</h2>
+                                        class="font-weight-300 site-text-primary">Demo</span> Klusbedrijf</h2>
                             </div>
                         </div>
                     </div>
@@ -435,7 +435,7 @@
                                 {{ SITE_SETTINGS_PHONE_DISPLAY }}
                             </a>
                         </h2>
-                        <h4 class="call-us-address m-t0 m-b20">{{ SITE_SETTINGS.business_address|linebreaks|striptags|default:'Witte de Withstraat 28, 4671 AP Dinteloord' }}</h4>
+                        <h4 class="call-us-address m-t0 m-b20">{{ SITE_SETTINGS.business_address|linebreaks|striptags|default:'Damrak 123, 1012 LP Amsterdam' }}</h4>
                         <a href="{% url 'contact' %}" class="site-button btn-effect">Neem contact op</a>
                     </div>
                 </div>

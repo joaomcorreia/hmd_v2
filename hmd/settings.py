@@ -4,6 +4,10 @@ Django settings for hmd project.
 from pathlib import Path
 from django.core.exceptions import ImproperlyConfigured
 import os
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -158,3 +162,11 @@ GA4_CREDENTIALS_FILE = os.environ.get('GA4_CREDENTIALS_FILE', BASE_DIR / 'google
 
 # Analytics settings
 ANALYTICS_CACHE_TIMEOUT = int(os.environ.get('ANALYTICS_CACHE_TIMEOUT', 3600))  # 1 hour default
+
+# OpenAI Configuration for AI Features
+OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY')
+OPENAI_MODEL = os.environ.get('OPENAI_MODEL', 'gpt-4o-mini')
+
+# AI Features Configuration
+AI_ASSISTANT_ENABLED = True
+AI_PREMIUM_FEATURES_ENABLED = True  # Set to False for demo mode only
