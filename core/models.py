@@ -26,8 +26,8 @@ class Slide(models.Model):
 class HomeAboutPanel(models.Model):
     title_emphasis = models.CharField(max_length=60, default='Toegewijd')
     title_rest = models.CharField(max_length=160, default='aan kwaliteit en vakmanschap.')
-    lead_text = models.TextField(blank=True, default='Demo Klusbedrijf is opgericht door Jan de Vries en staat voor betrouwbaarheid, kwaliteit en eerlijke service. Met oog voor detail voert hij elke klus uit alsof het zijn eigen huis is.')
-    body_text = models.TextField(blank=True, default='Of het nu gaat om kleine reparaties, schilderwerk, timmerklussen of een volledige badkamerrenovatie - Demo Klusbedrijf levert professioneel werk binnen een straal van 50 km rond Amsterdam.')
+    lead_text = models.TextField(blank=True, default='HMD Klusbedrijf is opgericht door Juma Al Huseyin en staat voor betrouwbaarheid, kwaliteit en eerlijke service. Met oog voor detail voert hij elke klus uit alsof het zijn eigen huis is.')
+    body_text = models.TextField(blank=True, default='Of het nu gaat om kleine reparaties, schilderwerk, timmerklussen of een volledige badkamerrenovatie - HMD Klusbedrijf levert professioneel werk binnen een straal van 50 km rond Dinteloord.')
     cta_label = models.CharField(max_length=80, default='Lees Meer')
     cta_url = models.CharField(max_length=255, blank=True, default='')
 
@@ -47,7 +47,7 @@ class HomeValueBlock(models.Model):
     image_alt = models.CharField(max_length=160, blank=True, default='Werk in uitvoering')
     title_emphasis = models.CharField(max_length=80, default='Wij leveren')
     title_rest = models.CharField(max_length=160, default='vakwerk waar u op kunt vertrouwen')
-    body = models.TextField(blank=True, default='Demo Klusbedrijf voert elke klus met zorg en vakmanschap uit. Of het nu gaat om een kleine reparatie of een complete renovatie, wij staan klaar voor particulieren in de regio Amsterdam en omgeving.')
+    body = models.TextField(blank=True, default='HMD Klusbedrijf voert elke klus met zorg en vakmanschap uit. Of het nu gaat om een kleine reparatie of een complete renovatie, wij staan klaar voor particulieren in de regio Dinteloord en omgeving.')
     link_1_label = models.CharField(max_length=120, blank=True, default='Klus en Reparatiewerk')
     link_1_url = models.CharField(max_length=200, blank=True, default='/diensten/kluswerk/')
     link_2_label = models.CharField(max_length=120, blank=True, default='Timmerwerk & interieur')
@@ -104,7 +104,7 @@ class AboutCompanyBlock(models.Model):
     years_number = models.CharField(max_length=10, default='25')
     years_label = models.CharField(max_length=60, default='Jaar Ervaring')
     heading = models.CharField(max_length=160, default='Leefkwaliteit verbeteren met een persoonlijke en vakkundige aanpak.')
-    body = models.TextField(blank=True, default='Bij Demo Klusbedrijf draait alles om vakmanschap, betrouwbaarheid en oog voor detail. Al 25 jaar levert oprichter Jan de Vries kwalitatief werk in en rond Amsterdam - van schilderwerk tot volledige renovaties.')
+    body = models.TextField(blank=True, default='Bij HMD Klusbedrijf draait alles om vakmanschap, betrouwbaarheid en oog voor detail. Al 25 jaar levert oprichter Juma Al Huseyin kwalitatief werk in en rond Dinteloord - van schilderwerk tot volledige renovaties.')
     cta_label = models.CharField(max_length=120, blank=True, default='Neem contact op')
     cta_url = models.CharField(max_length=200, blank=True, default='/contact/')
 
@@ -194,13 +194,13 @@ class PortfolioItem(models.Model):
 # --- Core / site ---
 class SiteSettings(models.Model):
     # Company Information
-    company_name = models.CharField(max_length=120, blank=True, default="Demo Klusbedrijf")
+    company_name = models.CharField(max_length=120, blank=True, default="HMD Klusbedrijf")
     
     # Contact Information
     contact_email_display = models.EmailField(
         verbose_name="Contact E-mail (zichtbaar op website)", 
         help_text="E-mailadres dat bezoekers zien op de website",
-        default="info@demo-handyman.nl"
+        default="info@hmdklusbedrijf.nl"
     )
     contact_email_receive = models.EmailField(
         verbose_name="E-mail ontvangst", 
@@ -227,7 +227,7 @@ class SiteSettings(models.Model):
         blank=True,
         verbose_name="Bedrijfsadres",
         help_text="Volledig adres inclusief postcode en plaats",
-        default="Amsterdam, Nederland"
+        default="Dinteloord, Nederland"
     )
     kvk_number = models.CharField(
         max_length=20,

@@ -10,8 +10,8 @@ from django.db import models
 from .models import Slide, HomeAboutPanel, HomeValueBlock, HomeCarouselItem, AboutHero, AboutCarouselItem, AboutCompanyBlock, AboutProcessStep, AboutBenefit, PortfolioItem, SiteSettings, ContactSubmission, QuoteRequest
 
 # Admin branding
-admin.site.site_header = "Demo Klusbedrijf — Admin"
-admin.site.site_title = "Demo Admin"
+admin.site.site_header = "HMD Klusbedrijf — Admin"
+admin.site.site_title = "HMD Admin"
 admin.site.index_title = "Beheer & overzicht"
 
 # Hide Groups if unused

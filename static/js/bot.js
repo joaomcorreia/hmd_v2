@@ -3,13 +3,13 @@
 
     // ===== CONFIG YOU CAN TUNE PER PROJECT =====
     const CFG = {
-        relay: '/ai/contextual/',
-        title: 'Demo Klus BV Assistent',
-        icon: "{% static 'img/apps/demo-klus-assistent.png' %}",  // your 160px image
+        relay: '/ai.php',
+        title: 'HMD Klus BV Assistent',
+        icon: "{% static 'img/apps/hmd-klus-assistent.png' %}",  // your 160px image
         iconSizeHeader: 56,   // visible, detailed
         iconSizeBubble: 40,
         brand: '#00a651',
-        system: `Je bent de AI-assistent van Demo Klus BV.  
+        system: `Je bent de AI-assistent van HMD Klus BV.  
 Standaard antwoord je in het Nederlands. 
 Maar als de gebruiker in het Engels of Arabisch begint, ga dan verder in die taal. 
 Antwoord altijd kort en duidelijk in dezelfde taal die de gebruiker gebruikt.
@@ -104,40 +104,13 @@ Voordat je een gesprek afsluit:
     }
 
     async function ask(prompt) {
-        // Get CSRF token for Django
-        const csrfToken = getCsrfToken();
-        
         const r = await fetch(CFG.relay, {
             method: 'POST',
-            headers: { 
-                'Content-Type': 'application/json',
-                'X-CSRFToken': csrfToken
-            },
-            body: JSON.stringify({ 
-                question: prompt,
-                current_page: 'frontend',
-                page_context: 'customer'
-            })
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ prompt, system: CFG.system })
         });
         const j = await r.json();
-        return j?.response || j?.error || 'Geen antwoord.';
-    }
-
-    function getCsrfToken() {
-        const cookies = document.cookie.split(';');
-        for (let cookie of cookies) {
-            const [name, value] = cookie.trim().split('=');
-            if (name === 'csrftoken') return value;
-        }
-        
-        // Fallback: try to get from meta tag
-        const csrfMeta = document.querySelector('meta[name="csrf-token"]');
-        if (csrfMeta) return csrfMeta.getAttribute('content');
-        
-        const csrfInput = document.querySelector('input[name="csrfmiddlewaretoken"]');
-        if (csrfInput) return csrfInput.value;
-        
-        return '';
+        return j?.choices?.[0]?.message?.content || j?.error || 'Geen antwoord.';
     }
 
     // mount
