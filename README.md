@@ -1,14 +1,14 @@
 # HMD Klusbedrijf - Professional Construction Website
 
 **Company**: HMD Klusbedrijf  
-**Owner**: Juma Al Huseyin  
+**Owner**: Hamed  
 **Location**: Dinteloord, Nederland  
 **Status**: 🚀 **PRODUCTION READY** - Live business website  
 **Last Updated**: October 16, 2025
 
 ## 🏗️ About HMD Klusbedrijf
 
-HMD Klusbedrijf is a professional construction and handyman service based in Dinteloord, Netherlands. Founded by Juma Al Huseyin, the company provides reliable, high-quality construction, renovation, and maintenance services throughout the region.
+HMD Klusbedrijf is a professional construction and handyman service based in Dinteloord, Netherlands. Founded by Hamed, the company provides reliable, high-quality construction, renovation, and maintenance services throughout the region.
 
 ### Services Offered
 - 🎨 **Professional Painting** - Interior and exterior painting services
@@ -55,7 +55,7 @@ HMD Klusbedrijf is a professional construction and handyman service based in Din
 ## 🏢 Business Information
 
 - **Company Name**: HMD Klusbedrijf
-- **Owner**: Juma Al Huseyin
+- **Owner**: Hamed
 - **Location**: Dinteloord, Nederland
 - **Service Area**: Dinteloord and surrounding regions
 - **Contact**: +31687111289 (WhatsApp available)

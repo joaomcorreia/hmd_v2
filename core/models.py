@@ -26,7 +26,7 @@ class Slide(models.Model):
 class HomeAboutPanel(models.Model):
     title_emphasis = models.CharField(max_length=60, default='Toegewijd')
     title_rest = models.CharField(max_length=160, default='aan kwaliteit en vakmanschap.')
-    lead_text = models.TextField(blank=True, default='HMD Klusbedrijf is opgericht door Juma Al Huseyin en staat voor betrouwbaarheid, kwaliteit en eerlijke service. Met oog voor detail voert hij elke klus uit alsof het zijn eigen huis is.')
+    lead_text = models.TextField(blank=True, default='HMD Klusbedrijf is opgericht door Hamed en staat voor betrouwbaarheid, kwaliteit en eerlijke service. Met oog voor detail voert hij elke klus uit alsof het zijn eigen huis is.')
     body_text = models.TextField(blank=True, default='Of het nu gaat om kleine reparaties, schilderwerk, timmerklussen of een volledige badkamerrenovatie - HMD Klusbedrijf levert professioneel werk binnen een straal van 50 km rond Dinteloord.')
     cta_label = models.CharField(max_length=80, default='Lees Meer')
     cta_url = models.CharField(max_length=255, blank=True, default='')
@@ -104,7 +104,7 @@ class AboutCompanyBlock(models.Model):
     years_number = models.CharField(max_length=10, default='25')
     years_label = models.CharField(max_length=60, default='Jaar Ervaring')
     heading = models.CharField(max_length=160, default='Leefkwaliteit verbeteren met een persoonlijke en vakkundige aanpak.')
-    body = models.TextField(blank=True, default='Bij HMD Klusbedrijf draait alles om vakmanschap, betrouwbaarheid en oog voor detail. Al 25 jaar levert oprichter Juma Al Huseyin kwalitatief werk in en rond Dinteloord - van schilderwerk tot volledige renovaties.')
+    body = models.TextField(blank=True, default='Bij HMD Klusbedrijf draait alles om vakmanschap, betrouwbaarheid en oog voor detail. Al 25 jaar levert oprichter Hamed kwalitatief werk in en rond Dinteloord - van schilderwerk tot volledige renovaties.')
     cta_label = models.CharField(max_length=120, blank=True, default='Neem contact op')
     cta_url = models.CharField(max_length=200, blank=True, default='/contact/')
 
