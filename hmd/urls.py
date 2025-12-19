@@ -4,6 +4,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
 from core import views as core
+from core.views import editor_portfolio
 from . import admin_preview
 from hmd.views_admin import admin_tool
 from django.contrib.admin.views.decorators import staff_member_required
@@ -34,6 +35,7 @@ urlpatterns = [
     path("over-ons/", core.over_ons, name="over-ons"),
     path("diensten/", core.diensten, name="diensten"),
     path("portfolio/", core.portfolio, name="portfolio"),
+    path("editor/portfolio/", editor_portfolio, name="editor_portfolio"),
     path("contact/", core.contact, name="contact"),
     path("diensten/<slug:slug>/", core.service_detail, name="service-detail"),
     path("api/quote-request/", core.submit_quote_request, name="submit-quote-request"),

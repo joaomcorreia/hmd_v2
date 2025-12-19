@@ -99,6 +99,53 @@
         display: flex;
         gap: 8px
     }
+
+    .portfolio-columns {
+        display: block !important;
+        width: 100%;
+        -webkit-column-count: 1 !important;
+        -moz-column-count: 1 !important;
+        column-count: 1 !important;
+        -webkit-column-gap: 24px !important;
+        -moz-column-gap: 24px !important;
+        column-gap: 24px !important;
+    }
+
+    .portfolio-columns > .masonry-item {
+        display: inline-block !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        float: none !important;
+        flex: none !important;
+        break-inside: avoid;
+        page-break-inside: avoid;
+        -webkit-column-break-inside: avoid;
+        margin-bottom: 24px;
+    }
+
+    @media (min-width: 576px) {
+        .portfolio-columns {
+            -webkit-column-count: 2 !important;
+            -moz-column-count: 2 !important;
+            column-count: 2 !important;
+        }
+    }
+
+    @media (min-width: 992px) {
+        .portfolio-columns {
+            -webkit-column-count: 3 !important;
+            -moz-column-count: 3 !important;
+            column-count: 3 !important;
+        }
+    }
+
+    @media (min-width: 1200px) {
+        .portfolio-columns {
+            -webkit-column-count: 4 !important;
+            -moz-column-count: 4 !important;
+            column-count: 4 !important;
+        }
+    }
 </style>
 {% endblock %}
 
@@ -147,6 +194,7 @@
         </div>
 
         <div class="portfolio-wrap mfp-gallery work-grid row clearfix">
+            <div class="portfolio-columns">
             {% for item in items %}
             <div class="masonry-item cat-{{ item.category_slug }} col-xl-3 col-lg-4 col-md-6 col-sm-6 m-b30">
                 <div class="image-effect-one hover-shadow">
@@ -195,6 +243,7 @@
                 </a>
             </div>
             {% endif %}
+            </div>
         </div>
 
     </div>
@@ -216,6 +265,26 @@
                 card.style.display = (sel === '*' || card.matches(sel)) ? '' : 'none';
             });
         });
+    });
+
+    function relayoutPortfolio() {
+        if (!window.jQuery) return;
+        const $wrap = jQuery('.portfolio-wrap');
+        if (!$wrap.length) return;
+        if (jQuery.fn.isotope) {
+            $wrap.isotope('layout');
+        } else if (jQuery.fn.masonry) {
+            $wrap.masonry('layout');
+        }
+    }
+
+    window.addEventListener('load', function () {
+        relayoutPortfolio();
+        setTimeout(relayoutPortfolio, 400);
+    });
+
+    window.addEventListener('resize', function () {
+        relayoutPortfolio();
     });
 </script>
 {% block extra_js %}{{ block.super }}

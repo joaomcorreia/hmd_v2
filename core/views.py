@@ -1,6 +1,7 @@
 # core/views.py
 from django.conf import settings as dj_settings
 from django.contrib import messages
+from django.contrib.admin.views.decorators import staff_member_required
 from django.core.mail import send_mail
 from django.http import Http404, JsonResponse
 from django.shortcuts import render, redirect
@@ -116,6 +117,12 @@ def portfolio(request):
         "items": items,
         "categories": categories,
         "meta": meta,
+    })
+
+@staff_member_required
+def editor_portfolio(request):
+    return render(request, "editor/shell.html", {
+        "preview_url": "/portfolio/?preview=1",
     })
 
 def contact(request):
