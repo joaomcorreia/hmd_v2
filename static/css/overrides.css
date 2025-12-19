@@ -1,1 +1,11 @@
 
+/* Portfolio filter: never hide text on hover/active */
+#portfolioFilters a,
+#portfolioFilters a:hover,
+#portfolioFilters li.active a,
+#portfolioFilters li.active a:hover {
+  color: #0f172a !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  -webkit-text-fill-color: #0f172a !important;
+}
