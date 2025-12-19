@@ -60,6 +60,31 @@
 
     {% block extra_js %}{% endblock %}
 
+    {% if request.GET.preview %}
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        if (!window.__EDITOR_PREVIEW__) return;
+        const ul = document.getElementById("portfolioFilters");
+        const wrap = document.querySelector(".portfolio-wrap");
+        if (!ul || !wrap) return;
+        ul.addEventListener("click", function (e) {
+            const a = e.target.closest("a[data-filter]");
+            if (!a) return;
+            e.preventDefault();
+            e.stopPropagation();
+            if (e.stopImmediatePropagation) e.stopImmediatePropagation();
+            ul.querySelectorAll("li").forEach(li => li.classList.remove("active"));
+            if (a.parentElement) a.parentElement.classList.add("active");
+            const sel = a.getAttribute("data-filter") || "*";
+            wrap.querySelectorAll(".masonry-item").forEach(card => {
+                const show = (sel === "*") || card.matches(sel);
+                card.style.display = show ? "" : "none";
+            });
+        }, true);
+    });
+    </script>
+    {% endif %}
+
     <!-- Professional Quote Request Modal -->
     <div class="modal fade" id="quoteModal" tabindex="-1" role="dialog" aria-labelledby="quoteModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
