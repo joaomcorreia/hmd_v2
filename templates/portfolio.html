@@ -3,150 +3,6 @@
 
 {% block extra_head %}{{ block.super }}
 <link rel="stylesheet" href="{% static 'css/magnific-popup.min.css' %}">
-<style>
-    .image-effect-one {
-        position: relative
-    }
-
-    .add-card {
-        aspect-ratio: 4 / 3;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 8px;
-        background: #f7f7f7;
-        border: 1px dashed #cfd8dc;
-        border-radius: 6px;
-        text-decoration: none
-    }
-
-    .add-card .add-plus {
-        font-size: 32px;
-        line-height: 1
-    }
-
-    .add-card .add-label {
-        font-weight: 600
-    }
-
-    @supports not (aspect-ratio:1) {
-        .add-card {
-            min-height: 240px
-        }
-    }
-
-    .portfolio-title-bar {
-        position: absolute;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        z-index: 5;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        background: #fff;
-        padding: 12px 14px;
-        border-top: 1px solid #eee
-    }
-
-    .portfolio-wrap .image-effect-one .figcaption {
-        position: absolute;
-        right: 10px;
-        bottom: 10px;
-        z-index: 6;
-        background: transparent;
-        padding: 0;
-        border: 0
-    }
-
-    .portfolio-wrap .image-effect-one .figcaption .empty50 {
-        display: none;
-    }
-
-    .image-effect-one .figcaption a {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center
-    }
-
-    /* inline modal shell */
-    .ap-modal {
-        max-width: 960px;
-        margin: 0 auto;
-        background: #fff;
-        border-radius: 12px;
-        overflow: hidden;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, .2)
-    }
-
-    .ap-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        background: #0f172a;
-        color: #fff;
-        padding: 14px 18px;
-        font-weight: 600
-    }
-
-    .ap-body {
-        padding: 18px;
-        max-height: 70vh;
-        overflow: auto
-    }
-
-    .ap-body form .submit-row {
-        display: flex;
-        gap: 8px
-    }
-
-    .portfolio-columns {
-        display: block !important;
-        width: 100%;
-        -webkit-column-count: 1 !important;
-        -moz-column-count: 1 !important;
-        column-count: 1 !important;
-        -webkit-column-gap: 24px !important;
-        -moz-column-gap: 24px !important;
-        column-gap: 24px !important;
-    }
-
-    .portfolio-columns > .masonry-item {
-        display: inline-block !important;
-        width: 100% !important;
-        max-width: 100% !important;
-        float: none !important;
-        flex: none !important;
-        break-inside: avoid;
-        page-break-inside: avoid;
-        -webkit-column-break-inside: avoid;
-        margin-bottom: 24px;
-    }
-
-    @media (min-width: 576px) {
-        .portfolio-columns {
-            -webkit-column-count: 2 !important;
-            -moz-column-count: 2 !important;
-            column-count: 2 !important;
-        }
-    }
-
-    @media (min-width: 992px) {
-        .portfolio-columns {
-            -webkit-column-count: 3 !important;
-            -moz-column-count: 3 !important;
-            column-count: 3 !important;
-        }
-    }
-
-    @media (min-width: 1200px) {
-        .portfolio-columns {
-            -webkit-column-count: 4 !important;
-            -moz-column-count: 4 !important;
-            column-count: 4 !important;
-        }
-    }
-</style>
 {% endblock %}
 
 {% block title %}Portfolio | HMD Klusbedrijf{% endblock %}
@@ -250,30 +106,6 @@
 </div>
 
 <script>
-    /* filter */
-    document.addEventListener('DOMContentLoaded', function () {
-        const wrap = document.querySelector('.portfolio-wrap');
-        const ul = document.getElementById('portfolioFilters');
-        if (!wrap || !ul) return;
-        ul.addEventListener('click', function (e) {
-            const a = e.target.closest('a[data-filter]'); if (!a) return;
-            e.preventDefault();
-            e.stopPropagation();
-            if (e.stopImmediatePropagation) e.stopImmediatePropagation();
-            ul.querySelectorAll('li').forEach(li => li.classList.remove('active'));
-            a.parentElement.classList.add('active');
-            const sel = a.getAttribute('data-filter');
-            const useSimple = window.__EDITOR_PREVIEW__ || !(window.jQuery && jQuery.fn && jQuery.fn.isotope);
-            if (useSimple) {
-                wrap.querySelectorAll('.masonry-item').forEach(card => {
-                    card.style.display = (sel === '*' || card.matches(sel)) ? '' : 'none';
-                });
-                return;
-            }
-            jQuery('.portfolio-wrap').isotope({ filter: sel });
-        });
-    });
-
     function relayoutPortfolio() {
         if (!window.jQuery) return;
         const $wrap = jQuery('.portfolio-wrap');
@@ -309,15 +141,17 @@
       if (!a) return;
 
       e.preventDefault();
-      e.stopPropagation();
-      if (e.stopImmediatePropagation) e.stopImmediatePropagation();
+      const isPreview = !!window.__EDITOR_PREVIEW__;
+      if (isPreview) {
+        e.stopPropagation();
+        if (e.stopImmediatePropagation) e.stopImmediatePropagation();
+      }
 
       ul.querySelectorAll("li").forEach(li => li.classList.remove("active"));
       if (a.parentElement) a.parentElement.classList.add("active");
 
       const sel = a.getAttribute("data-filter") || "*";
 
-      const isPreview = !!window.__EDITOR_PREVIEW__;
       const hasIso = !!(window.jQuery && jQuery.fn && jQuery.fn.isotope);
       const $wrap = hasIso ? jQuery(wrap) : null;
       const isoInstance = ($wrap && $wrap.data) ? $wrap.data("isotope") : null;
@@ -332,9 +166,81 @@
 
       $wrap.isotope({ filter: sel });
       $wrap.isotope("layout");
-    }, true);
+    });
   });
 })();
+
+// Preview-only: stop href="#" from jumping to top
+if (window.__EDITOR_PREVIEW__) {
+  document.addEventListener("click", function (e) {
+    const a = e.target.closest('a[href="#"]');
+    if (!a) return;
+    e.preventDefault();
+  }, true);
+  const _reload = window.location.reload;
+  window.location.reload = function () {
+    window.parent.postMessage({ type: "EDITOR_PREVIEW_RELOAD" }, "*");
+    return _reload.apply(window.location, arguments);
+  };
+}
+
+async function openAdminForm(url) {
+  const html = await fetch(url, { credentials: "include" }).then(r => r.text());
+  const doc = new DOMParser().parseFromString(html, "text/html");
+
+  const forms = Array.from(doc.querySelectorAll("form"));
+  let form = forms
+    .filter(f => f.querySelector('input[name="csrfmiddlewaretoken"]'))
+    .filter(f => !/changelist-search/i.test(f.id || ""))
+    .sort((a, b) => (b.querySelectorAll("input,select,textarea").length) -
+      (a.querySelectorAll("input,select,textarea").length))[0];
+
+  if (!form) { window.location.href = url; return; }
+
+  const shell = document.createElement("div");
+  shell.className = "ap-modal";
+  const title = (doc.querySelector("#content h1") || {}).textContent || "Edit";
+  shell.innerHTML = '<div class="ap-header">' + title + '</div><div class="ap-body"></div>';
+  shell.querySelector(".ap-body").appendChild(form);
+
+  form.addEventListener("submit", async function (ev) {
+    ev.preventDefault();
+    const fd = new FormData(form);
+    const resp = await fetch(form.action, {
+      method: "POST", body: fd, credentials: "include", redirect: "follow"
+    });
+    if (resp.redirected) {
+      window.parent.postMessage({ type: "EDITOR_PREVIEW_RELOAD" }, "*");
+      window.location.reload();
+      return;
+    }
+    const txt = await resp.text();
+    const doc2 = new DOMParser().parseFromString(txt, "text/html");
+    const forms2 = Array.from(doc2.querySelectorAll("form"))
+      .filter(f => f.querySelector('input[name="csrfmiddlewaretoken"]'))
+      .filter(f => !/changelist-search/i.test(f.id || ""))
+      .sort((a, b) => (b.querySelectorAll("input,select,textarea").length) -
+        (a.querySelectorAll("input,select,textarea").length));
+    const form2 = forms2[0];
+    if (!form2) { window.location.reload(); return; }
+    shell.querySelector(".ap-body").innerHTML = "";
+    shell.querySelector(".ap-body").appendChild(form2);
+  });
+
+  if (window.jQuery && jQuery.magnificPopup) {
+    jQuery.magnificPopup.open({ items: { src: shell }, type: "inline" });
+  } else {
+    document.body.innerHTML = ""; document.body.appendChild(shell);
+  }
+}
+
+document.addEventListener("click", function (e) {
+  const a = e.target.closest("a.js-admin-form[data-admin-formurl]");
+  if (!a) return;
+  e.preventDefault();
+  openAdminForm(a.getAttribute("data-admin-formurl"));
+});
+
 </script>
 
 
