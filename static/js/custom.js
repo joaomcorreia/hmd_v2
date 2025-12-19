@@ -527,6 +527,9 @@ All JavaScript fuctions Start
 	//________masonry function function by = isotope.pkgd.min.js________//	
 
 	function masonryBox() {
+		if (window.__EDITOR_PREVIEW__) {
+			return;
+		}
 		if (jQuery().isotope) {
 			var $container = jQuery('.portfolio-wrap');
 			$container.isotope({

@@ -6,6 +6,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    {% if request.GET.preview %}
+    <script>window.__EDITOR_PREVIEW__ = true;</script>
+    {% endif %}
+
     {# CSS, icons, GA, etc. #}
     {% include "partials/head.html" %}
 
