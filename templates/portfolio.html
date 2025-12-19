@@ -258,12 +258,19 @@
         ul.addEventListener('click', function (e) {
             const a = e.target.closest('a[data-filter]'); if (!a) return;
             e.preventDefault();
+            e.stopPropagation();
+            if (e.stopImmediatePropagation) e.stopImmediatePropagation();
             ul.querySelectorAll('li').forEach(li => li.classList.remove('active'));
             a.parentElement.classList.add('active');
             const sel = a.getAttribute('data-filter');
-            wrap.querySelectorAll('.masonry-item').forEach(card => {
-                card.style.display = (sel === '*' || card.matches(sel)) ? '' : 'none';
-            });
+            const useSimple = window.__EDITOR_PREVIEW__ || !(window.jQuery && jQuery.fn && jQuery.fn.isotope);
+            if (useSimple) {
+                wrap.querySelectorAll('.masonry-item').forEach(card => {
+                    card.style.display = (sel === '*' || card.matches(sel)) ? '' : 'none';
+                });
+                return;
+            }
+            jQuery('.portfolio-wrap').isotope({ filter: sel });
         });
     });
 
@@ -289,73 +296,48 @@
 </script>
 {% block extra_js %}{{ block.super }}
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        /* Magnific Popup for images */
-        if (window.jQuery && jQuery.fn.magnificPopup) {
-            jQuery('.portfolio-wrap').magnificPopup({
-                delegate: 'a.mfp-link',
-                type: 'image',
-                gallery: { enabled: true }
-            });
-        }
+(function () {
+  function ready(fn){ if(document.readyState!=="loading"){ fn(); } else { document.addEventListener("DOMContentLoaded", fn); } }
 
-        async function openAdminForm(url) {
-            const html = await fetch(url, { credentials: 'include' }).then(r => r.text());
-            const doc = new DOMParser().parseFromString(html, 'text/html');
+  ready(function () {
+    const ul = document.getElementById("portfolioFilters");
+    const wrap = document.querySelector(".portfolio-wrap");
+    if (!ul || !wrap) return;
 
-            // Pick the real admin form, not the small changelist search form.
-            const forms = Array.from(doc.querySelectorAll('form'));
-            let form = forms
-                .filter(f => f.querySelector('input[name="csrfmiddlewaretoken"]'))       // must have CSRF
-                .filter(f => !/changelist-search/i.test(f.id || ''))                    // not the search box
-                .sort((a, b) => (b.querySelectorAll('input,select,textarea').length) -
-                    (a.querySelectorAll('input,select,textarea').length))[0];
+    ul.addEventListener("click", function (e) {
+      const a = e.target.closest("a[data-filter]");
+      if (!a) return;
 
-            if (!form) { window.location.href = url; return; }
+      e.preventDefault();
+      e.stopPropagation();
+      if (e.stopImmediatePropagation) e.stopImmediatePropagation();
 
-            const shell = document.createElement('div');
-            shell.className = 'ap-modal';
-            const title = (doc.querySelector('#content h1') || {}).textContent || 'Edit';
-            shell.innerHTML = '<div class="ap-header">' + title + '</div><div class="ap-body"></div>';
-            shell.querySelector('.ap-body').appendChild(form);
+      ul.querySelectorAll("li").forEach(li => li.classList.remove("active"));
+      if (a.parentElement) a.parentElement.classList.add("active");
 
-            form.addEventListener('submit', async function (ev) {
-                ev.preventDefault();
-                const fd = new FormData(form);
-                const resp = await fetch(form.action, {
-                    method: 'POST', body: fd, credentials: 'include', redirect: 'follow'
-                });
-                // On success Django redirects to changelist. Reload page.
-                if (resp.redirected) { window.location.reload(); return; }
-                // Otherwise, re-render returned form (validation errors)
-                const txt = await resp.text();
-                const doc2 = new DOMParser().parseFromString(txt, 'text/html');
-                const forms2 = Array.from(doc2.querySelectorAll('form'))
-                    .filter(f => f.querySelector('input[name="csrfmiddlewaretoken"]'))
-                    .filter(f => !/changelist-search/i.test(f.id || ''))
-                    .sort((a, b) => (b.querySelectorAll('input,select,textarea').length) -
-                        (a.querySelectorAll('input,select,textarea').length));
-                const form2 = forms2[0];
-                if (!form2) { window.location.reload(); return; }
-                shell.querySelector('.ap-body').innerHTML = '';
-                shell.querySelector('.ap-body').appendChild(form2);
-            });
+      const sel = a.getAttribute("data-filter") || "*";
 
-            if (window.jQuery && jQuery.magnificPopup) {
-                jQuery.magnificPopup.open({ items: { src: shell }, type: 'inline' });
-            } else {
-                document.body.innerHTML = ''; document.body.appendChild(shell);
-            }
-        }
+      const isPreview = !!window.__EDITOR_PREVIEW__;
+      const hasIso = !!(window.jQuery && jQuery.fn && jQuery.fn.isotope);
+      const $wrap = hasIso ? jQuery(wrap) : null;
+      const isoInstance = ($wrap && $wrap.data) ? $wrap.data("isotope") : null;
 
-        document.addEventListener('click', function (e) {
-            const a = e.target.closest('a.js-admin-form[data-admin-formurl]');
-            if (!a) return;
-            e.preventDefault();
-            openAdminForm(a.getAttribute('data-admin-formurl'));
+      if (isPreview || !hasIso || !isoInstance) {
+        wrap.querySelectorAll(".masonry-item").forEach(card => {
+          const show = (sel === "*") || card.matches(sel);
+          card.style.display = show ? "" : "none";
         });
-    });
+        return;
+      }
+
+      $wrap.isotope({ filter: sel });
+      $wrap.isotope("layout");
+    }, true);
+  });
+})();
 </script>
+
+
 {% endblock %}
 
 {% endblock %}
